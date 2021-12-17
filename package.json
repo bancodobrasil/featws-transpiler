@@ -1,0 +1,28 @@
+{
+  "name": "featws-compiler",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon -w ./ -e js,json,feat index.js",
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bancodobrasil/featws-compiler.git"
+  },
+  "author": "Raphael Pinto",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/bancodobrasil/featws-compiler/issues"
+  },
+  "homepage": "https://github.com/bancodobrasil/featws-compiler#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "yaml": "^1.10.2"
+  }
+}
