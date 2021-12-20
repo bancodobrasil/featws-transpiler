@@ -1,11 +1,13 @@
 const parameters = require("./parameters.json");
 const features = require("./features.json");
-const yaml = require("yaml");
+const ini = require("ini");
 const fs = require("fs");
 const ejs = require("ejs");
 
 const compile = (expression) => {
+    console.log(`expression ${expression}`)
     expression = expression.replace(/\$(\w+)/g, "ctx.GetInt(\"$1\")")
+    expression = expression.replace(/\@(\w+)/g, "ctx.GetBool(\"$1\")")
     return expression;
 };
 
@@ -14,7 +16,7 @@ const main = async () => {
     console.log("Features:\n\t", features, "\n\n");
 
     const file = fs.readFileSync('./rules.feat', 'utf8')
-    const rulesPlain = yaml.parse(file);
+    const rulesPlain = ini.parse(file);
 
     console.log("RulesPlain:\n\t", rulesPlain, "\n\n");
 
@@ -25,6 +27,7 @@ const main = async () => {
         })),
         "featureRules": Object.keys(rulesPlain).map(feat => ({
             "name": feat,
+            "precedence": rulesPlain[feat].includes("@") ? "1000" : "1001",
             "expression": compile(rulesPlain[feat])
         }))
     });
