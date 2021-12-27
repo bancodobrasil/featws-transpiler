@@ -1,5 +1,5 @@
 {
-  "name": "featws-compiler",
+  "name": "featws-transpiler",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
@@ -7,6 +7,9 @@
     "dev": "nodemon -w ./ -e js,json,feat index.js",
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "featws-transpiler": "bin/featws-transpiler.js"
   },
   "repository": {
     "type": "git",

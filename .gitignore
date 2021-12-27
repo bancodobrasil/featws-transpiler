@@ -3,3 +3,4 @@ node_modules/
 *.grl
 parameters.json
 features.json
+.DS_Store

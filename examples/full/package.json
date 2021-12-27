@@ -1,0 +1,18 @@
+{
+  "name": "full",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "featws-transpiler",
+    "dev": "nodemon -w ./ -e js,json,feat -x featws-transpiler",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
