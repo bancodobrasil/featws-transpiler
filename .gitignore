@@ -1,6 +1,6 @@
 node_modules/
-*.feat
-*.grl
-parameters.json
-features.json
+# *.feat
+# *.grl
+# parameters.json
+# features.json
 .DS_Store

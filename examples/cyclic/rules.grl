@@ -1,0 +1,67 @@
+rule DefaultValues salience 10000000 {
+    when 
+        true
+    then
+    
+        result.Put("aprovado", "false");
+    
+        result.Put("maior_idade", "false");
+    
+        result.Put("idoso", "false");
+    
+        Retract("DefaultValues");
+}
+
+rule feat_aprovado salience 1000 {
+    when 
+        true 
+    then
+        ctx.Put("aprovado", processor.Boolean(!ctx.GetBool("menor_idade")));
+        result.Put("aprovado", ctx.Get("aprovado"));
+        Retract("feat_aprovado");
+}
+
+rule feat_menor_idade salience 1001 {
+    when 
+        true 
+    then
+        ctx.Put("menor_idade", processor.Boolean(!ctx.GetBool("maior_idade")));
+        result.Put("menor_idade", ctx.Get("menor_idade"));
+        Retract("feat_menor_idade");
+}
+
+rule feat_maior_idade salience 1002 {
+    when 
+        true 
+    then
+        ctx.Put("maior_idade", processor.Boolean(ctx.GetInt("idade") >= 18));
+        result.Put("maior_idade", ctx.Get("maior_idade"));
+        Retract("feat_maior_idade");
+}
+
+rule feat_idoso salience 1002 {
+    when 
+        true 
+    then
+        ctx.Put("idoso", processor.Boolean(ctx.GetInt("idade") >= 60));
+        result.Put("idoso", ctx.Get("idoso"));
+        Retract("feat_idoso");
+}
+
+rule feat_quarentao salience 1002 {
+    when 
+        true 
+    then
+        ctx.Put("quarentao", processor.Boolean(ctx.GetInt("idade") >= 40 && ctx.GetInt("idade") <= 50));
+        result.Put("quarentao", ctx.Get("quarentao"));
+        Retract("feat_quarentao");
+}
+
+rule feat_incapaz salience 1002 {
+    when 
+        true 
+    then
+        ctx.Put("incapaz", processor.Boolean(ctx.GetInt("idade") < 12));
+        result.Put("incapaz", ctx.Get("incapaz"));
+        Retract("feat_incapaz");
+}

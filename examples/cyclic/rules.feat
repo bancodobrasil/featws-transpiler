@@ -1,0 +1,6 @@
+aprovado = !@menor_idade
+menor_idade = !@maior_idade
+maior_idade = !@menor_idade
+idoso = $idade >= 60
+quarentao = $idade >= 40 && $idade <= 50
+incapaz = $idade < 12

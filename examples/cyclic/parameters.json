@@ -1,0 +1,9 @@
+[
+    {
+        "name": "idade",
+        "type": "number",
+        "expires": "1d",
+        "fallback": true,
+        "resolver": "mci-dados"
+    }
+]
