@@ -100,7 +100,7 @@ rule feat_idade_4 salience 1001 {
     when 
         true 
     then
-        ctx.Put("idade_4", result.GetInt("idade_2") + 2 + "");
+        ctx.Put("idade_4", result.GetInt("idade_2") + 2);
         
         result.Put("idade_4", ctx.Get("idade_4"));
         

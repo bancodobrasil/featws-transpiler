@@ -5,5 +5,13 @@
         "expires": "1d",
         "fallback": true,
         "resolver": "mci-dados"
+    },
+    {
+        "name": "branch",
+        "type": "number"
+    },
+    {
+        "name": "account",
+        "type": "number"
     }
 ]

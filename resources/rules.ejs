@@ -5,6 +5,11 @@ rule DefaultValues salience 10000000 {
     <% defaultValues.forEach(function(feat){ %>
         result.Put("<%=feat.name%>", "<%=feat.defaultValue%>");
     <% }); %>
+    <% Object.entries(groups).forEach(function([group, items]){ 
+        Object.values(items).forEach(function(item, index){ %>
+        // ctx.Put("<%=group + '_' + index%>", <%-JSON.stringify(item)%>);
+    <%  });
+     }); %>
         Retract("DefaultValues");
 }
 <% featureRules.forEach(function(feat){ %>
@@ -12,8 +17,10 @@ rule feat_<%=feat.name%> salience <%=feat.precedence%> {
     when 
         true 
     then
-        ctx.Put("<%=feat.name%>", processor.Boolean(<%-feat.expression%>));
+        ctx.Put("<%=feat.name%>", <%-feat.expression%>);
+        <% if(feat.result) { %>
         result.Put("<%=feat.name%>", ctx.Get("<%=feat.name%>"));
+        <% } %>
         Retract("feat_<%=feat.name%>");
 }
 <% }); %>

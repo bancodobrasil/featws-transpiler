@@ -1,23 +1,34 @@
 [
     {
         "name": "aprovado",
-        "type": "bool",
+        "type": "boolean",
         "expires": "1h",
         "default": "false",
         "fallback": false
     },
     {
         "name": "maior_idade",
-        "type": "bool",
+        "type": "boolean",
+        "expires": "never",
+        "default": "false",
+        "fallback": true
+    },
+    {
+        "name": "menor_idade",
+        "type": "boolean",
         "expires": "never",
         "default": "false",
         "fallback": true
     },
     {
         "name": "idoso",
-        "type": "bool",
+        "type": "boolean",
         "expires": "never",
         "default": "false",
         "fallback": true
+    },
+    {
+        "name": "idade_2",
+        "type": "number"
     }
 ]
