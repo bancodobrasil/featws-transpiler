@@ -1,6 +1,6 @@
 # featws-transpiler
 
-## Special Marks
+## Special Markers
 
 - `@` Groups
 - `#` Features
