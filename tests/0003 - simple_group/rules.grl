@@ -1,0 +1,24 @@
+rule DefaultValues salience 10000000 {
+    when 
+        true
+    then
+        
+        result.Put("clientingroup", "false");
+
+        ctx.Put("mygroup", {
+            "{$branch}/{$account}": ["00000/00000000"]
+        })
+
+        Retract("DefaultValues");
+}
+
+rule feat_clientingroup salience 1000 {
+    when 
+        true 
+    then
+        ctx.Put("clientingroup", );
+        
+        result.Put("clientingroup", ctx.Get("myboolfeat"));
+        
+        Retract("clientingroup");
+}
