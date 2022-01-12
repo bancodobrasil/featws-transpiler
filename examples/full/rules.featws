@@ -2,12 +2,11 @@ aprovado = !#menor_idade
 menor_idade = !#maior_idade
 maior_idade = $idade >= 18
 idoso = $idade >= 60
-;idoso_piloto = #idoso && @mci_piloto
+idoso_piloto = #idoso && @mci_piloto
+publico_alvo = #idoso || @mci_piloto || @mci_piloto2
 quarentao = $idade >= 40 && $idade <= 50
 incapaz = $idade < 12
-[idade_2]
-value=$idade + 2
-type=number
+idade_2 = $idade + 2
 [idade_4]
 value=#idade_2 + 2
 type=number

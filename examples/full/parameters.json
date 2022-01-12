@@ -4,14 +4,14 @@
         "type": "number",
         "expires": "1d",
         "fallback": true,
-        "resolver": "mci-dados"
+        "resolver": "dados-cliente"
     },
     {
         "name": "branch",
-        "type": "number"
+        "type": "string"
     },
     {
         "name": "account",
-        "type": "number"
+        "type": "string"
     }
 ]
