@@ -1,7 +1,6 @@
-const ini = require("ini");
+const featws = require("js-featws");
 const fs = require("fs");
 const ejs = require("ejs");
-const { dirname } = require("path");
 
 const compile = (expression, options) => {
   console.log("Compile Expression BEGIN:", expression, options);
@@ -48,12 +47,30 @@ const compile = (expression, options) => {
 };
 
 const compiler = async (dir) => {
-  const parameters = require(dir + "/parameters.json");
-  const features = require(dir + "/features.json");
-  console.log("Parameters:\n\t", parameters, "\n\n");
-  console.log("Features:\n\t", features, "\n\n");
+  const rulesFile = dir + "/rules.featws";
+  const file = fs.readFileSync(rulesFile, "utf8");
+  const rulesPlain = featws.parse(file);
 
-  fs.writeFileSync("./rules.grl", grl);
+  const parametersFile = dir + "/parameters.json";
+  const parameters = require(parametersFile);
+
+  const featuresFile = dir + "/features.json";
+  const features = require(featuresFile);
+
+  const groupsDir = dir + "/groups/";
+  const groupFiles = fs.readdirSync(groupsDir, "utf8");
+  const groups = {};
+  groupFiles.forEach((gf) => {
+    groups[gf.substring(0, gf.length - 5)] = require(groupsDir + gf);
+  });
+
+  const outputFile = "./rules.grl";
+  
+  const grl = await compileGRL(rulesPlain, parameters, features, groups);
+
+  console.log("GRL: \n\n", grl);
+
+  fs.writeFileSync(outputFile, grl);
 };
 
 async function compileGRL(rulesPlain, parameters, features, groups) {
@@ -86,7 +103,7 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
     rulesPlain[group] = { value: group_feats.join(' || '), type: "boolean", result: true };
   });
 
-  console.log("RulesPlain:\n\t", rulesPlain, "\n\n");
+  console.log("\nRulesPlain with groups:\n", rulesPlain, "\n\n");
 
   const precedence = {};
 
@@ -121,20 +138,19 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
           (p) => !Number.isInteger(p)
         );
         if (unresolvedPrecedences.length != 0) {
-
-        // FIXME Tratar a referência cíclica    
-        //   const cyclic = unresolvedPrecedences.filter(value => Object.keys(precedence).includes(value.substring(1)));
-        //   if (JSON.stringify(cyclic)==JSON.stringify(unresolvedPrecedences)) {
-        //       throw Error("Referência cíclica");
-        //   }
-
+          // FIXME Tratar a referência cíclica
+          //   const cyclic = unresolvedPrecedences.filter(value => Object.keys(precedence).includes(value.substring(1)));
+          //   if (JSON.stringify(cyclic)==JSON.stringify(unresolvedPrecedences)) {
+          //       throw Error("Referência cíclica");
+          //   }
           precedence[feat] = precedence[feat].map((p) => {
-            if (Number.isInteger(p)) return p;
+            if (Number.isInteger(p))
+              return p;
             const name = p.substring(1);
-            if (name in calcOrder) return calcOrder[name];
+            if (name in calcOrder)
+              return calcOrder[name];
             return p;
           });
-
         } else {
           calcOrder[feat] = Math.max(...precedence[feat]) + 1;
           delete precedence[feat];
@@ -142,39 +158,76 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
       }
     }
 
-    console.log("precedence", precedence);
-    console.log("calcOrder", calcOrder);
+    //console.log("precedence", precedence);
+    //console.log("calcOrder", calcOrder);
   }
-  console.log("precedence", precedence);
-  console.log("calcOrder", calcOrder);
+  //console.log("precedence", precedence);
+  //console.log("calcOrder", calcOrder);
 
   const maxLevel = Math.max(...Object.values(calcOrder));
 
   const base_salience = 1000;
   const saliences = {};
 
-  Object.keys(calcOrder).forEach(feat => {
+  Object.keys(calcOrder).forEach((feat) => {
     saliences[feat] = base_salience + maxLevel - calcOrder[feat];
-  })
+  });
 
   console.log("saliences", saliences);
 
+
+
   const grl = await ejs.renderFile(__dirname + "/resources/rules.ejs", {
+    groups,
     defaultValues: features.map((feat) => ({
       name: feat.name,
       defaultValue: feat.default,
     })),
-    featureRules: Object.keys(rulesPlain).map((feat) => ({
-      name: feat,
-      precedence: `${saliences[feat]}`,
-      expression: compile(rulesPlain[feat]),
-    })),
+    featureRules: Object.keys(rulesPlain).map((feat) => {
+      let rule = rulesPlain[feat];
+      let expression = rule;
+      let result = true;
+      let outputType = (features.find((f) => f.name == feat) || {
+        type: "boolean"
+      })["type"];
+
+      if (typeof rule === "object") {
+        if (rule.type) {
+          outputType = expression.type;
+        }
+        if (rule.value) {
+          expression = expression.value;
+        }
+        if (typeof rule.result === "boolean") {
+          result = rule.result;
+        }
+      }
+
+      return {
+        name: feat,
+        precedence: `${saliences[feat] || base_salience}`,
+        expression: compile(expression, {
+          outputType,
+          parameters, 
+          features
+        }),
+        result,
+      };
+    }),
   });
 
-  console.log("GRL: \n\n", grl);
-
   return grl;
-};
+}
+
+function compileGroupRule(rule) {
+  rule = `"${rule}"`;
+  rule = rule.replace(/{/g, '"+');
+  rule = rule.replace(/}/g, '+"');
+  rule = rule.trim();
+  rule = rule.replace(/^""\+/, "");
+  rule = rule.replace(/\+""$/, "");
+  return rule;
+}
 
 module.exports = {
   compiler,

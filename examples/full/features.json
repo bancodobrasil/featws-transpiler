@@ -1,7 +1,7 @@
 [
     {
         "name": "aprovado",
-        "type": "bool",
+        "type": "boolean",
         "expires": "1h",
         "default": false,
         "fallback": false
@@ -22,9 +22,13 @@
     },
     {
         "name": "idoso",
-        "type": "bool",
+        "type": "boolean",
         "expires": "never",
         "default": false,
         "fallback": true
+    },
+    {
+        "name": "idade_2",
+        "type": "number"
     }
 ]

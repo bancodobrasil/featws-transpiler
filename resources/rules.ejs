@@ -19,8 +19,10 @@ rule feat_<%=feat.name%> salience <%=feat.precedence%> {
     when 
         true 
     then
-        ctx.Put("<%=feat.name%>", processor.Boolean(<%-feat.expression%>));
+        ctx.Put("<%=feat.name%>", <%-feat.expression%>);
+        <% if(feat.result) { %>
         result.Put("<%=feat.name%>", ctx.Get("<%=feat.name%>"));
+        <% } %>
         Retract("feat_<%=feat.name%>");
 }
 <% }); %>
