@@ -1,0 +1,14 @@
+[
+    {
+        "name": "mynumber",
+        "type": "number"
+    },
+    {
+        "name": "branch",
+        "type": "number"
+    },
+    {
+        "name": "account",
+        "type": "number"
+    }
+]

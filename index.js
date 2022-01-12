@@ -4,9 +4,12 @@ const ejs = require("ejs");
 
 const compile = (expression, options) => {
   console.log("Compile Expression BEGIN:", expression, options);
-  expression = expression.replace(/([$#])(\w+)/g, (_, scope, entryname) => {
+  expression = expression.replace(/([$#%@])(\w+)/g, (_, scope, entryname) => {
     let source = "";
     let type = "number";
+    
+    if (scope === "@") scope = "#";
+
     if (scope === "#") {
       source = "result";
       const feat = options.features.find(f => f.name === entryname);
@@ -21,10 +24,15 @@ const compile = (expression, options) => {
         type = param.type;
       }
     }
-    if (scope === "") throw Error("Not implemented scope");
+
+    if (scope === "%") {
+      return `processor.Contains(ctx.GetSlice("${entryname}_entries"), ctx.Get("${entryname}_value"))`
+    }
+
+    if (source === "") throw Error("Not implemented source: " + scope);
     
     let accessMethod = "";
-    if (type === "string") accessMethod = "Get";
+    if (type === "string") accessMethod = "GetString";
     if (type === "boolean") accessMethod = "GetBool";
     if (type === "number") accessMethod = "GetInt";
     if (accessMethod === "") throw Error("Not implemented scope");
@@ -73,14 +81,26 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
   console.log("Groups: \n", groups, "\n\n");
 
   Object.entries(groups).forEach(([group, rules]) => {
-    Object.entries(rules).forEach(([rule, items], index) => {
+    const group_feats = Object.entries(rules).map(([rule, items], index) => {
       const group_feat = `${group}_${index}`;
-      console.log(group_feat, rule, items);
+      const group_feat_value = `${group_feat}_value`;
+      console.log(group_feat_value, rule, items);
       console.log("Original Rule", rule);
       rule = compileGroupRule(rule);
       console.log("Compiled Rule", rule);
-      rulesPlain[group_feat] = { value: rule, type: "string", result: false };
+      rulesPlain[group_feat_value] = { value: rule, type: "string", result: false };
+      rulesPlain[group_feat] = { value: `%${group_feat}`, type: "boolean", result:true };
+      features = features.concat([{
+        name: group_feat,
+        type: "boolean"
+      }])
+      return `#${group_feat}`;
     });
+    features = features.concat([{
+      name: group,
+      type: "boolean"
+    }])
+    rulesPlain[group] = { value: group_feats.join(' || '), type: "boolean", result: true };
   });
 
   console.log("\nRulesPlain with groups:\n", rulesPlain, "\n\n");
@@ -92,11 +112,19 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
     if (typeof rule === "object") {
       rule = rule.value;
     }
-    precedence[feat] = rule.match(/#(\w+)/g) || [];
+    precedence[feat] = [];
+    precedence[feat] = precedence[feat].concat(rule.match(/#(\w+)/g) || []);
+    precedence[feat] = precedence[feat].concat((rule.match(/[%@](\w+)/g) || []).map(g => {
+      if (g == rule) {
+        return `${g}_value`
+      }
+      return g
+    }));
+    console.log("Resolving precedences for", feat, rule, precedence[feat]);
   });
 
   console.log("precedence", precedence);
-
+  //exit()
   const calcOrder = {};
 
   while (Object.keys(precedence).length > 0) {
