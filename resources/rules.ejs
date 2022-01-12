@@ -4,7 +4,14 @@ rule DefaultValues salience 10000000 {
     then
     <% defaultValues.forEach(function(feat){ %>
         result.Put("<%=feat.name%>", "<%=feat.defaultValue%>");
-    <% }); %>
+    <% }); %><% 
+    Object.entries(groups).forEach(function([group, entry]){ 
+        Object.values(entry).forEach(function(items, index){ 
+            items.forEach(function(item) {%>
+        ctx.AddItem("<%=group + '_' + index%>_entries", "<%-item%>");
+    <%      });
+        });
+     }); %>
         Retract("DefaultValues");
 }
 <% featureRules.forEach(function(feat){ %>

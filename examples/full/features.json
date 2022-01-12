@@ -3,21 +3,28 @@
         "name": "aprovado",
         "type": "bool",
         "expires": "1h",
-        "default": "false",
+        "default": false,
         "fallback": false
     },
     {
         "name": "maior_idade",
-        "type": "bool",
+        "type": "boolean",
         "expires": "never",
-        "default": "false",
+        "default": false,
+        "fallback": true
+    },
+    {
+        "name": "menor_idade",
+        "type": "boolean",
+        "expires": "never",
+        "default": false,
         "fallback": true
     },
     {
         "name": "idoso",
         "type": "bool",
         "expires": "never",
-        "default": "false",
+        "default": false,
         "fallback": true
     }
 ]
