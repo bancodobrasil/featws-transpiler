@@ -1,5 +1,5 @@
 #!/usr/bin/env node
 
-const {compiler} = require('../index');
+const {compiler} = require('../index')
 
-compiler(process.env["PWD"]);
+compiler(process.env.PWD)

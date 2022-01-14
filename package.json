@@ -5,8 +5,11 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon -w ./ -e js,json,feat index.js",
-    "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "eslint": "eslint",
+    "lint": "npm run eslint -- .",
+    "lintfix": "npm run lint -- --fix",
+    "test": "echo \"Warning: no test specified\" && exit 0",
+    "start": "node index.js"
   },
   "bin": {
     "featws-transpiler": "bin/featws-transpiler.js"
@@ -22,7 +25,12 @@
   },
   "homepage": "https://github.com/bancodobrasil/featws-compiler#readme",
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "eslint": "^7.9.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1"
   },
   "dependencies": {
     "ejs": "^3.1.6",
