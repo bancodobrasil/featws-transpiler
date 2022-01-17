@@ -28,5 +28,5 @@ jobs:
         run: npm install
 
       # Run for all environments
-      - name: Run Tap Tests
+      - name: Run Tests
         run: npm test
