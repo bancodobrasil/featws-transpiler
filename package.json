@@ -26,6 +26,6 @@
   },
   "dependencies": {
     "ejs": "^3.1.6",
-    "js-featws": "^2.0.0"
+    "js-featws": "^1.0.0"
   }
 }
