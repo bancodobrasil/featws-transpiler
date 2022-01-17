@@ -1,7 +1,7 @@
 {
   "name": "featws-transpiler",
   "version": "0.0.1",
-  "description": "",
+  "description": "A FeatWS Transpiler to GRL",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon -w ./ -e js,json,feat index.js",
@@ -26,6 +26,6 @@
   },
   "dependencies": {
     "ejs": "^3.1.6",
-    "js-featws": "^1.0.0"
+    "js-featws": "^2.0.0"
   }
 }
