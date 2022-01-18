@@ -57,12 +57,15 @@ const compiler = async (dir) => {
   const featuresFile = dir + "/features.json";
   const features = require(featuresFile);
 
-  const groupsDir = dir + "/groups/";
-  const groupFiles = fs.readdirSync(groupsDir, "utf8");
   const groups = {};
-  groupFiles.forEach((gf) => {
-    groups[gf.substring(0, gf.length - 5)] = require(groupsDir + gf);
-  });
+  const groupsDir = dir + "/groups/";
+  
+  if (fs.existsSync(groupsDir)) {
+    const groupFiles = fs.readdirSync(groupsDir, "utf8");
+    groupFiles.forEach((gf) => {
+      groups[gf.substring(0, gf.length - 5)] = require(groupsDir + gf);
+    });
+  }
 
   const outputFile = "./rules.grl";
   
