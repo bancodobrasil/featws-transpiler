@@ -2,4 +2,4 @@
 
 const {compiler} = require('../index');
 
-compiler(process.env["PWD"]);
+compiler(process.cwd());
