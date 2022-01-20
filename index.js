@@ -116,13 +116,8 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
       rule = rule.value;
     }
     precedence[feat] = [];
-    precedence[feat] = precedence[feat].concat(rule.match(/#(\w+)/g) || []);
-    precedence[feat] = precedence[feat].concat((rule.match(/[%@](\w+)/g) || []).map(g => {
-      if (g == rule) {
-        return `${g}_value`
-      }
-      return g
-    }));
+    precedence[feat] = precedence[feat].concat(rule.match(/[#@](\w+)/g) || []);
+    precedence[feat] = precedence[feat].concat((rule.match(/%(\w+)/g) || []).map(g => `$${g.substring(1)}_value`));
     console.log("Resolving precedences for", feat, rule, precedence[feat]);
   });
 
@@ -185,7 +180,7 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
     defaultValues: features.map((feat) => ({
       name: feat.name,
       defaultValue: feat.default,
-    })),
+    })).filter(feat => feat.defaultValue !== undefined),
     featureRules: Object.keys(rulesPlain).map((feat) => {
       let rule = rulesPlain[feat];
       let expression = rule;
