@@ -1,0 +1,26 @@
+[
+    {
+        "name": "idade_2",
+        "type": "number"
+    },
+
+    {
+        "name": "idade_4",
+        "type": "number"
+    },
+
+    {
+        "name": "idade_6",
+        "type": "number"
+    },
+
+    {
+        "name": "idade_8",
+        "type": "number"
+    },
+
+    {
+        "name": "idade_10",
+        "type": "number"
+    }
+]
