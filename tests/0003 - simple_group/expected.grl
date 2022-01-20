@@ -5,9 +5,7 @@ rule DefaultValues salience 10000000 {
         
         result.Put("clientingroup", "false");
 
-        ctx.Put("mygroup", {
-            "{$branch}/{$account}": ["00000/00000000"]
-        })
+        ctx.AddItem("mygroup_0_entries", "00000/00000000");
 
         Retract("DefaultValues");
 }
@@ -16,9 +14,40 @@ rule feat_clientingroup salience 1000 {
     when 
         true 
     then
-        ctx.Put("clientingroup", );
+        ctx.Put("clientingroup", processor.Boolean(result.GetBool("mygroup")));
         
-        result.Put("clientingroup", ctx.Get("myboolfeat"));
+        result.Put("clientingroup", ctx.Get("clientingroup"));
         
-        Retract("clientingroup");
+        Retract("feat_clientingroup");
+}
+
+rule feat_mygroup_0_value salience 1003 {
+    when 
+        true 
+    then
+        ctx.Put("mygroup_0_value", ctx.GetInt("branch")+"/"+ctx.GetInt("account") + "");
+        
+        Retract("feat_mygroup_0_value");
+}
+
+rule feat_mygroup_0 salience 1002 {
+    when 
+        true 
+    then
+        ctx.Put("mygroup_0", processor.Boolean(processor.Contains(ctx.GetSlice("mygroup_0_entries"), ctx.Get("mygroup_0_value"))));
+        
+        result.Put("mygroup_0", ctx.Get("mygroup_0"));
+        
+        Retract("feat_mygroup_0");
+}
+
+rule feat_mygroup salience 1001 {
+    when 
+        true 
+    then
+        ctx.Put("mygroup", processor.Boolean(result.GetBool("mygroup_0")));
+        
+        result.Put("mygroup", ctx.Get("mygroup"));
+        
+        Retract("feat_mygroup");
 }

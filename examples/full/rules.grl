@@ -11,20 +11,6 @@ rule DefaultValues salience 10000000 {
     
         result.Put("idoso", "false");
     
-        result.Put("idade_2", "");
-    
-        result.Put("mci_piloto_0", "");
-    
-        result.Put("mci_piloto_1", "");
-    
-        result.Put("mci_piloto", "");
-    
-        result.Put("mci_piloto2_0", "");
-    
-        result.Put("mci_piloto2_1", "");
-    
-        result.Put("mci_piloto2", "");
-    
         ctx.AddItem("mci_piloto_0_entries", "03411/00000170408");
     
         ctx.AddItem("mci_piloto_0_entries", "03411/00000170409");
