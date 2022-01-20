@@ -1,0 +1,5 @@
+maior_de_idade = !#menor_de_idade
+menor_de_idade = $idade <= 18
+crianca = $idade <= 10;
+adolescente = !#crianca;
+adulto = !#crianca && !#adolescente;

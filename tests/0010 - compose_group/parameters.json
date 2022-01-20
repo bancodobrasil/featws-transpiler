@@ -1,0 +1,10 @@
+[
+    {
+        "name": "mynumbers",
+        "type": "number"
+    },
+    {
+        "name": "mystrings",
+        "type": "string"
+    }
+]

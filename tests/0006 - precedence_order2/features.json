@@ -1,0 +1,39 @@
+[
+  {
+    "name": "maior_de_idade",
+    "type": "boolean",
+    "default": false,
+    "expire": "1d",
+    "fallback": true
+  },
+  {
+    "name": "menor_de_idade",
+    "type": "boolean",
+    "default": false,
+    "expire": "1d",
+    "fallback": true
+  },
+  {
+    "name": "crianca",
+    "type": "boolean",
+    "default": false,
+    "expire": "1d",
+    "fallback": true
+  },
+  {
+    "name": "adolescente",
+    "type": "boolean",
+    "default": false,
+    "expire": "1d",
+    "fallback": true
+  },
+  {
+    "name": "adulto",
+    "type": "boolean",
+    "default": false,
+    "expire": "1d",
+    "fallback": true
+  }
+
+
+]

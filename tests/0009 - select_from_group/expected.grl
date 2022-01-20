@@ -1,0 +1,36 @@
+rule DefaultValues salience 10000000 {
+    when 
+        true
+    then
+        
+        result.Put("occupations", "false");
+
+        ctx.AddItem("occupations_entries", "doctor");
+
+        ctx.AddItem("occupations_entries", "engineer");
+
+        ctx.AddItem("occupations_entries", "professor");
+
+        ctx.AddItem("occupations_entries", "bussiner manager");
+
+        Retract("DefaultValues");
+}
+
+rule feat_occupations_value salience 1001 {
+    when 
+        true 
+    then
+        ctx.Put("occupations_value",  ctx.GetString("client_occupation") + "");
+        
+        Retract("feat_occupations_value");
+        
+}
+
+rule feat_occupations salience 1000 {
+    when 
+        true
+    then
+        ctx.Put("occupations", processor.Boolean(processor.Contains(GetSlice("occupations_entries), ctx.Get("occupations_value))));
+
+        Retract("feat_occupations");
+}

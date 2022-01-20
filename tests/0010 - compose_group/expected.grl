@@ -1,0 +1,60 @@
+rule DefaultValues salience 10000000 {
+    when 
+        true
+    then
+        
+        result.Put("integer", "false");
+
+        result.Put("string", "false");
+
+        ctx.AddItem("integer_entries", 1);
+        ctx.AddItem("integer_entries", 45);
+        ctx.AddItem("integer_entries", 50);
+        ctx.AddItem("integer_entries", 78);
+
+        ctx.AddItem("string_entries", "single");
+        ctx.AddItem("string_entries", "double");
+        ctx.AddItem("string_entries", "triple");
+
+        Retract("DefaultValues");
+}
+
+rule feat_integer_value salience 1001 {
+    when 
+        true 
+    then
+        ctx.Put("feat_integer_value", ctx.GetInt("mynumbers")+ "");
+         
+        Retract("feat_intefer_value")
+}
+
+rule feat_string_value salience 1001 {
+    when
+        true
+    then
+        ctx.Put("feat_string_value", ctx.GetString("mystrings")+ "");
+
+        Retract("feat_string_value")
+}
+
+rule feat_integer salience 1000 {
+    when
+        true
+    then
+        ctx.Put("integer", processor.Boolean(processor.Contains(GetSlice("integer_entries"), ctx.Get("integer_value"))));
+
+        result.Put("integer", ctx.Get("integer"));
+
+        Retract("feat_integer");
+}
+
+rule feat_string salience 1000 {
+    when 
+        true
+    then    
+        ctx.Put("string", processor.Boolean(processor.Contains(GetSlice("string_entries"), ctx.Get("string_value"))));
+
+        result.Put("integer", ctx.Get("integer"));
+        Retract("feat_string");
+}
+

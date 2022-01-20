@@ -1,0 +1,2 @@
+female = $sex == "F";
+male = !#female;

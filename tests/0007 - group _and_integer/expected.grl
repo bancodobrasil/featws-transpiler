@@ -1,0 +1,57 @@
+rule DefaultValues salience 100000000 {
+    when 
+        true
+    then
+        
+        result.Put("clientingroup", "false");
+        
+        result.Put("low_income", "false");
+        
+        result.Put("high_income", "false");
+
+        ctx.AddItem("clientingroup_entries", "jose-30");
+
+        Retract("DefaultValues");
+}
+
+rule feat_clientingroup_value salience 1001 {
+    when 
+        true 
+    then
+        ctx.Put("clientingroup_value", ctx.GetString("name")+" - "+ctx.GetString("age") + "");
+         
+        Retract("feat_clientingroup_value)
+}
+
+rule feat_clientingroup salience 1000 {
+    when
+        true
+    then
+        ctx.Put("clientingroup", processor.Boolean(processor.Contains(GetSlice("clientingroup_entries"), ctx.Get("clientingroup_value"))));
+
+        result.Put("clientingroup", ctx.Get("clientingroup"));
+
+        Retract("clientingroup");
+}
+
+rule feat_low_income salience 1001{
+    when 
+        true
+    then
+        ctx.Put("low_income", processor.Boolean(ctx.GetInt("salary") < 5000));
+
+        result.Put("low_income", ctx.Get("low_income));
+
+        Retract("feat_low_income");
+}
+
+rule feat_high_income salience 1000 {
+    when
+        true
+    then
+        ctx.Put("high_income", processor.Boolean(!result.GetBool("low_income")));
+
+        result.Put("high_income", ctx.Get("high_income"));
+
+        Retract("feat_high_income");
+}
