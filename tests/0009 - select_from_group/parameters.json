@@ -1,6 +1,6 @@
 [
     {
         "name": "client_occupation",
-        "type": "number"
+        "type": "string"
     }
 ]

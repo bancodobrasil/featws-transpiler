@@ -5,7 +5,7 @@
     },
     {
         "name": "age",
-        "type": "string"
+        "type": "number"
     },
     {
         "name": "salary",

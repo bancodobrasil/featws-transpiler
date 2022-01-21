@@ -1,2 +1,2 @@
-integer = @mygroup1
-string = @mygroup0
+integer = @integer_group
+string = @string_group
