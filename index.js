@@ -35,13 +35,14 @@ const compile = (expression, options) => {
     if (type === "string") accessMethod = "GetString";
     if (type === "boolean") accessMethod = "GetBool";
     if (type === "number") accessMethod = "GetInt";
+    if (type === "decimal") accessMethod = "GetFloat";
     if (accessMethod === "") throw Error("Not implemented scope");
 
     return `${source}.${accessMethod}("${entryname}")`;
   });
   //expression = expression.replace(/\#(\w+)/g, 'ctx.GetBool("$1")');
   if (options.outputType === "boolean") { expression = `processor.Boolean(${expression})`; }
-  if (options.outputType === "string" | options.outputType === "number") { expression = `${expression} + ""`; }
+  if (options.outputType === "string" | options.outputType === "number" | options.outputType === "decimal") { expression = `${expression} + ""`; }
   console.log("Compile Expression RESULT:", expression);
   return expression;
 };
