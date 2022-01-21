@@ -1,6 +1,6 @@
 [
     {
         "name": "idade_cubed",
-        "type": "number"
+        "type": "integer"
     }
 ]

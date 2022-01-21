@@ -1,6 +1,6 @@
 [
     {
         "name": "idade_squared",
-        "type": "number"
+        "type": "integer"
     }
 ]

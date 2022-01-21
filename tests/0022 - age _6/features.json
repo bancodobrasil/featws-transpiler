@@ -1,17 +1,17 @@
 [
     {
         "name": "idade_2",
-        "type": "number"
+        "type": "integer"
     },
 
     {
         "name": "idade_4",
-        "type": "number"
+        "type": "integer"
     },
 
     {
         "name": "idade_6",
-        "type": "number"
+        "type": "integer"
     }
 
 ]
