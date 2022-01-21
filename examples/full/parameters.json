@@ -1,7 +1,7 @@
 [
     {
         "name": "idade",
-        "type": "number",
+        "type": "integer",
         "expires": "1d",
         "fallback": true,
         "resolver": "dados-cliente"

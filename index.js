@@ -6,7 +6,7 @@ const compile = (expression, options) => {
   console.log("Compile Expression BEGIN:", expression, options);
   expression = expression.replace(/([$#%@])(\w+)/g, (_, scope, entryname) => {
     let source = "";
-    let type = "number";
+    let type = "integer";
     
     if (scope === "@") scope = "#";
 
@@ -34,7 +34,7 @@ const compile = (expression, options) => {
     let accessMethod = "";
     if (type === "string") accessMethod = "GetString";
     if (type === "boolean") accessMethod = "GetBool";
-    if (type === "number") accessMethod = "GetInt";
+    if (type === "integer") accessMethod = "GetInt";
     if (type === "decimal") accessMethod = "GetFloat";
     if (accessMethod === "") throw Error("Not implemented scope");
 
@@ -42,7 +42,7 @@ const compile = (expression, options) => {
   });
   //expression = expression.replace(/\#(\w+)/g, 'ctx.GetBool("$1")');
   if (options.outputType === "boolean") { expression = `processor.Boolean(${expression})`; }
-  if (options.outputType === "string" | options.outputType === "number" | options.outputType === "decimal") { expression = `${expression} + ""`; }
+  if (options.outputType === "string" | options.outputType === "integer" | options.outputType === "decimal") { expression = `${expression} + ""`; }
   console.log("Compile Expression RESULT:", expression);
   return expression;
 };
