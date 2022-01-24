@@ -1,0 +1,14 @@
+[
+    {
+        "name": "model",
+        "type": "string"
+    },
+    {
+        "name": "ports",
+        "type": "number"
+    },
+    {
+        "name": "color",
+        "type": "string"
+    }
+]
