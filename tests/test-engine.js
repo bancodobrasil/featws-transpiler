@@ -11,7 +11,7 @@ const grlNormalize = (grl) => {
 
 const cases = fs.readdirSync(__dirname, "utf8");
 
-Promise.all(cases.filter(entry => fs.lstatSync(path.join(__dirname, entry)).isDirectory()).map(async dir => {
+cases.filter(entry => fs.lstatSync(path.join(__dirname, entry)).isDirectory()).map(dir => {
     test(dir, async () => {
 
         if (fs.existsSync(path.join(__dirname, dir, "rules.grl"))) {
@@ -36,4 +36,4 @@ Promise.all(cases.filter(entry => fs.lstatSync(path.join(__dirname, entry)).isDi
             return expect(generated).toStrictEqual(expected);
         }
     });
-}));
+});
