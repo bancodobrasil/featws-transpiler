@@ -67,7 +67,7 @@ const compiler = async (dir) => {
     });
   }
 
-  const outputFile = "./rules.grl";
+  const outputFile = dir + "/rules.grl";
   
   const grl = await compileGRL(rulesPlain, parameters, features, groups);
 
@@ -173,8 +173,6 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
 
   console.log("saliences", saliences);
 
-
-
   const grl = await ejs.renderFile(__dirname + "/resources/rules.ejs", {
     groups,
     defaultValues: features.map((feat) => ({
@@ -215,7 +213,7 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
   });
 
   return grl;
-}
+};
 
 function compileGroupRule(rule) {
   rule = `"${rule}"`;
