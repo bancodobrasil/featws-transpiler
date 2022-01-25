@@ -1,0 +1,5 @@
+{
+    "model": ["sedan", "hatch"],
+    "ports": ["4", "2"],
+    "color": ["red", "black", "white", "gray"]
+}

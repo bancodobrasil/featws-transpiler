@@ -1,0 +1,16 @@
+[
+    {
+        "name": "integer",
+        "type": "boolean",
+        "expires": "never",
+        "default": false,
+        "fallback": true
+    },
+    {
+        "name": "string",
+        "type": "boolean",
+        "expires": "never",
+        "default": false,
+        "fallback": true
+    }
+]

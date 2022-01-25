@@ -1,0 +1,17 @@
+[
+    {
+        "name": "low_speed",
+        "type": "boolean",
+        "expires": "1h",
+        "default": false,
+        "fallback": false
+    },
+    {
+        "name": "high_speed",
+        "type": "boolean",
+        "expires": "1h",
+        "default": false,
+        "fallback": false
+    }
+
+]

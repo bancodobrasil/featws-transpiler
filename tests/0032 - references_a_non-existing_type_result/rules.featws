@@ -1,0 +1,2 @@
+idoso = $idade > 60
+aprovado = !#idoso

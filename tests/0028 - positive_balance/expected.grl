@@ -1,0 +1,18 @@
+rule DefaultValues salience 10000000 {
+    when 
+        true
+    then
+    
+        Retract("DefaultValues");
+}
+
+rule feat_positivo salience 1000 {
+    when 
+        true 
+    then
+        ctx.Put("positivo", processor.Boolean(ctx.GetFloat("saldo") > 0));
+        
+        result.Put("positivo", ctx.Get("positivo"));
+        
+        Retract("feat_positivo");
+}

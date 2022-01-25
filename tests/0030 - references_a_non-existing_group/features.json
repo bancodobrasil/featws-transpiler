@@ -1,0 +1,22 @@
+[
+    {
+        "name": "idoso",
+        "type": "boolean",
+        "expires": "never",
+        "default": false,
+        "fallback": true
+    },
+
+    {
+        "name": "aposentado",
+        "type": "boolean",
+        "expires": "never",
+        "default": false,
+        "fallback": true
+    },
+
+    {
+        "name": "idade",
+        "type": "number"
+    }
+]

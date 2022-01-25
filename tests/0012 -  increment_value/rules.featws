@@ -1,0 +1,2 @@
+travel_1 = $travel_distance + 10
+travel_2 = #travel_1 + 100

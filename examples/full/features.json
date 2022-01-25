@@ -29,6 +29,6 @@
     },
     {
         "name": "idade_2",
-        "type": "number"
+        "type": "integer"
     }
 ]
