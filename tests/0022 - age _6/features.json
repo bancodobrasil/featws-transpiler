@@ -1,14 +1,17 @@
 [
     {
-        "name": "mynumber",
+        "name": "idade_2",
         "type": "integer"
     },
+
     {
-        "name": "branch",
+        "name": "idade_4",
         "type": "integer"
     },
+
     {
-        "name": "account",
+        "name": "idade_6",
         "type": "integer"
     }
+
 ]

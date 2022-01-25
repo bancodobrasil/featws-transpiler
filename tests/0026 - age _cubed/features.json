@@ -1,6 +1,6 @@
 [
     {
-        "name": "mynumber",
+        "name": "idade_cubed",
         "type": "integer"
     }
 ]

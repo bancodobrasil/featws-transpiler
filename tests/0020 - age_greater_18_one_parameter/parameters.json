@@ -1,6 +1,6 @@
 [
     {
-        "name": "mynumber",
+        "name": "myage",
         "type": "integer"
     }
 ]
