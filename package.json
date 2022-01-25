@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon -w ./ -e js,json,feat index.js",
     "start": "node index.js",
-    "test": "echo \"Warning: no test specified\" && exit 0"
+    "test": "jest"
   },
   "bin": {
     "featws-transpiler": "bin/featws-transpiler.js"
@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/bancodobrasil/featws-compiler#readme",
   "devDependencies": {
+    "jest": "^27.4.7",
     "nodemon": "^2.0.15"
   },
   "dependencies": {
