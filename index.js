@@ -38,7 +38,7 @@ const compile = (expression, options) => {
     if (type === "decimal") accessMethod = "GetFloat";
     if (accessMethod === "")
       throw Error(
-        "Not implemented accessMethod:\n" +
+        "Not implemented accessMethod: " +
           JSON.stringify({
             scope,
             entryname,
