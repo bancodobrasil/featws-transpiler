@@ -10,7 +10,7 @@ rule feat_myboolfeat salience 1000 {
     when 
         true 
     then
-        ctx.Put("myboolfeat", processor.Boolean(result.GetInt("myage") > 18));
+        ctx.Put("myboolfeat", processor.Boolean(ctx.GetInt("myage") > 18));
         
         result.Put("myboolfeat", ctx.Get("myboolfeat"));
         

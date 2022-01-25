@@ -2,4 +2,10 @@
 
 const {compiler} = require('../index');
 
-compiler(process.cwd());
+(async () => {
+    try {
+        await compiler(process.cwd());
+    } catch (e) {
+        console.error(e);
+    }
+})()

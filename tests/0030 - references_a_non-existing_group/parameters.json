@@ -1,14 +1,14 @@
 [
     {
         "name": "mynumber",
-        "type": "number"
+        "type": "integer"
     },
     {
         "name": "branch",
-        "type": "number"
+        "type": "integer"
     },
     {
         "name": "account",
-        "type": "number"
+        "type": "integer"
     }
 ]

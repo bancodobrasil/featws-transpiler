@@ -1,4 +1,4 @@
 [{
     "name": "idade",
-    "type": "number"
+    "type": "integer"
 }]
