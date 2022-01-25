@@ -1,0 +1,21 @@
+[
+    {
+        "name": "clientingroup",
+        "type": "boolean",
+        "expires": "1h",
+        "default": false,
+        "fallback": false
+    },
+    {
+        "name": "low_income",
+        "type": "boolean",
+        "default": false,
+        "fallback": true
+    },
+    {
+        "name": "high_income",
+        "type": "boolean",
+        "default": false,
+        "fallback": true
+    }
+]

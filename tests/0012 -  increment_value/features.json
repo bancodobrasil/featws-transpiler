@@ -1,0 +1,16 @@
+[
+    {
+        "name": "travel_1",
+        "type": "number",
+        "expires": "1h",
+        "default": false,
+        "fallback": false
+    },
+    {
+        "name": "travel_2",
+        "type": "number",
+        "expires": "1h",
+        "default": false,
+        "fallback": false
+    }
+]

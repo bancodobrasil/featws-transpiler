@@ -1,0 +1,33 @@
+rule DefaultValues salience 10000000 {
+    when 
+        true
+    then
+    
+        result.Put("travel_1", "false");
+    
+        result.Put("travel_2", "false");
+    
+        Retract("DefaultValues");
+}
+
+rule feat_travel_1 salience 1001 {
+    when 
+        true 
+    then
+        ctx.Put("travel_1", ctx.GetInt("travel_distance") + 10 + "");
+        
+        result.Put("travel_1", ctx.Get("travel_1"));
+        
+        Retract("feat_travel_1");
+}
+
+rule feat_travel_2 salience 1000 {
+    when 
+        true 
+    then
+        ctx.Put("travel_2", result.GetInt("travel_1") + 100 + "");
+        
+        result.Put("travel_2", ctx.Get("travel_2"));
+        
+        Retract("feat_travel_2");
+}

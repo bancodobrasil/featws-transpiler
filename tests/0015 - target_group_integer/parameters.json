@@ -1,0 +1,10 @@
+[
+    {
+        "name": "age",
+        "type": "number"
+    },
+    {
+        "name": "south_brazil",
+        "type": "string"
+    }
+]
