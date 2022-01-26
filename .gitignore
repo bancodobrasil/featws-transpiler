@@ -4,3 +4,4 @@ node_modules/
 # parameters.json
 # features.json
 .DS_Store
+coverage/

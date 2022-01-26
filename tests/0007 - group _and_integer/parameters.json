@@ -5,11 +5,11 @@
     },
     {
         "name": "age",
-        "type": "number"
+        "type": "integer"
     },
     {
         "name": "salary",
-        "type": "number"
+        "type": "integer"
     }
     
 ]

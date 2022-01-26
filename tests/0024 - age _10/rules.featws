@@ -1,0 +1,5 @@
+idade_2 = $idade + 2
+idade_4 = #idade_2 + 2
+idade_6 = #idade_4 + 2
+idade_8 = #idade_6 + 2
+idade_10 = #idade_8 + 2

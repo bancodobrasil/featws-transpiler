@@ -1,6 +1,6 @@
 [
     {
         "name": "travel_distance",
-        "type": "number"
+        "type": "integer"
     }
 ]

@@ -1,6 +1,6 @@
 [
     {
         "name": "speed",
-        "type": "number"
+        "type": "integer"
     }
 ]

@@ -9,4 +9,4 @@ incapaz = $idade < 12
 idade_2 = $idade + 2
 [idade_4]
 value=#idade_2 + 2
-type=number
+type=integer

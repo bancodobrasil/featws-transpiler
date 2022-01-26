@@ -1,0 +1,9 @@
+[
+    {
+        "name": "idoso",
+        "type": "wrongtype",
+        "expires": "never",
+        "default": false,
+        "fallback": true
+    }
+]
