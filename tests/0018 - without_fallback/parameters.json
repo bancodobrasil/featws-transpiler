@@ -1,6 +1,6 @@
 [
     {
         "name": "height",
-        "type": "number"
+        "type": "integer"
     }
 ]
