@@ -8,7 +8,9 @@
     "dev": "nodemon -w ./ -e js,json,featws -x featws-transpiler",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "dependencies": {},
+  "dependencies": {
+    "featws-transpiler": "0.0.4"
+  },
   "author": "",
   "license": "ISC",
   "devDependencies": {
