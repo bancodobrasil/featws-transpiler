@@ -1,0 +1,33 @@
+rule DefaultValues salience 10000000 {
+    when 
+        true
+    then
+        
+        result.Put("tall", "true");
+
+        result.Put("short", "true");
+        
+        Retract("DefaultValues");
+}
+
+rule feat_tall salience 1001 {
+    when 
+        true
+    then
+        ctx.Put("tall", processor.Boolean(ctx.GetInt("height") >= 180));
+        
+        result.Put("tall", ctx.Get("tall"));
+        
+        Retract("feat_tall");
+}
+
+rule feat_short salience 1000 {
+    when 
+        true
+    then
+        ctx.Put("short", processor.Boolean(!result.GetBool("tall")));
+
+        result.Put("short", ctx.Get("short"));
+
+        Retract("feat_short");
+}

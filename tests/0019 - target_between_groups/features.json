@@ -1,0 +1,16 @@
+[
+    {
+        "name": "married",
+        "type": "boolean",
+        "expires": "never",
+        "default": false,
+        "fallback": true
+    },
+    {
+        "name": "single",
+        "type": "boolean",
+        "expires": "never",
+        "default": false,
+        "fallback": true
+    }
+]
