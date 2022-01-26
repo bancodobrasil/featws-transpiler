@@ -9,7 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "featws-transpiler": "0.0.4"
+    "featws-transpiler": "file://../../"
   },
   "author": "",
   "license": "ISC",
