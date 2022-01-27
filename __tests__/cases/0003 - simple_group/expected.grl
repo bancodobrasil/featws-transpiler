@@ -25,7 +25,7 @@ rule feat_mygroup_0_value salience 1003 {
     when 
         true 
     then
-        ctx.Put("mygroup_0_value", ctx.GetInt("branch")+"/"+ctx.GetInt("account") + "");
+        ctx.Put("mygroup_0_value", ctx.GetString("branch")+"/"+ctx.GetString("account") + "");
         
         Retract("feat_mygroup_0_value");
 }
