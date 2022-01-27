@@ -22,7 +22,7 @@ There are three fundamental files for the correct functioning of the transpiler:
 
 This is the file where will be described the variables to be calculated. It is necessary to inform some definitions about the feature such as name, type, when it will expire, if it is standard or a fallback. The image below shows some examples of features.
 
-<img src="Images/Features.png" width=40% height="auto">
+<img src="Images/Features.png" width=25% height="auto">
 
 It is important to know that the transpiler can identify a feature directly from the rules.featws file, but keep in mind that its default type is **boolean**. If a feature needs a different type, remember to declare it in features.json file.
 
@@ -30,7 +30,7 @@ It is important to know that the transpiler can identify a feature directly from
 
 As the features.json, the parameters.json file is responsible for declaring variables. In this case, every information provided as an input needs to be declared in this file.
 
-<img src="Images/Parameters.png" width=40% height="auto">
+<img src="Images/Parameters.png" width=25% height="auto">
 
 ## What is the rules.featsws file 
 
@@ -52,6 +52,6 @@ The rules.featws file is where you can write the logical and mathematical expres
 
 You can create all sorts of expressions and calculations, as shown in the image below.
 
-<img src="Images/FEATrulesfeatws.png" width=70% height="auto">
+<img src="Images/FEATrulesfeatws.png" width=45% height="auto">
 
 Feel free to use logical and mathematical operators, variables dependent on other variables and groups according to your needs.
