@@ -1,0 +1,18 @@
+[
+    {
+        "name": "mynumber",
+        "type": "integer"
+    },
+    {
+        "name": "branch",
+        "type": "integer"
+    },
+    {
+        "name": "account",
+        "type": "integer"
+    },
+    {
+        "name": "age",
+        "type": "integer"
+    }
+]
