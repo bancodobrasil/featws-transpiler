@@ -94,8 +94,6 @@ It is necessary to understand some points of the file's syntax so that the trans
 - **Keep in mind that these files will change in the way that you change the objectives**. Now you have to create inside this folder a new folder called ``groups`` and inside that is the local that you will put your groups. Here's an example of a simple group:
 
     ```json
-        # the name of the group is just "mygroup", and represents the 
-        # branch and account of a bank client
         {
             "{$branch}/{$account}": ["00000/00000000"]
         }
@@ -103,27 +101,27 @@ It is necessary to understand some points of the file's syntax so that the trans
 
 - After that you need to set your ``parameters.json`` file setting the parameters that should been used in the previous group:
 
-    ```json
+    ~~~json
     [
         {
-            "name": "branch",  # this name must match with the group
-            "type": "integer"  # set the type of parameter
+            "name": "branch",  
+            "type": "integer"  
         },
         {
-            "name": "account", # this name must match with the group
-            "type": "integer"  # set the type of parameter
+            "name": "account",
+            "type": "integer" 
         }
     ]
-    ```
+    ~~~
 
 - Now you can give an alias for ``mygroup`` group, an this name will be defined on ``features.json`` file, like that:
 
     ```json
         [
             {
-                "name": "clientingroup",  # the alias for group
-                "type": "boolean",        # type of the reponse exepected        
-                "default": false,         # set the default to false  
+                "name": "clientingroup", 
+                "type": "boolean",                
+                "default": false,         
                 "fallback": false
             }
         ]
