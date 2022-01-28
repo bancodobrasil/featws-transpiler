@@ -1,0 +1,33 @@
+rule DefaultValues salience 10000000 {
+    when 
+        true
+    then
+    
+        result.Put("low_speed", "false");
+    
+        result.Put("high_speed", "false");
+    
+        Retract("DefaultValues");
+}
+
+rule feat_low_speed salience 1001 {
+    when 
+        true 
+    then
+        ctx.Put("low_speed", processor.Boolean(ctx.GetInt("speed") > 0 && ctx.GetInt("speed") < 40));
+        
+        result.Put("low_speed", ctx.Get("low_speed"));
+        
+        Retract("feat_low_speed");
+}
+
+rule feat_high_speed salience 1000 {
+    when 
+        true 
+    then
+        ctx.Put("high_speed", processor.Boolean(!result.GetBool("low_speed")));
+        
+        result.Put("high_speed", ctx.Get("high_speed"));
+        
+        Retract("feat_high_speed");
+}

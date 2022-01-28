@@ -1,4 +1,4 @@
-# featws-transpiler
+# **Featws Transpiler**
 
 ## Required Softwares
 - node.js version 10 or higher.  
@@ -37,6 +37,112 @@ As the features.json, the parameters.json file is responsible for declaring vari
 The rules.featws file is essential for the proper generation of the rules.grl.
 
 It is necessary to understand some points of the file's syntax so that the transpiler can identify the features and parameters inserted in it.
+
+## Using npm link
+
+- When you use `npm link` you are able to work and test interatively without having to continually rebuild the project. You can get more offical information about the package [here](https://docs.npmjs.com/cli/v8/commands/npm-link).
+
+- In this project we have to do this steps:
+
+    - At First, you should verify if you have the featws-transpiler package already installed on the project by this command on local terminal:
+
+        ~~~shell
+        npm list -g featws-transpiler
+        ~~~
+
+    - If it's installed, you should to run this command to remove the package:
+
+        ~~~shell
+        npm rm --global featws-transpiler
+        ~~~
+
+    - Now you're ableled to link the featws-transpiler project doing this:
+
+        ~~~shell
+        cd ~/projects/featws-transpiler # go to your project location
+        npm link featws-transpiler      # link-install the package
+        ~~~
+
+## Using npx to run packages
+
+- ``npx command`` allows you to run binaries from npmjs library either installed locally or fetched remotely, in a similar context as run with ``npm run``. You can get more offical information about the command [here](https://docs.npmjs.com/cli/v8/commands/npx).
+
+- This command is very useful when you want to run, for example, the ``featws-transpiler`` package, to generate the transpilation of your rules into a ``.grl`` file.
+
+- Once you finish your folder configuration, go to these same folder and run:
+     ~~~
+        # go to your folder location
+
+        cd ~/projects/featws-transpiler/example/simple_group 
+
+        # if you don't installed the package, the command will do that for you 
+        # if you already did, the commando will run the package 
+
+        npx featws-transpiler
+    ~~~
+
+## Building groups
+
+- To build groups in ``featws-tranpiler`` you need at first to stay in a folder with the files: (You can easily copy from simple_group folder inside example folder)
+
+    - features.json
+    - parameters.json
+    - package.json
+    - package-lock.json
+    - rules.featws
+
+- **Keep in mind that these files will change in the way that you change the objectives**. Now you have to create inside this folder a new folder called ``groups`` and inside that is the local that you will put your groups. Here's an example of a simple group:
+
+    ```json
+        {
+            "{$branch}/{$account}": ["00000/00000000"]
+        }
+    ```
+
+- After that you need to set your ``parameters.json`` file setting the parameters that should been used in the previous group:
+
+    ~~~json
+    [
+        {
+            "name": "branch",  
+            "type": "integer"  
+        },
+        {
+            "name": "account",
+            "type": "integer" 
+        }
+    ]
+    ~~~
+
+- Now you can give an alias for ``mygroup`` group, an this name will be defined on ``features.json`` file, like that:
+
+    ```json
+        [
+            {
+                "name": "clientingroup", 
+                "type": "boolean",                
+                "default": false,         
+                "fallback": false
+            }
+        ]
+    ```
+
+- The Last step is set a rule to achieve your goal and we do that on ``rules.featws`` file, like that:
+
+    ```
+        clientingroup = @mygroup # setting our feature name to our group 
+        
+        # this action is too much simple, but already shows how to work 
+        # with groups
+    ```
+
+- to finish the project you just need to run on your local terminal the comand:
+    ~~~shell
+        # this command will generate the .grl file that will be interpreted
+        # by our project "featws-ruller"
+
+        npx featws-transpiler
+    ~~~
 
 ### Special markers
 
