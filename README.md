@@ -39,7 +39,6 @@ The rules.featws file is essential for the proper generation of the rules.grl.
 It is necessary to understand some points of the file's syntax so that the transpiler can identify the features and parameters inserted in it.
 
 ## Using npm link
----
 
 - When you use `npm link` you are able to work and test interatively without having to continually rebuild the project. You can get more offical information about the package [here](https://docs.npmjs.com/cli/v8/commands/npm-link).
 
@@ -65,7 +64,6 @@ It is necessary to understand some points of the file's syntax so that the trans
         ~~~
 
 ## Using npx to run packages
----
 
 - ``npx command`` allows you to run binaries from npmjs library either installed locally or fetched remotely, in a similar context as run with ``npm run``. You can get more offical information about the command [here](https://docs.npmjs.com/cli/v8/commands/npx).
 
@@ -84,7 +82,6 @@ It is necessary to understand some points of the file's syntax so that the trans
     ~~~
 
 ## Building groups
----
 
 - To build groups in ``featws-tranpiler`` you need at first to stay in a folder with the files: (You can easily copy from simple_group folder inside example folder)
 
@@ -97,8 +94,6 @@ It is necessary to understand some points of the file's syntax so that the trans
 - **Keep in mind that these files will change in the way that you change the objectives**. Now you have to create inside this folder a new folder called ``groups`` and inside that is the local that you will put your groups. Here's an example of a simple group:
 
     ```json
-        // the name of the group is just "mygroup", and represents the 
-        // branch and account of a bank client
         {
             "{$branch}/{$account}": ["00000/00000000"]
         }
@@ -106,27 +101,27 @@ It is necessary to understand some points of the file's syntax so that the trans
 
 - After that you need to set your ``parameters.json`` file setting the parameters that should been used in the previous group:
 
-    ```json
+    ~~~json
     [
         {
-            "name": "branch",  // this name must match with the group
-            "type": "integer"  // set the type of parameter
+            "name": "branch",  
+            "type": "integer"  
         },
         {
-            "name": "account", // this name must match with the group
-            "type": "integer"  // set the type of parameter
+            "name": "account",
+            "type": "integer" 
         }
     ]
-    ```
+    ~~~
 
 - Now you can give an alias for ``mygroup`` group, an this name will be defined on ``features.json`` file, like that:
 
     ```json
         [
             {
-                "name": "clientingroup",  // the alias for group
-                "type": "boolean",        // type of the reponse exepected        
-                "default": false,         // set the default to false  
+                "name": "clientingroup", 
+                "type": "boolean",                
+                "default": false,         
                 "fallback": false
             }
         ]
