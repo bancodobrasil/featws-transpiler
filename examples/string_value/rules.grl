@@ -1,0 +1,33 @@
+rule DefaultValues salience 10000000 {
+    when 
+        true
+    then
+    
+        result.Put("male", "false");
+    
+        result.Put("female", "false");
+    
+        Retract("DefaultValues");
+}
+
+rule feat_male salience 1001 {
+    when 
+        true 
+    then
+        ctx.Put("male", processor.Boolean(ctx.GetString("sex") == "M"));
+        
+        result.Put("male", ctx.Get("male"));
+        
+        Retract("feat_male");
+}
+
+rule feat_famale salience 1000 {
+    when 
+        true 
+    then
+        ctx.Put("famale", processor.Boolean(!result.GetBool("male")));
+        
+        result.Put("famale", ctx.Get("famale"));
+        
+        Retract("feat_famale");
+}
