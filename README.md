@@ -166,3 +166,17 @@ At some point, you may need to test new cases to generate rules. To do this, go 
 
         npx featws-transpiler
     ~~~
+
+## Case Examples
+
+- Into folder [/examples](https://github.com/bancodobrasil/featws-transpiler/tree/main/examples) you can get some commom cases that you problably will use:
+
+    - **Full**: It's a complete case with the most commom operations, you can see what inside [here](https://github.com/bancodobrasil/featws-transpiler/tree/main/examples/full).
+
+    - **Simple Group**: It's the simpliest way to create a group, feel free to do your experiments, you can see what is inside [here](https://github.com/bancodobrasil/featws-transpiler/tree/main/examples/simple_group).
+
+    - **Integer Value**: It's a demostration how to work with ``integer`` values and some operations, you can see what is inside [here](https://github.com/bancodobrasil/featws-transpiler/tree/main/examples/integer_value).
+
+    - **String Value**: It's a demostration how to work with ``string`` values, you can see what is inside[here](https://github.com/bancodobrasil/featws-transpiler/tree/main/examples/string_value).
+
+    - **Target Client**: It's a case that shows how to get an intersection beetween a group and integer, this case is very useful to understand how to find specif information,  you can see what inside [here](https://github.com/bancodobrasil/featws-transpiler/tree/main/examples/target_client)
