@@ -144,6 +144,20 @@ It is necessary to understand some points of the file's syntax so that the trans
         npx featws-transpiler
     ~~~
 
+## Case Examples
+
+- Into folder ``/examples`` you can get some commom cases that you problably will use
+
+    -**Full**: It's a complete case with the most commom operations, you can see what inside [here](https://github.com/bancodobrasil/featws-transpiler/tree/create_documentation/examples/full).
+
+    -**Simple Group**: It's the simpliest way to create a group, feel free to do your experiments, you can see what is inside [here](https://github.com/bancodobrasil/featws-transpiler/tree/create_documentation/examples/simple_group).
+
+    -**Integer Value**: It's a demostration how to work with ``integer`` values and some operations, you can see what is inside [here](https://github.com/bancodobrasil/featws-transpiler/tree/create_documentation/examples/integer_value).
+
+    -**String Value**: It's a demostration how to work with ``string`` values, you can see what is inside[here](https://github.com/bancodobrasil/featws-transpiler/tree/create_documentation/examples/string_value).
+
+    -**Target Client**: It's a case that shows how to get an intersection beetween a group and integer, this case is very useful to understand how to find specif information,  you can see what inside [here](https://github.com/bancodobrasil/featws-transpiler/tree/create_documentation/examples/target_client)
+
 ### Special markers
 
 - The `#`identifies the features created in the features.json file.
@@ -161,3 +175,5 @@ You can create all sorts of expressions and calculations, as shown in the image 
 <img src="Images/FEATrulesfeatws.png" width=45% height="auto">
 
 Feel free to use logical and mathematical operators, variables dependent on other variables and groups according to your needs.
+
+
