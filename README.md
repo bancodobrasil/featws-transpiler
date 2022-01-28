@@ -1,5 +1,7 @@
 # **Featws Transpiler**
 
+- The Featws Transpiler it's a node.js project that transpile a rule in the project format ``.featws`` into a ``.grl`` file. This file will be used in our other project based in ``go lang`` called [featws-ruller](https://github.com/bancodobrasil/featws-ruller), that will read the ``.grl`` file and translate to a json with the responses of the rules previous written.
+
 ## Required Softwares
 - node.js version 10 or higher.  
 - node package manager (npm).
