@@ -18,6 +18,8 @@ There are three fundamental files for the correct functioning of the transpiler:
 - parameters.json 
 - rules.featws
 
+After running the code, the transpiler will seek the content inside these three files to generate the rules file. We describe each of them following this documentation.
+
 ### features.json
 
 This is the file where will be described the variables to be calculated. It is necessary to inform some definitions about the feature such as name, type, when it will expire, if it is standard or a fallback. The image below shows some examples of features.
@@ -32,54 +34,29 @@ As the features.json, the parameters.json file is responsible for declaring vari
 
 <img src="Images/Parameters.png" width=25% height="auto">
 
-## What is the rules.featsws file 
+## What is the rules.featws file 
 
 The rules.featws file is essential for the proper generation of the rules.grl.
 
 It is necessary to understand some points of the file's syntax so that the transpiler can identify the features and parameters inserted in it.
 
-## Using npm link
+### Special markers
 
-- When you use `npm link` you are able to work and test interatively without having to continually rebuild the project. You can get more offical information about the package [here](https://docs.npmjs.com/cli/v8/commands/npm-link).
+- The `#`identifies the features created in the features.json file.
 
-- In this project we have to do this steps:
+- The `$` identifies the parameters created in the parameters.json file.
 
-    - At First, you should verify if you have the featws-transpiler package already installed on the project by this command on local terminal:
+- The `@` identifies a group.
 
-        ~~~shell
-        npm list -g featws-transpiler
-        ~~~
+### Math expressions
 
-    - If it's installed, you should to run this command to remove the package:
+The rules.featws file is where you can write the logical and mathematical expressions. It is the guide for the transpiler to interpret the written lines and generate the rules file.
 
-        ~~~shell
-        npm rm --global featws-transpiler
-        ~~~
+You can create all sorts of expressions and calculations, as shown in the image below.
 
-    - Now you're ableled to link the featws-transpiler project doing this:
+<img src="Images/FEATrulesfeatws.png" width=45% height="auto">
 
-        ~~~shell
-        cd ~/projects/featws-transpiler # go to your project location
-        npm link featws-transpiler      # link-install the package
-        ~~~
-
-## Using npx to run packages
-
-- ``npx command`` allows you to run binaries from npmjs library either installed locally or fetched remotely, in a similar context as run with ``npm run``. You can get more offical information about the command [here](https://docs.npmjs.com/cli/v8/commands/npx).
-
-- This command is very useful when you want to run, for example, the ``featws-transpiler`` package, to generate the transpilation of your rules into a ``.grl`` file.
-
-- Once you finish your folder configuration, go to these same folder and run:
-     ~~~
-        # go to your folder location
-
-        cd ~/projects/featws-transpiler/example/simple_group 
-
-        # if you don't installed the package, the command will do that for you 
-        # if you already did, the commando will run the package 
-
-        npx featws-transpiler
-    ~~~
+Feel free to use logical and mathematical operators, variables dependent on other variables and groups according to your needs.
 
 ## Building groups
 
@@ -136,28 +113,57 @@ It is necessary to understand some points of the file's syntax so that the trans
         # with groups
     ```
 
-- to finish the project you just need to run on your local terminal the comand:
+- To finish the project you just need to run on your local terminal the comand:
     ~~~shell
         # this command will generate the .grl file that will be interpreted
         # by our project "featws-ruller"
 
         npx featws-transpiler
+
+## Test Cases
+
+At some point, you may need to test new cases to generate rules. To do this, go to the featws-transpiler -tests directory and create a new folder.
+
+## Using npm link
+
+- When you use `npm link` you are able to work and test interatively without having to continually rebuild the project. You can get more offical information about the package [here](https://docs.npmjs.com/cli/v8/commands/npm-link).
+
+- In this project we have to do this steps:
+
+    - At First, you should verify if you have the featws-transpiler package already installed on the project by this command on local terminal:
+
+        ~~~shell
+        npm list -g featws-transpiler
+        ~~~
+
+    - If it's installed, you should to run this command to remove the package:
+
+        ~~~shell
+        npm rm --global featws-transpiler
+        ~~~
+
+    - Now you're ableled to link the featws-transpiler project doing this:
+
+        ~~~shell
+        cd ~/projects/featws-transpiler # go to your project location
+        npm link featws-transpiler      # link-install the package
+        ~~~
+
+## Using npx to run packages
+
+- ``npx command`` allows you to run binaries from npmjs library either installed locally or fetched remotely, in a similar context as run with ``npm run``. You can get more offical information about the command [here](https://docs.npmjs.com/cli/v8/commands/npx).
+
+- This command is very useful when you want to run, for example, the ``featws-transpiler`` package, to generate the transpilation of your rules into a ``.grl`` file.
+
+- Once you finish your folder configuration, go to these same folder and run:
+     ~~~
+        # go to your folder location
+
+        cd ~/projects/featws-transpiler/example/simple_group 
+
+        # if you don't installed the package, the command will do that for you 
+        # if you already did, the commando will run the package 
+
+        npx featws-transpiler
     ~~~
 
-### Special markers
-
-- The `#`identifies the features created in the features.json file.
-
-- The `$` identifies the parameters created in the parameters.json file.
-
-- The `@` identifies a group.
-
-### Math expressions
-
-The rules.featws file is where you can write the logical and mathematical expressions. It is the guide for the transpiler to interpret the written lines and generate the rules file.
-
-You can create all sorts of expressions and calculations, as shown in the image below.
-
-<img src="Images/FEATrulesfeatws.png" width=45% height="auto">
-
-Feel free to use logical and mathematical operators, variables dependent on other variables and groups according to your needs.
