@@ -1,0 +1,5 @@
+clientingroup = @mygroup
+child = $age <= 18
+adult = !#child
+elder = !#child && !#adult
+target_client = #clientingroup && #elder

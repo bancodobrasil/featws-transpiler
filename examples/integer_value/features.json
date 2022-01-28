@@ -1,0 +1,23 @@
+[
+  {
+    "name": "adult",
+    "type": "boolean",
+    "expires": "1h",
+    "default": false,
+    "fallback": false
+  },
+  {
+    "name": "elder",
+    "type": "boolean",
+    "expires": "1h",
+    "default": false,
+    "fallback": false
+  },
+  {
+    "name": "child",
+    "type": "boolean",
+    "expires": "1h",
+    "default": false,
+    "fallback": false
+  }
+]

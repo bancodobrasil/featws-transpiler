@@ -1,0 +1,19 @@
+{
+  "name": "integer_value",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "featws-transpiler",
+    "dev": "nodemon -w ./ -e js,json,featws -x featws-transpiler",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "featws-transpiler": "file:../../"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}

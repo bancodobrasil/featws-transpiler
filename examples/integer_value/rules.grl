@@ -1,0 +1,46 @@
+rule DefaultValues salience 10000000 {
+    when 
+        true
+    then
+    
+        result.Put("adult", "false");
+    
+        result.Put("elder", "false");
+    
+        result.Put("child", "false");
+    
+        Retract("DefaultValues");
+}
+
+rule feat_child salience 1002 {
+    when 
+        true 
+    then
+        ctx.Put("child", processor.Boolean(ctx.GetInt("age") <= 18));
+        
+        result.Put("child", ctx.Get("child"));
+        
+        Retract("feat_child");
+}
+
+rule feat_adult salience 1001 {
+    when 
+        true 
+    then
+        ctx.Put("adult", processor.Boolean(!result.GetBool("child")));
+        
+        result.Put("adult", ctx.Get("adult"));
+        
+        Retract("feat_adult");
+}
+
+rule feat_elder salience 1000 {
+    when 
+        true 
+    then
+        ctx.Put("elder", processor.Boolean(!result.GetBool("child") && !result.GetBool("adult")));
+        
+        result.Put("elder", ctx.Get("elder"));
+        
+        Retract("feat_elder");
+}
