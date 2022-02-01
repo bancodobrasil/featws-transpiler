@@ -8,7 +8,7 @@ rule DefaultValues salience 10000000 {
 
 rule feat_myfeat salience 1000 {
     when 
-        processor.Boolean(ctx.GetInt("myothernumber") > 10) 
+        processor.Boolean(ctx.GetInt("myothernumber") > 10); 
     then
         ctx.Put("myfeat", ctx.GetInt("mynumber") + 12 + "");
         
