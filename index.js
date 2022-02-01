@@ -63,6 +63,73 @@ const compile = (expression, options) => {
   return expression;
 };
 
+const compile_condition = (condition, options) => {
+  // console.log("Compile Expression BEGIN:", expression, options);
+  condition = condition.replace(/([$#%@])(\w+)/g, (_, scope, entryname) => {
+    let source = "";
+    let type = "boolean";
+
+    if (scope === "@") scope = "#";
+
+    if (scope === "#") {
+      source = "result";
+      const feat = options.features.find((f) => f.name === entryname);
+      if (feat) {
+        type = feat.type;
+      }
+    }
+    if (scope === "$") {
+      source = "ctx";
+      const param = options.parameters.find((p) => p.name === entryname);
+      if (param) {
+        type = param.type;
+      }
+    }
+
+    if (scope === "%") {
+      return `processor.Contains(ctx.GetSlice("${entryname}_entries"), ctx.Get("${entryname}_value"))`;
+    }
+
+    //if (source === "") throw Error("Not implemented source: " + scope);
+
+    let accessMethod = "";
+    if (type === "string") accessMethod = "GetString";
+    if (type === "boolean") accessMethod = "GetBool";
+    if (type === "integer") accessMethod = "GetInt";
+    if (type === "decimal") accessMethod = "GetFloat";
+    if (accessMethod === "")
+      throw Error(
+        "Not implemented accessMethod: " +
+          JSON.stringify({
+            scope,
+            entryname,
+            type,
+          })
+      );
+
+    return `${source}.${accessMethod}("${entryname}")`;
+  });
+  //expression = expression.replace(/\#(\w+)/g, 'ctx.GetBool("$1")');
+  if (options.outputType === "integer") {
+    condition = `processor.Boolean(${condition})`;
+  }
+
+  if (options.outputType === "boolean") {
+    condition = `processor.Boolean(${condition})`;
+  }
+  
+  if (
+    (options.outputType === "string") |
+    (options.outputType === "integer") |
+    (options.outputType === "decimal")
+  ) {
+    condition = `${condition}`;
+  }
+  
+  //console.log("Compile condition RESULT:", condition);
+  return condition;
+};
+
 const compiler = async (dir) => {
   try {
     const rulesFile = dir + "/rules.featws";
@@ -239,6 +306,7 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
       featureRules: Object.keys(rulesPlain).map((feat) => {
         let rule = rulesPlain[feat];
         let expression = rule;
+        let condition = expression.condition;
         let result = true;
         let outputType = (features.find((f) => f.name == feat) || {
           type: "boolean",
@@ -256,16 +324,34 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
           }
         }
 
-        return {
-          name: feat,
-          precedence: `${saliences[feat] || base_salience}`,
-          expression: compile(expression, {
-            outputType,
-            parameters,
-            features,
-          }),
-          result,
-        };
+        if(typeof condition !== 'undefined') {
+          return {
+            name: feat,
+            condition: compile_condition(condition, {
+              outputType,
+              parameters,
+              features
+            }),
+            precedence: `${saliences[feat] || base_salience}`,
+            expression: compile(expression, {
+              outputType,
+              parameters,
+              features,
+            }),
+            result,
+          };
+        } else {
+          return {
+            name: feat,
+            precedence: `${saliences[feat] || base_salience}`,
+            expression: compile(expression, {
+              outputType,
+              parameters,
+              features,
+            }),
+            result,
+          };
+        }
       }),
     });
 
