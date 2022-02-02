@@ -12,7 +12,7 @@ rule DefaultValues salience 10000000 {
         Retract("DefaultValues");
 }
 
-rule feat_child salience 1002 {
+rule feat_child salience 1001 {
     when 
         true 
     then
@@ -23,7 +23,7 @@ rule feat_child salience 1002 {
         Retract("feat_child");
 }
 
-rule feat_adult salience 1001 {
+rule feat_adult salience 1000 {
     when 
         true 
     then
@@ -34,11 +34,11 @@ rule feat_adult salience 1001 {
         Retract("feat_adult");
 }
 
-rule feat_elder salience 1000 {
+rule feat_elder salience 1001 {
     when 
         true 
     then
-        ctx.Put("elder", processor.Boolean(!result.GetBool("child") && !result.GetBool("adult")));
+        ctx.Put("elder", processor.Boolean(ctx.GetInt("age") >= 60));
         
         result.Put("elder", ctx.Get("elder"));
         
