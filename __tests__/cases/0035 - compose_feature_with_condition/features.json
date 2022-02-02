@@ -1,0 +1,15 @@
+[
+    {
+        "name": "myfeat",
+        "type": "integer",
+        "expires": "1h",
+        "fallback": false
+    },
+    {
+        "name": "myfeat2",
+        "type": "boolean",
+        "expires": "1h",
+        "fallback": false
+    }
+    
+]
