@@ -33,3 +33,14 @@ rule feat_adult salience 1000 {
         
         Retract("feat_adult");
 }
+
+rule feat_elder salience 1001 {
+    when 
+        true 
+    then
+        ctx.Put("elder", processor.Boolean(ctx.GetInt("age") >= 60));
+        
+        result.Put("elder", ctx.Get("elder"));
+        
+        Retract("feat_elder");
+}

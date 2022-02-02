@@ -1,2 +1,3 @@
 child = $age <= 18
 adult = !#child
+elder = $age >= 60
