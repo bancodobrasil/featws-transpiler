@@ -1,0 +1,10 @@
+[
+    {
+        "name": "occupations",
+        "type": "string"
+    },
+    {
+        "name": "your_occupation",
+        "type": "string"
+    }
+]
