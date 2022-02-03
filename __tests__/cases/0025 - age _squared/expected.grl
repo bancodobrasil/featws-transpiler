@@ -10,7 +10,7 @@ rule feat_idade_squared salience 1000 {
     when 
         true 
     then
-        ctx.Put("idade_squared", ctx.GetInt("idade") * ctx.GetInt("idade") + "");
+        ctx.Put("idade_squared", ctx.GetInt("idade") * ctx.GetInt("idade"));
         
         result.Put("idade_squared", ctx.Get("idade_squared"));
         

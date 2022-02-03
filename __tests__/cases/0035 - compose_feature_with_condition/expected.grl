@@ -10,7 +10,7 @@ rule feat_myfeat salience 1001 {
     when 
         processor.Boolean(ctx.GetInt("myothernumber") > 10) 
     then
-        ctx.Put("myfeat", ctx.GetInt("mynumber") + 12 + "");
+        ctx.Put("myfeat", ctx.GetInt("mynumber") + 12);
         
         result.Put("myfeat", ctx.Get("myfeat"));
         
