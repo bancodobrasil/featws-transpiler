@@ -50,20 +50,23 @@ const compile = (expression, options) => {
   });
   //expression = expression.replace(/\#(\w+)/g, 'ctx.GetBool("$1")');
   if (options.outputType === "boolean") {
-    expression = `processor.Boolean(${expression})`;
+    expression = expression === 'false' ? expression = `${expression}` : expression = `processor.Boolean(${expression})`;
   }
-  if (
-    (options.outputType === "string") |
+
+  if (options.outputType === "string") {
+    expression = `${expression} + ""`;
+  } if (
     (options.outputType === "integer") |
     (options.outputType === "decimal")
-  ) {
-    expression = `${expression} + ""`;
+  )
+  {
+    expression = `${expression}`;
   }
   // console.log("Compile Expression RESULT:", expression);
   return expression;
 };
 
-const compile_condition = (condition, options) => {
+/*const compile_condition = (condition, options) => {
   // console.log("Compile Expression BEGIN:", expression, options);
   condition = condition.replace(/([$#%@])(\w+)/g, (_, scope, entryname) => {
     let source = "";
@@ -128,7 +131,7 @@ const compile_condition = (condition, options) => {
   
   //console.log("Compile condition RESULT:", condition);
   return condition;
-};
+};*/
 
 const compiler = async (dir) => {
   try {
@@ -306,8 +309,7 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
       featureRules: Object.keys(rulesPlain).map((feat) => {
         let rule = rulesPlain[feat];
         let expression = rule;
-        let condition = expression.condition;
-        let result = true;
+        let condition = `${typeof expression.condition == "undefined" ? "true" : expression.condition}`;        let result = true;
         let outputType = (features.find((f) => f.name == feat) || {
           type: "boolean",
         })["type"];
@@ -323,35 +325,23 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
             result = rule.result;
           }
         }
+        
+        return {
+          name: feat,
+          condition: condition != 'true' ? compile(condition, {
+            outputType: "boolean",
+            parameters,
+            features
+          }): "true",
+          precedence: `${saliences[feat] || base_salience}`,
+          expression: compile(expression, {
+            outputType,
+            parameters,
+            features,
+          }),
+          result,
+        };
 
-        if(typeof condition !== 'undefined') {
-          return {
-            name: feat,
-            condition: compile_condition(condition, {
-              outputType,
-              parameters,
-              features
-            }),
-            precedence: `${saliences[feat] || base_salience}`,
-            expression: compile(expression, {
-              outputType,
-              parameters,
-              features,
-            }),
-            result,
-          };
-        } else {
-          return {
-            name: feat,
-            precedence: `${saliences[feat] || base_salience}`,
-            expression: compile(expression, {
-              outputType,
-              parameters,
-              features,
-            }),
-            result,
-          };
-        }
       }),
     });
 
