@@ -1,0 +1,55 @@
+rule DefaultValues salience 10000000 {
+    when 
+        true
+    then
+
+        result.Put("hatch", "false");
+
+        result.Put("sedan", "false");
+        
+        Retract("DefaultValues");
+}
+
+rule feat_hatch salience 1001 {
+    when 
+        true
+    then
+        ctx.Put("hatch", processor.Boolean(ctx.GetString("car_model") == "hatch"));
+        
+        result.Put("hatch", ctx.Get("hatch"));
+        
+        Retract("feat_hatch");
+}
+
+rule feat_sedan salience 1000 {
+    when
+        true
+    then
+        ctx.Put("sedan", processor.Boolean(!result.GetBool("hatch")));
+
+        result.Put("sedan", ctx.Get("sedan"));
+
+        Retract("feat_sedan");
+}
+
+rule feat_hatch_max_speed salience 1001 {
+    when
+        processor.Boolean(result.GetBool("hatch") && ctx.GetFloat("horse_power") > 700)
+    then
+        ctx.Put("hatch_max_speed", ctx.GetFloat("horse_power") - 350);
+
+        result.Put("hatch_max_speed", ctx.Get("hatch_max_speed"));
+
+        Retract("feat_hatch_max_speed");
+}
+
+rule feat_sedan_max_speed salience 1001 {
+    when
+        processor.Boolean(result.GetBool("sedan") && ctx.GetFloat("horse_power") > 800)
+    then
+        ctx.Put("sedan_max_speed", ctx.GetFloat("horse_power") - 400);
+
+        result.Put("sedan_max_speed", ctx.Get("sedan_max_speed"));
+
+        Retract("feat_sedan_max_speed");
+}

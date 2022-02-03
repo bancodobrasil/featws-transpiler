@@ -1,0 +1,10 @@
+[
+    {
+        "name": "car_model",
+        "type": "string"
+    },
+    {
+        "name": "horse_power",
+        "type": "decimal"
+    }
+]

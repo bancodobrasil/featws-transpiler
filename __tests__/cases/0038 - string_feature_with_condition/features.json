@@ -1,0 +1,19 @@
+[
+    {
+        "name": "hatch",
+        "type": "boolean",
+        "expires": "1h",
+        "default": "false",
+        "fallback": false
+    },
+    {
+        "name": "sedan",
+        "type": "boolean",
+        "expires": "1h",
+        "default": "false",
+        "fallback": false
+    }
+
+
+
+]
