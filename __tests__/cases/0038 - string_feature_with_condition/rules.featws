@@ -1,0 +1,12 @@
+hatch = $car_model == "hatch"
+sedan = !#hatch
+
+[hatch_max_speed]
+condition = #hatch && $horse_power > 700
+value = $horse_power - 350
+type = decimal
+
+[sedan_max_speed]
+condition = #sedan && $horse_power > 800
+value = $horse_power - 400
+type = decimal

@@ -16,8 +16,9 @@ rule DefaultValues salience 10000000 {
 }
 <% featureRules.forEach(function(feat){ %>
 rule feat_<%=feat.name%> salience <%=feat.precedence%> {
-    when 
-        true 
+    when <% if(feat.condition) { %>
+        <%-feat.condition%><% } else { %>
+        true <% } %>
     then
         ctx.Put("<%=feat.name%>", <%-feat.expression%>);
         <% if(feat.result) { %>

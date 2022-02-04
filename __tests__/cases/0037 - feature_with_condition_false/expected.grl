@@ -1,0 +1,18 @@
+rule DefaultValues salience 10000000 {
+    when 
+        true
+    then
+            
+        Retract("DefaultValues");
+}
+
+rule feat_myfeat salience 1000 {
+    when 
+        false
+    then
+        ctx.Put("myfeat", ctx.GetInt("mynumber") + 12);
+        
+        result.Put("myfeat", ctx.Get("myfeat"));
+        
+        Retract("feat_myfeat");
+}

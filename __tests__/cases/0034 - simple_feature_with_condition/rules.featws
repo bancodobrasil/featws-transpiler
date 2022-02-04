@@ -1,0 +1,3 @@
+[myfeat]
+condition = $myothernumber > 10
+value = $mynumber + 12

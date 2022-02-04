@@ -1,0 +1,32 @@
+[
+    {
+        "name": "myfeat",
+        "type": "integer",
+        "expires": "1h",
+        "fallback": false
+    },
+    {
+        "name": "myfeat_2",
+        "type": "integer",
+        "expires": "1h",
+        "fallback": false
+    },
+    {
+        "name": "myfeat_4",
+        "type": "integer",
+        "expires": "1h",
+        "fallback": false
+    },
+    {
+        "name": "myfeat_6",
+        "type": "integer",
+        "expires": "1h",
+        "fallback": false
+    },
+    {
+        "name": "myfeat_8",
+        "type": "integer",
+        "expires": "1h",
+        "fallback": false
+    }
+]

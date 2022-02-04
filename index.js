@@ -50,18 +50,88 @@ const compile = (expression, options) => {
   });
   //expression = expression.replace(/\#(\w+)/g, 'ctx.GetBool("$1")');
   if (options.outputType === "boolean") {
-    expression = `processor.Boolean(${expression})`;
+    expression = expression === 'false' ? expression = `${expression}` : expression = `processor.Boolean(${expression})`;
   }
+
+  if (options.outputType === "string") {
+    expression = `${expression} + ""`;
+  } if (
+    (options.outputType === "integer") |
+    (options.outputType === "decimal")
+  )
+  {
+    expression = `${expression}`;
+  }
+  // console.log("Compile Expression RESULT:", expression);
+  return expression;
+};
+
+/*const compile_condition = (condition, options) => {
+  // console.log("Compile Expression BEGIN:", expression, options);
+  condition = condition.replace(/([$#%@])(\w+)/g, (_, scope, entryname) => {
+    let source = "";
+    let type = "boolean";
+
+    if (scope === "@") scope = "#";
+
+    if (scope === "#") {
+      source = "result";
+      const feat = options.features.find((f) => f.name === entryname);
+      if (feat) {
+        type = feat.type;
+      }
+    }
+    if (scope === "$") {
+      source = "ctx";
+      const param = options.parameters.find((p) => p.name === entryname);
+      if (param) {
+        type = param.type;
+      }
+    }
+
+    if (scope === "%") {
+      return `processor.Contains(ctx.GetSlice("${entryname}_entries"), ctx.Get("${entryname}_value"))`;
+    }
+
+    //if (source === "") throw Error("Not implemented source: " + scope);
+
+    let accessMethod = "";
+    if (type === "string") accessMethod = "GetString";
+    if (type === "boolean") accessMethod = "GetBool";
+    if (type === "integer") accessMethod = "GetInt";
+    if (type === "decimal") accessMethod = "GetFloat";
+    if (accessMethod === "")
+      throw Error(
+        "Not implemented accessMethod: " +
+          JSON.stringify({
+            scope,
+            entryname,
+            type,
+          })
+      );
+
+    return `${source}.${accessMethod}("${entryname}")`;
+  });
+  //expression = expression.replace(/\#(\w+)/g, 'ctx.GetBool("$1")');
+  if (options.outputType === "integer") {
+    condition = `processor.Boolean(${condition})`;
+  }
+
+  if (options.outputType === "boolean") {
+    condition = `processor.Boolean(${condition})`;
+  }
+  
   if (
     (options.outputType === "string") |
     (options.outputType === "integer") |
     (options.outputType === "decimal")
   ) {
-    expression = `${expression} + ""`;
+    condition = `${condition}`;
   }
-  // console.log("Compile Expression RESULT:", expression);
-  return expression;
-};
+  
+  //console.log("Compile condition RESULT:", condition);
+  return condition;
+};*/
 
 const compiler = async (dir) => {
   try {
@@ -149,9 +219,16 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
 
     Object.keys(rulesPlain).forEach((feat) => {
       let rule = rulesPlain[feat];
+      // console.log("rule", rule);
       if (typeof rule === "object") {
+        const condition = rule.condition;
         rule = rule.value;
+
+        if (typeof condition != "undefined") {
+          rule += ` ${condition}`;
+        }
       }
+      // console.log("rule plain", rule);
       precedence[feat] = [];
       precedence[feat] = precedence[feat].concat(
         rule.match(/[#@](\w+)/g) || []
@@ -239,7 +316,7 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
       featureRules: Object.keys(rulesPlain).map((feat) => {
         let rule = rulesPlain[feat];
         let expression = rule;
-        let result = true;
+        let condition = `${typeof expression.condition == "undefined" ? "true" : expression.condition}`;        let result = true;
         let outputType = (features.find((f) => f.name == feat) || {
           type: "boolean",
         })["type"];
@@ -255,9 +332,14 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
             result = rule.result;
           }
         }
-
+        
         return {
           name: feat,
+          condition: condition != 'true' ? compile(condition, {
+            outputType: "boolean",
+            parameters,
+            features
+          }): "true",
           precedence: `${saliences[feat] || base_salience}`,
           expression: compile(expression, {
             outputType,
@@ -266,6 +348,7 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
           }),
           result,
         };
+
       }),
     });
 
