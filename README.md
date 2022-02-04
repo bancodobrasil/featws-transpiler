@@ -28,6 +28,20 @@ This is the file where will be described the variables to be calculated. It is n
 
 It is important to know that the transpiler can identify a feature directly from the rules.featws file, but keep in mind that its default type is **boolean**. If a feature needs a different type, remember to declare it in features.json file.
 
+#### Extended format
+
+There is another way to describe a feature, and it is using the extended format, like the example below.
+
+ ```
+		[age_4] 
+		condition = #age2 > 4
+		value = #age_2 + 2
+		type =integer 
+```
+
+You can describe the feature in a similar way it is expressed in features.json and parameter.json files. Note that you can use or not a condition to run your feature. In this case, `age_4` will only be processed if `#age_2` is greater than 4.
+
+
 ### parameters.json
 
 As the features.json, the parameters.json file is responsible for declaring variables. In this case, every information provided as an input needs to be declared in this file.
@@ -114,11 +128,13 @@ Feel free to use logical and mathematical operators, variables dependent on othe
     ```
 
 - To finish the project you just need to run on your local terminal the comand:
+
     ~~~shell
         # this command will generate the .grl file that will be interpreted
         # by our project "featws-ruller"
 
         npx featws-transpiler
+   ~~~
 
 ## Test Cases
 
