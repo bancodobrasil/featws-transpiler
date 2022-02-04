@@ -219,9 +219,16 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
 
     Object.keys(rulesPlain).forEach((feat) => {
       let rule = rulesPlain[feat];
+      console.log("rule", rule);
       if (typeof rule === "object") {
+        const condition = rule.condition;
         rule = rule.value;
+
+        if (typeof condition != "undefined") {
+          rule += ` ${condition}`;
+        }
       }
+      console.log("rule plain", rule);
       precedence[feat] = [];
       precedence[feat] = precedence[feat].concat(
         rule.match(/[#@](\w+)/g) || []
@@ -232,7 +239,7 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
       // console.log("Resolving precedences for", feat, rule, precedence[feat]);
     });
 
-    // console.log("precedence", precedence);
+    console.log("precedence", precedence);
     //exit()
     const calcOrder = {};
 

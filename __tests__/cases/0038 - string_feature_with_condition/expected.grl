@@ -10,7 +10,7 @@ rule DefaultValues salience 10000000 {
         Retract("DefaultValues");
 }
 
-rule feat_hatch salience 1001 {
+rule feat_hatch salience 1002 {
     when 
         true
     then
@@ -21,7 +21,7 @@ rule feat_hatch salience 1001 {
         Retract("feat_hatch");
 }
 
-rule feat_sedan salience 1000 {
+rule feat_sedan salience 1001 {
     when
         true
     then
@@ -43,7 +43,7 @@ rule feat_hatch_max_speed salience 1001 {
         Retract("feat_hatch_max_speed");
 }
 
-rule feat_sedan_max_speed salience 1001 {
+rule feat_sedan_max_speed salience 1000 {
     when
         processor.Boolean(result.GetBool("sedan") && ctx.GetFloat("horse_power") > 800)
     then

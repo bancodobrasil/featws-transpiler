@@ -32,7 +32,7 @@ rule DefaultValues salience 10000000 {
 
 rule feat_aprovado salience 1001 {
     when 
-        true 
+        true
     then
         ctx.Put("aprovado", processor.Boolean(!result.GetBool("menor_idade")));
         
@@ -43,7 +43,7 @@ rule feat_aprovado salience 1001 {
 
 rule feat_menor_idade salience 1002 {
     when 
-        true 
+        true
     then
         ctx.Put("menor_idade", processor.Boolean(!result.GetBool("maior_idade")));
         
@@ -54,7 +54,7 @@ rule feat_menor_idade salience 1002 {
 
 rule feat_maior_idade salience 1003 {
     when 
-        true 
+        true
     then
         ctx.Put("maior_idade", processor.Boolean(ctx.GetInt("idade") >= 18));
         
@@ -65,7 +65,7 @@ rule feat_maior_idade salience 1003 {
 
 rule feat_idoso salience 1003 {
     when 
-        true 
+        true
     then
         ctx.Put("idoso", processor.Boolean(ctx.GetInt("idade") >= 60));
         
@@ -76,7 +76,7 @@ rule feat_idoso salience 1003 {
 
 rule feat_idoso_piloto salience 1000 {
     when 
-        true 
+        true
     then
         ctx.Put("idoso_piloto", processor.Boolean(result.GetBool("idoso") && result.GetBool("mci_piloto")));
         
@@ -87,7 +87,7 @@ rule feat_idoso_piloto salience 1000 {
 
 rule feat_publico_alvo salience 1000 {
     when 
-        true 
+        true
     then
         ctx.Put("publico_alvo", processor.Boolean(result.GetBool("idoso") || result.GetBool("mci_piloto") || result.GetBool("mci_piloto2")));
         
@@ -98,7 +98,7 @@ rule feat_publico_alvo salience 1000 {
 
 rule feat_quarentao salience 1003 {
     when 
-        true 
+        true
     then
         ctx.Put("quarentao", processor.Boolean(ctx.GetInt("idade") >= 40 && ctx.GetInt("idade") <= 50));
         
@@ -109,7 +109,7 @@ rule feat_quarentao salience 1003 {
 
 rule feat_incapaz salience 1003 {
     when 
-        true 
+        true
     then
         ctx.Put("incapaz", processor.Boolean(ctx.GetInt("idade") < 12));
         
@@ -120,9 +120,9 @@ rule feat_incapaz salience 1003 {
 
 rule feat_idade_2 salience 1003 {
     when 
-        true 
+        true
     then
-        ctx.Put("idade_2", ctx.GetInt("idade") + 2 + "");
+        ctx.Put("idade_2", ctx.GetInt("idade") + 2);
         
         result.Put("idade_2", ctx.Get("idade_2"));
         
@@ -131,9 +131,9 @@ rule feat_idade_2 salience 1003 {
 
 rule feat_idade_4 salience 1002 {
     when 
-        true 
+        true
     then
-        ctx.Put("idade_4", result.GetInt("idade_2") + 2 + "");
+        ctx.Put("idade_4", result.GetInt("idade_2") + 2);
         
         result.Put("idade_4", ctx.Get("idade_4"));
         
@@ -142,7 +142,7 @@ rule feat_idade_4 salience 1002 {
 
 rule feat_mci_piloto_0_value salience 1003 {
     when 
-        true 
+        true
     then
         ctx.Put("mci_piloto_0_value", ctx.GetString("branch")+"/"+ctx.GetString("account") + "");
         
@@ -151,7 +151,7 @@ rule feat_mci_piloto_0_value salience 1003 {
 
 rule feat_mci_piloto_0 salience 1002 {
     when 
-        true 
+        true
     then
         ctx.Put("mci_piloto_0", processor.Boolean(processor.Contains(ctx.GetSlice("mci_piloto_0_entries"), ctx.Get("mci_piloto_0_value"))));
         
@@ -162,7 +162,7 @@ rule feat_mci_piloto_0 salience 1002 {
 
 rule feat_mci_piloto_1_value salience 1003 {
     when 
-        true 
+        true
     then
         ctx.Put("mci_piloto_1_value", ctx.GetString("branch") + "");
         
@@ -171,7 +171,7 @@ rule feat_mci_piloto_1_value salience 1003 {
 
 rule feat_mci_piloto_1 salience 1002 {
     when 
-        true 
+        true
     then
         ctx.Put("mci_piloto_1", processor.Boolean(processor.Contains(ctx.GetSlice("mci_piloto_1_entries"), ctx.Get("mci_piloto_1_value"))));
         
@@ -182,7 +182,7 @@ rule feat_mci_piloto_1 salience 1002 {
 
 rule feat_mci_piloto salience 1001 {
     when 
-        true 
+        true
     then
         ctx.Put("mci_piloto", processor.Boolean(result.GetBool("mci_piloto_0") || result.GetBool("mci_piloto_1")));
         
@@ -193,7 +193,7 @@ rule feat_mci_piloto salience 1001 {
 
 rule feat_mci_piloto2_0_value salience 1003 {
     when 
-        true 
+        true
     then
         ctx.Put("mci_piloto2_0_value", ctx.GetString("branch")+"/"+ctx.GetString("account") + "");
         
@@ -202,7 +202,7 @@ rule feat_mci_piloto2_0_value salience 1003 {
 
 rule feat_mci_piloto2_0 salience 1002 {
     when 
-        true 
+        true
     then
         ctx.Put("mci_piloto2_0", processor.Boolean(processor.Contains(ctx.GetSlice("mci_piloto2_0_entries"), ctx.Get("mci_piloto2_0_value"))));
         
@@ -213,7 +213,7 @@ rule feat_mci_piloto2_0 salience 1002 {
 
 rule feat_mci_piloto2_1_value salience 1003 {
     when 
-        true 
+        true
     then
         ctx.Put("mci_piloto2_1_value", ctx.GetString("branch") + "");
         
@@ -222,7 +222,7 @@ rule feat_mci_piloto2_1_value salience 1003 {
 
 rule feat_mci_piloto2_1 salience 1002 {
     when 
-        true 
+        true
     then
         ctx.Put("mci_piloto2_1", processor.Boolean(processor.Contains(ctx.GetSlice("mci_piloto2_1_entries"), ctx.Get("mci_piloto2_1_value"))));
         
@@ -233,7 +233,7 @@ rule feat_mci_piloto2_1 salience 1002 {
 
 rule feat_mci_piloto2 salience 1001 {
     when 
-        true 
+        true
     then
         ctx.Put("mci_piloto2", processor.Boolean(result.GetBool("mci_piloto2_0") || result.GetBool("mci_piloto2_1")));
         
