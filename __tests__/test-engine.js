@@ -35,7 +35,7 @@ cases.filter(entry => fs.lstatSync(path.join(cases_dir, entry)).isDirectory()).m
             const generated = grlNormalize(fs.readFileSync(path.join(cases_dir, dir, "rules.grl")).toString());
             //fs.unlinkSync(path.join(cases_dir, dir, "rules.grl"));
             //console.log("Asserting test >> ", dir);
-            return expect(expected).toStrictEqual(generated);
+            return expect(generated).toStrictEqual(expected);
         }
     });
 });

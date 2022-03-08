@@ -159,7 +159,7 @@ We use this file to make sure the transpiler generated the rules.grl correctly. 
 `processor.Boolean(ctx.GetInt("mynumber") < 12` at test 0001.
 `processor.Boolean(result.GetBool("mygroup"))` at test 0003.
 `processor.Boolean(ctx.GetString("gender") == "F"` at test 0004.
-`ctx.GetInt("age") * ctx.GetInt("age") + ""` at test 0025.
+`ctx.GetInt("age") * ctx.GetInt("age")` at test 0025.
 You can check more exemples inside test cases folder.
 
 5. This line saves the result in the features variable.

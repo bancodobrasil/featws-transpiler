@@ -144,7 +144,7 @@ rule feat_mci_piloto_0_value salience 1003 {
     when 
         true
     then
-        ctx.Put("mci_piloto_0_value", ctx.GetString("branch")+"/"+ctx.GetString("account") + "");
+        ctx.Put("mci_piloto_0_value", ctx.GetString("branch")+"/"+ctx.GetString("account"));
         
         Retract("feat_mci_piloto_0_value");
 }
@@ -164,7 +164,7 @@ rule feat_mci_piloto_1_value salience 1003 {
     when 
         true
     then
-        ctx.Put("mci_piloto_1_value", ctx.GetString("branch") + "");
+        ctx.Put("mci_piloto_1_value", ctx.GetString("branch"));
         
         Retract("feat_mci_piloto_1_value");
 }
@@ -195,7 +195,7 @@ rule feat_mci_piloto2_0_value salience 1003 {
     when 
         true
     then
-        ctx.Put("mci_piloto2_0_value", ctx.GetString("branch")+"/"+ctx.GetString("account") + "");
+        ctx.Put("mci_piloto2_0_value", ctx.GetString("branch")+"/"+ctx.GetString("account"));
         
         Retract("feat_mci_piloto2_0_value");
 }
@@ -215,7 +215,7 @@ rule feat_mci_piloto2_1_value salience 1003 {
     when 
         true
     then
-        ctx.Put("mci_piloto2_1_value", ctx.GetString("branch") + "");
+        ctx.Put("mci_piloto2_1_value", ctx.GetString("branch"));
         
         Retract("feat_mci_piloto2_1_value");
 }

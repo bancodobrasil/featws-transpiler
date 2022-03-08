@@ -54,7 +54,9 @@ const compile = (expression, options) => {
   }
 
   if (options.outputType === "string") {
-    expression = `${expression} + ""`;
+    if (!expression.startsWith('"') && !expression.startsWith("ctx.")){
+      expression = `"${expression}"`;
+    }
   } if (
     (options.outputType === "integer") |
     (options.outputType === "decimal")

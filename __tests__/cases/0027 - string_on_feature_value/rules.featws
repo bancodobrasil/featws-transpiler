@@ -1,0 +1,7 @@
+maior_idade = $idade >= 18
+menor_idade = !#maior_idade
+funcionalidade_ativa = #maior_idade
+[menu_1]
+condition = #funcionalidade_ativa
+type = string
+value = "/novousuarios/listar"

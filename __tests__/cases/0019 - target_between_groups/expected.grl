@@ -79,7 +79,7 @@ rule feat_specific_code_0_value salience 1003 {
     when
         true
     then
-        ctx.Put("specific_code_0_value", ctx.GetString("target_code")+"/"+ctx.GetString("year") + "");
+        ctx.Put("specific_code_0_value", ctx.GetString("target_code")+"/"+ctx.GetString("year"));
 
         Retract("feat_specific_code_0_value");
 }
@@ -110,7 +110,7 @@ rule feat_transation_code_0_value salience 1003 {
     when
         true
     then
-        ctx.Put("transation_code_0_value", ctx.GetString("transation_code")+"/"+ctx.GetString("year") + "");
+        ctx.Put("transation_code_0_value", ctx.GetString("transation_code")+"/"+ctx.GetString("year"));
 
         Retract("feat_transation_code_0_value");
 }

@@ -64,7 +64,7 @@ rule feat_south_brazil_0_value salience 1004 {
     when 
         true 
     then
-        ctx.Put("south_brazil_0_value", "south_brazil" + "");
+        ctx.Put("south_brazil_0_value", "south_brazil");
         
         Retract("feat_south_brazil_0_value");
 }

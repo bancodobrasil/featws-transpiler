@@ -31,7 +31,7 @@ rule feat_client_occupation_0_value salience 1003 {
     when 
         true
     then
-        ctx.Put("client_occupation_0_value", "client_occupation" + "");
+        ctx.Put("client_occupation_0_value", "client_occupation");
 
         Retract("feat_client_occupation_0_value");
 }

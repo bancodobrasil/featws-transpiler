@@ -44,7 +44,7 @@ rule feat_car_group_0_value salience 1003 {
     when
         true
     then
-        ctx.Put("car_group_0_value", "model" + "");
+        ctx.Put("car_group_0_value", "model");
 
         Retract("feat_car_group_0_value");
 }
@@ -64,7 +64,7 @@ rule feat_car_group_1_value salience 1003 {
     when
         true
     then
-        ctx.Put("car_group_1_value", "ports" + "");
+        ctx.Put("car_group_1_value", "ports");
 
         Retract("feat_car_group_1_value");
 }

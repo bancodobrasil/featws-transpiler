@@ -42,7 +42,7 @@ rule feat_simple_group_0_value salience 1003 {
     when
         true
     then
-        ctx.Put("simple_group_0_value", ctx.GetString("occupations") + "");
+        ctx.Put("simple_group_0_value", ctx.GetString("occupations"));
 
         Retract("feat_simple_group_0_value");
 }

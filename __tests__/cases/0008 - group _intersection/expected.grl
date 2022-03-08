@@ -62,7 +62,7 @@ rule feat_mygroup_0_value salience 1004 {
     when 
         true
     then
-        ctx.Put("mygroup_0_value", ctx.GetString("name")+"-"+ctx.GetInt("age") + "");
+        ctx.Put("mygroup_0_value", ctx.GetString("name")+"-"+ctx.GetInt("age"));
 
         Retract("feat_mygroup_0_value");
 }

@@ -1,0 +1,53 @@
+rule DefaultValues salience 10000000 {
+    when 
+        true
+    then
+    
+        result.Put("maior_idade", "true");
+    
+        Retract("DefaultValues");
+}
+
+rule feat_maior_idade salience 1002 {
+    when 
+        true
+    then
+        ctx.Put("maior_idade", processor.Boolean(ctx.GetInt("idade") >= 18));
+        
+        result.Put("maior_idade", ctx.Get("maior_idade"));
+        
+        Retract("feat_maior_idade");
+}
+
+rule feat_menor_idade salience 1001 {
+    when 
+        true
+    then
+        ctx.Put("menor_idade", processor.Boolean(!result.GetBool("maior_idade")));
+        
+        result.Put("menor_idade", ctx.Get("menor_idade"));
+        
+        Retract("feat_menor_idade");
+}
+
+rule feat_funcionalidade_ativa salience 1001 {
+    when 
+        true
+    then
+        ctx.Put("funcionalidade_ativa", processor.Boolean(result.GetBool("maior_idade")));
+        
+        result.Put("funcionalidade_ativa", ctx.Get("funcionalidade_ativa"));
+        
+        Retract("feat_funcionalidade_ativa");
+}
+
+rule feat_menu_1 salience 1000 {
+    when 
+        processor.Boolean(result.GetBool("funcionalidade_ativa"))
+    then
+        ctx.Put("menu_1", "/novousuarios/listar");
+        
+        result.Put("menu_1", ctx.Get("menu_1"));
+        
+        Retract("feat_menu_1");
+}

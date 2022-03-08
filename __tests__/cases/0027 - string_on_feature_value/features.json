@@ -1,0 +1,11 @@
+[
+    {
+        "name": "maior_idade",
+        "type": "boolean",
+        "default": "true"
+    },
+    {
+        "name": "funcionalidade_ativa",
+        "type": "boolean"
+    }
+]
