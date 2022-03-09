@@ -32,7 +32,7 @@ rule feat_<%=feat.name%> salience <%=feat.precedence%> {
     then
         ctx.Put("<%=feat.name%>", <%-feat.expression%>);
         <% if(feat.result) { %>
-        result.Put("<%=feat.name%>", ctx.Get("<%=feat.name%>"));
+        result.Put("<%=feat.name%>", ctx.<%=feat.accessMethod%>("<%=feat.name%>"));
         <% } %>
         Retract("feat_<%=feat.name%>");
 }

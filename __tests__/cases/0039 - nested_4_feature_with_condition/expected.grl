@@ -12,7 +12,7 @@ rule feat_myfeat_2 salience 1004 {
     then
         ctx.Put("myfeat_2", ctx.GetInt("mynumber") + 2);
         
-        result.Put("myfeat_2", ctx.Get("myfeat_2"));
+        result.Put("myfeat_2", ctx.GetInt("myfeat_2"));
         
         Retract("feat_myfeat_2");
 }
@@ -23,7 +23,7 @@ rule feat_myfeat_4 salience 1003 {
     then
         ctx.Put("myfeat_4", result.GetInt("myfeat_2") + 2);
         
-        result.Put("myfeat_4", ctx.Get("myfeat_4"));
+        result.Put("myfeat_4", ctx.GetInt("myfeat_4"));
         
         Retract("feat_myfeat_4");
 }
@@ -34,7 +34,7 @@ rule feat_myfeat_6 salience 1002 {
     then
         ctx.Put("myfeat_6", result.GetInt("myfeat_4") + 2);
         
-        result.Put("myfeat_6", ctx.Get("myfeat_6"));
+        result.Put("myfeat_6", ctx.GetInt("myfeat_6"));
         
         Retract("feat_myfeat_6");
 }
@@ -45,7 +45,7 @@ rule feat_myfeat_8 salience 1001 {
     then
         ctx.Put("myfeat_8", result.GetInt("myfeat_6") + 2);
         
-        result.Put("myfeat_8", ctx.Get("myfeat_8"));
+        result.Put("myfeat_8", ctx.GetInt("myfeat_8"));
         
         Retract("feat_myfeat_8");
 }
@@ -56,7 +56,7 @@ rule feat_myfeat salience 1000 {
     then
         ctx.Put("myfeat", ctx.GetInt("mynumber"));
         
-        result.Put("myfeat", ctx.Get("myfeat"));
+        result.Put("myfeat", ctx.GetInt("myfeat"));
         
         Retract("feat_myfeat");
 }

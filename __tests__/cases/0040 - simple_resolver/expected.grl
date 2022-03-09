@@ -22,7 +22,7 @@ rule feat_myfeat salience 1000 {
     then
         ctx.Put("myfeat", ctx.GetString("weather") + "");
         
-        result.Put("myfeat", ctx.Get("myfeat"));
+        result.Put("myfeat", ctx.GetString("myfeat"));
         
         Retract("feat_myfeat");
 }
