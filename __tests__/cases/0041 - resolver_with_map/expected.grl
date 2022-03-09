@@ -1,0 +1,28 @@
+rule DefaultValues salience 10000000 {
+    when 
+        true
+    then
+    
+        Retract("DefaultValues");
+}
+
+rule RemoteLoaded salience 10000000 {
+    when 
+        true
+    then
+    
+        ctx.RegistryRemoteLoaded("weather", "climatempo");
+     
+        Retract("RemoteLoaded");
+}
+
+rule feat_condition salience 1000 {
+    when 
+        true
+    then
+        ctx.Put("condition", ctx.GetMap("weather").GetMap("data").GetString("condition") + "");
+        
+        result.Put("condition", ctx.Get("condition"));
+        
+        Retract("feat_condition");
+}

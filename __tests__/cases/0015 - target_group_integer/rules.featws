@@ -1,4 +1,4 @@
 young = $age >= 20 && $age <= 45
 old = &age >= 46
 southern_old = #old && @south_brazil
-southern_young = !#southern_old
+southern_young = !#southern_old::boolean

@@ -53,7 +53,7 @@ rule feat_southern_female salience 1000 {
     when 
         true 
     then
-        ctx.Put("southern_female", processor.Boolean(!result.GetInt("southern_male")));
+        ctx.Put("southern_female", processor.Boolean(!result.GetBool("southern_male")));
         
         result.Put("southern_female", ctx.Get("southern_female"));
         

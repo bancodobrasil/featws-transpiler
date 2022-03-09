@@ -79,7 +79,7 @@ rule feat_southern_male_young salience 1000 {
     when 
         true 
     then
-        ctx.Put("southern_male_young", processor.Boolean(!result.GetInt("southern_male_old")));
+        ctx.Put("southern_male_young", processor.Boolean(!result.GetBool("southern_male_old")));
         
         result.Put("southern_male_young", ctx.Get("southern_male_young"));
         
@@ -101,7 +101,7 @@ rule feat_southern_female_young salience 1000 {
     when 
         true 
     then
-        ctx.Put("southern_female_young", processor.Boolean(!result.GetInt("southern_female_old")));
+        ctx.Put("southern_female_young", processor.Boolean(!result.GetBool("southern_female_old")));
         
         result.Put("southern_female_young", ctx.Get("southern_female_young"));
         

@@ -1,0 +1,8 @@
+[
+    {
+        "name": "condition",
+        "type": "string",
+        "expires": "1h",
+        "fallback": false
+    }
+]
