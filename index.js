@@ -307,6 +307,7 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
 
     const grl = await ejs.renderFile(__dirname + "/resources/rules.ejs", {
       groups,
+      remoteLoadeds : parameters.filter(p => !!p.resolver),
       defaultValues: features
         .map((feat) => ({
           name: feat.name,

@@ -1,0 +1,11 @@
+[
+    {
+        "name": "locale",
+        "type": "string"
+    },
+    {
+        "name": "weather",
+        "type": "string",
+        "resolver": "climatempo"
+    }
+]

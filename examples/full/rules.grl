@@ -30,6 +30,16 @@ rule DefaultValues salience 10000000 {
         Retract("DefaultValues");
 }
 
+rule RemoteLoaded salience 10000000 {
+    when 
+        true
+    then
+    
+        ctx.RegistryRemoteLoaded("idade", "dados-cliente");
+     
+        Retract("RemoteLoaded");
+}
+
 rule feat_aprovado salience 1001 {
     when 
         true

@@ -1,0 +1,8 @@
+[
+    {
+        "name": "myfeat",
+        "type": "string",
+        "expires": "1h",
+        "fallback": false
+    }
+]
