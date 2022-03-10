@@ -22,7 +22,7 @@ rule feat_male salience 1004 {
     then
         ctx.Put("male", processor.Boolean(ctx.GetString("sex") == "M"));
         
-        result.Put("male", ctx.Get("male"));
+        result.Put("male", ctx.GetBool("male"));
         
         Retract("feat_male");
 }
@@ -33,7 +33,7 @@ rule feat_female salience 1003 {
     then
         ctx.Put("female", processor.Boolean(!result.GetBool("male")));
         
-        result.Put("female", ctx.Get("female"));
+        result.Put("female", ctx.GetBool("female"));
         
         Retract("feat_female");
 }
@@ -44,7 +44,7 @@ rule feat_southern_male salience 1001 {
     then
         ctx.Put("southern_male", processor.Boolean(result.GetBool("male") && result.GetBool("south_brazil")));
         
-        result.Put("southern_male", ctx.Get("southern_male"));
+        result.Put("southern_male", ctx.GetBool("southern_male"));
         
         Retract("feat_southern_male");
 }
@@ -55,7 +55,7 @@ rule feat_southern_female salience 1000 {
     then
         ctx.Put("southern_female", processor.Boolean(!result.GetBool("southern_male")));
         
-        result.Put("southern_female", ctx.Get("southern_female"));
+        result.Put("southern_female", ctx.GetBool("southern_female"));
         
         Retract("feat_southern_female");
 }
@@ -75,7 +75,7 @@ rule feat_south_brazil_0 salience 1003 {
     then
         ctx.Put("south_brazil_0", processor.Boolean(processor.Contains(ctx.GetSlice("south_brazil_0_entries"), ctx.Get("south_brazil_0_value"))));
         
-        result.Put("south_brazil_0", ctx.Get("south_brazil_0"));
+        result.Put("south_brazil_0", ctx.GetBool("south_brazil_0"));
         
         Retract("feat_south_brazil_0");
 }
@@ -86,7 +86,7 @@ rule feat_south_brazil salience 1002 {
     then
         ctx.Put("south_brazil", processor.Boolean(result.GetBool("south_brazil_0")));
         
-        result.Put("south_brazil", ctx.Get("south_brazil"));
+        result.Put("south_brazil", ctx.GetBool("south_brazil"));
         
         Retract("feat_south_brazil");
 }

@@ -22,7 +22,7 @@ rule feat_maior_de_idade salience 1001 {
     then
         ctx.Put("maior_de_idade", processor.Boolean(!result.GetBool("menor_de_idade")));
 
-        result.Put("maior_de_idade", ctx.Get("maior_de_idade"));
+        result.Put("maior_de_idade", ctx.GetBool("maior_de_idade"));
 
         Retract("feat_maior_de_idade");
 }
@@ -33,7 +33,7 @@ rule feat_menor_de_idade salience 1002 {
     then
         ctx.Put("menor_de_idade", processor.Boolean(ctx.GetInt("idade") <= 18));
 
-        result.Put("menor_de_idade", ctx.Get("menor_de_idade"));
+        result.Put("menor_de_idade", ctx.GetBool("menor_de_idade"));
 
         Retract("feat_menor_de_idade");
 }
@@ -44,7 +44,7 @@ rule feat_crianca salience 1002 {
     then
         ctx.Put("crianca", processor.Boolean(ctx.GetInt("idade") <= 10));
 
-        result.Put("crianca", ctx.Get("crianca"));
+        result.Put("crianca", ctx.GetBool("crianca"));
 
         Retract("feat_crianca");
 }
@@ -55,7 +55,7 @@ rule feat_adolescente salience 1001 {
     then
         ctx.Put("adolescente", processor.Boolean(!result.GetBool("crianca")));
 
-        result.Put("adolescente", ctx.Get("adolescente"));
+        result.Put("adolescente", ctx.GetBool("adolescente"));
 
         Retract("feat_adolescente");
 }
@@ -66,7 +66,7 @@ rule feat_adulto salience 1000 {
     then
         ctx.Put("adulto", processor.Boolean(!result.GetBool("crianca") && !result.GetBool("adolescente")));
 
-        result.Put("adulto", ctx.Get("adulto"));
+        result.Put("adulto", ctx.GetBool("adulto"));
 
         Retract("feat_adulto");
 }

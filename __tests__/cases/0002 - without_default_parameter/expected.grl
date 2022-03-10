@@ -12,7 +12,7 @@ rule feat_myboolfeat salience 1000 {
     then
         ctx.Put("myboolfeat", processor.Boolean(ctx.GetInt("mynumber") < 12));
         
-        result.Put("myboolfeat", ctx.Get("myboolfeat"));
+        result.Put("myboolfeat", ctx.GetBool("myboolfeat"));
         
         Retract("feat_myboolfeat");
 }

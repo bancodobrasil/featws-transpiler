@@ -12,7 +12,7 @@ rule feat_positivo salience 1000 {
     then
         ctx.Put("positivo", processor.Boolean(ctx.GetFloat("saldo") > 0));
         
-        result.Put("positivo", ctx.Get("positivo"));
+        result.Put("positivo", ctx.GetBool("positivo"));
         
         Retract("feat_positivo");
 }
