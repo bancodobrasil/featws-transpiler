@@ -1,0 +1,20 @@
+[
+    {
+        "name": "mymci",
+        "type": "string",
+        "expires": "1h",
+        "fallback": false
+    },
+    {
+        "name": "myage",
+        "type": "integer",
+        "expires": "1h",
+        "fallback": false
+    },
+    {
+        "name": "quarentao",
+        "type": "boolean",
+        "expires": "1h",
+        "fallback": false
+    }
+]

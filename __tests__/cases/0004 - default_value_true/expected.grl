@@ -16,7 +16,7 @@ rule feat_female salience 1001 {
     then
         ctx.Put("female", processor.Boolean(ctx.GetString("gender") == "F"));
         
-        result.Put("female", ctx.Get("female"));
+        result.Put("female", ctx.GetBool("female"));
         
         Retract("feat_female");
 }
@@ -27,7 +27,7 @@ rule feat_male salience 1000 {
     then
         ctx.Put("male", processor.Boolean(!result.GetBool("female")));
 
-        result.Put("male", ctx.Get("male"));
+        result.Put("male", ctx.GetBool("male"));
 
         Retract("feat_male");
 }

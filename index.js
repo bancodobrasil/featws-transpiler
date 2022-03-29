@@ -4,9 +4,9 @@ const ejs = require("ejs");
 
 const compile = (expression, options) => {
   // console.log("Compile Expression BEGIN:", expression, options);
-  expression = expression.replace(/([$#%@])(\w+)/g, (_, scope, entryname) => {
+  expression = expression.replace(/([$#%@])(\w+)((\.?\w+)*)(::(\w+))?/g, (all, scope, entryname, params) => {
     let source = "";
-    let type = "integer";
+    let type = "";
 
     if (scope === "@") scope = "#";
 
@@ -29,13 +29,19 @@ const compile = (expression, options) => {
       return `processor.Contains(ctx.GetSlice("${entryname}_entries"), ctx.Get("${entryname}_value"))`;
     }
 
-    //if (source === "") throw Error("Not implemented source: " + scope);
+    if (source === "") throw Error("Not implemented source: " + scope);
+    
+    let typeCast = all.match(/::(\w+)$/)
+    if (typeCast) {
+      // console.log("typeCast", typeCast)
+      typeCast = typeCast[1]
+    }    
 
-    let accessMethod = "";
-    if (type === "string") accessMethod = "GetString";
-    if (type === "boolean") accessMethod = "GetBool";
-    if (type === "integer") accessMethod = "GetInt";
-    if (type === "decimal") accessMethod = "GetFloat";
+    if (!params && typeCast) {
+      type = typeCast
+    }
+
+    let accessMethod = resolveAccessMethod(type);
     if (accessMethod === "")
       throw Error(
         "Not implemented accessMethod: " +
@@ -46,18 +52,31 @@ const compile = (expression, options) => {
           })
       );
 
-    return `${source}.${accessMethod}("${entryname}")`;
+    let nestedAccess = ""
+    if (params) {
+      nestedAccess = params.replace(/\.(\w+)\./g,`.GetMap("$1").`)
+
+      let accessMethod = resolveAccessMethod(typeCast ? typeCast : "");
+
+      nestedAccess = nestedAccess.replace(/\.(\w+)$/, `.${accessMethod}("$1")`)
+      // console.log('params', params)
+    }
+
+    return `${source}.${accessMethod}("${entryname}")${nestedAccess}`;
   });
   //expression = expression.replace(/\#(\w+)/g, 'ctx.GetBool("$1")');
-  if (options.outputType === "boolean") {
+
+  let outputType = options.outputType
+
+  if (outputType === "boolean") {
     expression = expression === 'false' ? expression = `${expression}` : expression = `processor.Boolean(${expression})`;
   }
 
-  if (options.outputType === "string") {
+  if (outputType === "string") {
     expression = `${expression} + ""`;
   } if (
-    (options.outputType === "integer") |
-    (options.outputType === "decimal")
+    (outputType === "integer") |
+    (outputType === "decimal")
   )
   {
     expression = `${expression}`;
@@ -166,6 +185,21 @@ const compiler = async (dir) => {
     throw e;
   }
 };
+
+function resolveAccessMethod(type) {
+  let accessMethod = "Get";
+  if (type === "object")
+    accessMethod = "GetMap";
+  if (type === "string")
+    accessMethod = "GetString";
+  if (type === "boolean")
+    accessMethod = "GetBool";
+  if (type === "integer")
+    accessMethod = "GetInt";
+  if (type === "decimal")
+    accessMethod = "GetFloat";
+  return accessMethod;
+}
 
 async function compileGRL(rulesPlain, parameters, features, groups) {
   try {
@@ -307,6 +341,7 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
 
     const grl = await ejs.renderFile(__dirname + "/resources/rules.ejs", {
       groups,
+      remoteLoadeds : parameters.filter(p => !!p.resolver),
       defaultValues: features
         .map((feat) => ({
           name: feat.name,
@@ -335,6 +370,7 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
         
         return {
           name: feat,
+          accessMethod: resolveAccessMethod(outputType),
           condition: condition != 'true' ? compile(condition, {
             outputType: "boolean",
             parameters,

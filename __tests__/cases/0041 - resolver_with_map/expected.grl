@@ -1,0 +1,59 @@
+rule DefaultValues salience 10000000 {
+    when 
+        true
+    then
+    
+        Retract("DefaultValues");
+}
+
+rule RemoteLoaded salience 10000000 {
+    when 
+        true
+    then
+    
+        ctx.RegistryRemoteLoaded("weather", "climatempo");
+     
+        Retract("RemoteLoaded");
+}
+
+rule feat_condition salience 1001 {
+    when 
+        true
+    then
+        ctx.Put("condition", ctx.GetMap("weather").GetMap("data").GetString("condition") + "");
+        
+        result.Put("condition", ctx.GetString("condition"));
+        
+        Retract("feat_condition");
+}
+
+rule feat_humidity salience 1001 {
+    when 
+        true
+    then
+        ctx.Put("humidity", ctx.GetMap("weather").GetMap("data").GetFloat("humidity"));
+        
+        result.Put("humidity", ctx.GetFloat("humidity"));
+        
+        Retract("feat_humidity");
+}
+
+rule feat_pressure salience 1001 {
+    when 
+        true
+    then
+        ctx.Put("pressure", ctx.GetMap("weather").GetMap("data").GetFloat("pressure"));
+        
+        result.Put("pressure", ctx.GetFloat("pressure"));
+        
+        Retract("feat_pressure");
+}
+
+rule feat_humidity_warning salience 1000 {
+    when
+        true
+    then
+        ctx.Put("humidity_warning", processor.Boolean(result.GetFloat("humidity") < 60));
+        result.Put("humidity_warning", ctx.GetBool("humidity_warning"));
+        Retract("feat_humidity_warning");
+}

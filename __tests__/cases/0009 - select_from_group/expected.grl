@@ -22,7 +22,7 @@ rule feat_occupations salience 1000 {
     then
         ctx.Put("occupations", processor.Boolean(result.GetBool("client_occupation")));
 
-        result.Put("occupations", ctx.Get("occupations"));
+        result.Put("occupations", ctx.GetBool("occupations"));
         
         Retract("feat_occupations");
 }
@@ -42,7 +42,7 @@ rule feat_client_occupation_0 salience 1002 {
     then
         ctx.Put("client_occupation_0", processor.Boolean(processor.Contains(ctx.GetSlice("client_occupation_0_entries"), ctx.Get("client_occupation_0_value"))));
 
-        result.Put("client_occupation_0", ctx.Get("client_occupation_0"));
+        result.Put("client_occupation_0", ctx.GetBool("client_occupation_0"));
 
         Retract("feat_client_occupation_0");
 }
@@ -53,7 +53,7 @@ rule feat_client_occupation salience 1001 {
     then
         ctx.Put("client_occupation", processor.Boolean(result.GetBool("client_occupation_0")));
 
-        result.Put("client_occupation", ctx.Get("client_occupation"));
+        result.Put("client_occupation", ctx.GetBool("client_occupation"));
 
         Retract("feat_client_occupation");
 }

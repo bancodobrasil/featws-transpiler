@@ -14,7 +14,17 @@ rule DefaultValues salience 10000000 {
      }); %>
         Retract("DefaultValues");
 }
-<% featureRules.forEach(function(feat){ %>
+<% if (remoteLoadeds.length > 0) { %>
+rule RemoteLoaded salience 10000000 {
+    when 
+        true
+    then
+    <% remoteLoadeds.forEach(function(param){ %>
+        ctx.RegistryRemoteLoaded("<%=param.name%>", "<%=param.resolver%>");
+    <% }); %> 
+        Retract("RemoteLoaded");
+}
+<% } %><% featureRules.forEach(function(feat){ %>
 rule feat_<%=feat.name%> salience <%=feat.precedence%> {
     when <% if(feat.condition) { %>
         <%-feat.condition%><% } else { %>
@@ -22,7 +32,7 @@ rule feat_<%=feat.name%> salience <%=feat.precedence%> {
     then
         ctx.Put("<%=feat.name%>", <%-feat.expression%>);
         <% if(feat.result) { %>
-        result.Put("<%=feat.name%>", ctx.Get("<%=feat.name%>"));
+        result.Put("<%=feat.name%>", ctx.<%=feat.accessMethod%>("<%=feat.name%>"));
         <% } %>
         Retract("feat_<%=feat.name%>");
 }

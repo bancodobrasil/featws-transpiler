@@ -22,7 +22,7 @@ rule feat_occupation_group salience 1000 {
     then
         ctx.Put("occupation_group", processor.Boolean(result.GetBool("simple_group")));
         
-        result.Put("occupation_group", ctx.Get("occupation_group"));
+        result.Put("occupation_group", ctx.GetBool("occupation_group"));
         
         Retract("feat_occupation_group");
 }
@@ -33,7 +33,7 @@ rule feat_target_client salience 1003 {
     then
         ctx.Put("target_client", processor.Boolean(approved));
 
-        result.Put("target_client", ctx.Get("target_client"));
+        result.Put("target_client", ctx.GetBool("target_client"));
 
         Retract("feat_target_client");
 }
@@ -53,7 +53,7 @@ rule feat_simple_group_0 salience 1002 {
     then
         ctx.Put("simple_group_0", processor.Boolean(processor.Contains(ctx.GetSlice("simple_group_0_entries"), ctx.Get("simple_group_0_value"))));
 
-        result.Put("simple_group_0", ctx.Get("simple_group_0"));
+        result.Put("simple_group_0", ctx.GetBool("simple_group_0"));
 
         Retract("feat_simple_group_0");
 }
@@ -64,7 +64,7 @@ rule feat_simple_group salience 1001 {
     then
         ctx.Put("simple_group", processor.Boolean(result.GetBool("simple_group_0")));
 
-        result.Put("simple_group", ctx.Get("simple_group"));
+        result.Put("simple_group", ctx.GetBool("simple_group"));
 
         Retract("feat_simple_group");
 }

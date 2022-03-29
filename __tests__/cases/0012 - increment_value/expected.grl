@@ -16,7 +16,7 @@ rule feat_travel_1 salience 1001 {
     then
         ctx.Put("travel_1", ctx.GetInt("travel_distance") + 10);
         
-        result.Put("travel_1", ctx.Get("travel_1"));
+        result.Put("travel_1", ctx.GetInt("travel_1"));
         
         Retract("feat_travel_1");
 }
@@ -27,7 +27,7 @@ rule feat_travel_2 salience 1000 {
     then
         ctx.Put("travel_2", result.GetInt("travel_1") + 100);
         
-        result.Put("travel_2", ctx.Get("travel_2"));
+        result.Put("travel_2", ctx.GetInt("travel_2"));
         
         Retract("feat_travel_2");
 }
