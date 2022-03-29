@@ -20,7 +20,7 @@ rule feat_clientingroup salience 1000 {
     then
         ctx.Put("clientingroup", processor.Boolean(result.GetBool("mygroup")));
 
-        result.Put("clientingroup", ctx.Get("clientingroup"));
+        result.Put("clientingroup", ctx.GetBool("clientingroup"));
          
         Retract("feat_clientingroup");
 }
@@ -31,7 +31,7 @@ rule feat_low_income salience 1003 {
     then
         ctx.Put("low_income", processor.Boolean(ctx.GetInt("salary") <= 5000));
 
-        result.Put("low_income", ctx.Get("low_income"));
+        result.Put("low_income", ctx.GetBool("low_income"));
 
         Retract("feat_low_income");
 }
@@ -42,7 +42,7 @@ rule feat_high_income salience 1002 {
     then
         ctx.Put("high_income", processor.Boolean(!result.GetBool("low_income")));
 
-        result.Put("high_income", ctx.Get("high_income"));
+        result.Put("high_income", ctx.GetBool("high_income"));
 
         Retract("feat_high_income");
 }
@@ -62,7 +62,7 @@ rule feat_mygroup_0 salience 1002 {
     then
         ctx.Put("mygroup_0", processor.Boolean(processor.Contains(ctx.GetSlice("mygroup_0_entries"), ctx.Get("mygroup_0_value"))));
 
-        result.Put("mygroup_0", ctx.Get("mygroup_0"));
+        result.Put("mygroup_0", ctx.GetBool("mygroup_0"));
 
         Retract("feat_mygroup_0");
 }
@@ -73,7 +73,7 @@ rule feat_mygroup salience 1001 {
     then
         ctx.Put("mygroup", processor.Boolean(result.GetBool("mygroup_0")));
 
-        result.Put("mygroup", ctx.Get("mygroup"));
+        result.Put("mygroup", ctx.GetBool("mygroup"));
 
         Retract("feat_mygroup");
 }

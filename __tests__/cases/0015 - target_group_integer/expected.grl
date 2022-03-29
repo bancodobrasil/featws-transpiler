@@ -22,7 +22,7 @@ rule feat_young salience 1004 {
     then
         ctx.Put("young", processor.Boolean(ctx.GetInt("age") >= 20 && ctx.GetInt("age") <= 45));
         
-        result.Put("young", ctx.Get("young"));
+        result.Put("young", ctx.GetBool("young"));
         
         Retract("feat_young");
 }
@@ -33,7 +33,7 @@ rule feat_old salience 1004 {
     then
         ctx.Put("old", processor.Boolean(&age >= 46));
         
-        result.Put("old", ctx.Get("old"));
+        result.Put("old", ctx.GetBool("old"));
         
         Retract("feat_old");
 }
@@ -44,7 +44,7 @@ rule feat_southern_old salience 1001 {
     then
         ctx.Put("southern_old", processor.Boolean(result.GetBool("old") && result.GetBool("south_brazil")));
         
-        result.Put("southern_old", ctx.Get("southern_old"));
+        result.Put("southern_old", ctx.GetBool("southern_old"));
         
         Retract("feat_southern_old");
 }
@@ -55,7 +55,7 @@ rule feat_southern_young salience 1000 {
     then
         ctx.Put("southern_young", processor.Boolean(!result.GetBool("southern_old")));
         
-        result.Put("southern_young", ctx.Get("southern_young"));
+        result.Put("southern_young", ctx.GetBool("southern_young"));
         
         Retract("feat_southern_young");
 }
@@ -75,7 +75,7 @@ rule feat_south_brazil_0 salience 1003 {
     then
         ctx.Put("south_brazil_0", processor.Boolean(processor.Contains(ctx.GetSlice("south_brazil_0_entries"), ctx.Get("south_brazil_0_value"))));
         
-        result.Put("south_brazil_0", ctx.Get("south_brazil_0"));
+        result.Put("south_brazil_0", ctx.GetBool("south_brazil_0"));
         
         Retract("feat_south_brazil_0");
 }
@@ -86,7 +86,7 @@ rule feat_south_brazil salience 1002 {
     then
         ctx.Put("south_brazil", processor.Boolean(result.GetBool("south_brazil_0")));
         
-        result.Put("south_brazil", ctx.Get("south_brazil"));
+        result.Put("south_brazil", ctx.GetBool("south_brazil"));
         
         Retract("feat_south_brazil");
 }

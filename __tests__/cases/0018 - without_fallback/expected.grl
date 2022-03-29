@@ -16,7 +16,7 @@ rule feat_tall salience 1001 {
     then
         ctx.Put("tall", processor.Boolean(ctx.GetInt("height") >= 180));
         
-        result.Put("tall", ctx.Get("tall"));
+        result.Put("tall", ctx.GetBool("tall"));
         
         Retract("feat_tall");
 }
@@ -27,7 +27,7 @@ rule feat_short salience 1000 {
     then
         ctx.Put("short", processor.Boolean(!result.GetBool("tall")));
 
-        result.Put("short", ctx.Get("short"));
+        result.Put("short", ctx.GetBool("short"));
 
         Retract("feat_short");
 }

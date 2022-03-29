@@ -187,7 +187,7 @@ const compiler = async (dir) => {
 };
 
 function resolveAccessMethod(type) {
-  let accessMethod = "";
+  let accessMethod = "Get";
   if (type === "object")
     accessMethod = "GetMap";
   if (type === "string")
@@ -198,8 +198,6 @@ function resolveAccessMethod(type) {
     accessMethod = "GetInt";
   if (type === "decimal")
     accessMethod = "GetFloat";
-  if (type === "")
-    accessMethod = "Get";
   return accessMethod;
 }
 
@@ -372,6 +370,7 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
         
         return {
           name: feat,
+          accessMethod: resolveAccessMethod(outputType),
           condition: condition != 'true' ? compile(condition, {
             outputType: "boolean",
             parameters,

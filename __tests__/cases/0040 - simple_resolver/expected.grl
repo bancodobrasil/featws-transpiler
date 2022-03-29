@@ -11,18 +11,42 @@ rule RemoteLoaded salience 10000000 {
         true
     then
     
-        ctx.RegistryRemoteLoaded("weather", "climatempo");
+        ctx.RegistryRemoteLoaded("mci", "datacontroller");
+    
+        ctx.RegistryRemoteLoaded("age", "datacontroller");
      
         Retract("RemoteLoaded");
 }
 
-rule feat_myfeat salience 1000 {
+rule feat_mymci salience 1000 {
     when 
         true
     then
-        ctx.Put("myfeat", ctx.GetString("weather") + "");
+        ctx.Put("mymci", ctx.GetString("mci") + "");
         
-        result.Put("myfeat", ctx.Get("myfeat"));
+        result.Put("mymci", ctx.GetString("mymci"));
         
-        Retract("feat_myfeat");
+        Retract("feat_mymci");
+}
+
+rule feat_quarentao salience 1000 {
+    when 
+        true
+    then
+        ctx.Put("quarentao", processor.Boolean(ctx.GetInt("age") >= 40 && ctx.GetInt("age") < 50));
+        
+        result.Put("quarentao", ctx.GetBool("quarentao"));
+        
+        Retract("feat_quarentao");
+}
+
+rule feat_myage salience 1000 {
+    when 
+        true
+    then
+        ctx.Put("myage", ctx.GetInt("age"));
+        
+        result.Put("myage", ctx.GetInt("myage"));
+        
+        Retract("feat_myage");
 }

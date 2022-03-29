@@ -12,7 +12,7 @@ rule feat_myfeat salience 1001 {
     then
         ctx.Put("myfeat", ctx.GetInt("mynumber") + 12);
         
-        result.Put("myfeat", ctx.Get("myfeat"));
+        result.Put("myfeat", ctx.GetInt("myfeat"));
         
         Retract("feat_myfeat");
 }
@@ -23,7 +23,7 @@ rule feat_myfeat2 salience 1000 {
     then
         ctx.Put("myfeat2", processor.Boolean(ctx.GetInt("myothernumber") >= result.GetInt("myfeat")));
 
-        result.Put("myfeat2", ctx.Get("myfeat2"));
+        result.Put("myfeat2", ctx.GetBool("myfeat2"));
 
         Retract("feat_myfeat2");
 }

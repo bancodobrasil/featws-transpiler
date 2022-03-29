@@ -16,7 +16,7 @@ rule feat_low_speed salience 1001 {
     then
         ctx.Put("low_speed", processor.Boolean(ctx.GetInt("speed") > 0 && ctx.GetInt("speed") < 40));
         
-        result.Put("low_speed", ctx.Get("low_speed"));
+        result.Put("low_speed", ctx.GetBool("low_speed"));
         
         Retract("feat_low_speed");
 }
@@ -27,7 +27,7 @@ rule feat_high_speed salience 1000 {
     then
         ctx.Put("high_speed", processor.Boolean(!result.GetBool("low_speed")));
 
-        result.Put("high_speed", ctx.Get("high_speed"));
+        result.Put("high_speed", ctx.GetBool("high_speed"));
 
         Retract("feat_high_speed");
 }

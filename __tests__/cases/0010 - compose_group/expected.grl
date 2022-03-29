@@ -30,7 +30,7 @@ rule feat_integer salience 1000 {
     then
         ctx.Put("integer", processor.Boolean(result.GetBool("integer_group")));
 
-        result.Put("integer", ctx.Get("integer"));
+        result.Put("integer", ctx.GetBool("integer"));
          
         Retract("feat_integer");
 }
@@ -41,7 +41,7 @@ rule feat_string salience 1000 {
     then
         ctx.Put("string", processor.Boolean(result.GetBool("string_group")));
 
-        result.Put("string", ctx.Get("string"));
+        result.Put("string", ctx.GetBool("string"));
          
         Retract("feat_string");
 }
@@ -61,7 +61,7 @@ rule feat_integer_group_0 salience 1002 {
     then
         ctx.Put("integer_group_0", processor.Boolean(processor.Contains(ctx.GetSlice("integer_group_0_entries"), ctx.Get("integer_group_0_value"))));
 
-        result.Put("integer_group_0", ctx.Get("integer_group_0"));
+        result.Put("integer_group_0", ctx.GetBool("integer_group_0"));
 
         Retract("feat_integer_group_0");
 }
@@ -72,7 +72,7 @@ rule feat_integer_group salience 1001 {
     then
         ctx.Put("integer_group", processor.Boolean(result.GetBool("integer_group_0")));
 
-        result.Put("integer_group", ctx.Get("integer_group"));
+        result.Put("integer_group", ctx.GetBool("integer_group"));
 
         Retract("feat_integer_group");
 }
@@ -92,7 +92,7 @@ rule feat_string_group_0 salience 1002 {
     then
         ctx.Put("string_group_0", processor.Boolean(processor.Contains(ctx.GetSlice("string_group_0_entries"), ctx.Get("string_group_0_value"))));
 
-        result.Put("string_group_0", ctx.Get("string_group_0"));
+        result.Put("string_group_0", ctx.GetBool("string_group_0"));
 
         Retract("feat_string_group_0");
 }
@@ -103,7 +103,7 @@ rule feat_string_group salience 1001 {
     then
         ctx.Put("string_group", processor.Boolean(result.GetBool("string_group_0")));
 
-        result.Put("string_group", ctx.Get("string_group"));
+        result.Put("string_group", ctx.GetBool("string_group"));
 
         Retract("feat_string_group");
 }
