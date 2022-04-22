@@ -1,10 +1,10 @@
 [
     {
-        "name": "mynumbers",
-        "type": "number"
+        "name": "mynumber",
+        "type": "integer"
     },
     {
-        "name": "mystrings",
+        "name": "mystring",
         "type": "string"
     }
 ]

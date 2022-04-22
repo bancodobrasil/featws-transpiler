@@ -50,7 +50,7 @@ rule feat_integer_group_0_value salience 1003 {
     when
         true
     then
-        ctx.Put("integer_group_0_value", "mynumbers" + "");
+        ctx.Put("integer_group_0_value", ctx.GetInt("mynumber") + "");
 
         Retract("feat_integer_group_0_value");
 }
@@ -81,7 +81,7 @@ rule feat_string_group_0_value salience 1003 {
     when
         true
     then
-        ctx.Put("string_group_0_value", "mystrings" + "");
+        ctx.Put("string_group_0_value", ctx.GetString("mystring") + "");
 
         Retract("feat_string_group_0_value");
 }
