@@ -4,7 +4,11 @@
         "type": "integer"
     },
     {
-        "name": "south_brazil",
+        "name": "state",
+        "type": "string"
+    },
+    {
+        "name": "country",
         "type": "string"
     }
 ]

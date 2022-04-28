@@ -1,0 +1,10 @@
+clientingroup = @mygroup
+clientinmcigroup = @mymcigroup
+myage = $age
+mymci = $mci
+menoridade = $age < 18
+aprovado = !#menoridade
+myresult = $mynumber + 10
+myresult2 = #myresult + 15
+quarentao = #myage >= 40 && #myage < 50
+publico_alvo = #quarentao

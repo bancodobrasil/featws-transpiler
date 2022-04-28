@@ -1,3 +1,4 @@
 {
-    "south_brazil": ["PR", "SC", "RS"]
+    "{$state}": ["PR", "SC", "RS"],
+    "{$country}": ["BR"]
 }

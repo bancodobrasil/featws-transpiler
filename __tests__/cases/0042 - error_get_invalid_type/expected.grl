@@ -1,0 +1,205 @@
+rule DefaultValues salience 10000000 {
+    when 
+        true
+    then
+    
+        result.Put("clientingroup", "false");
+    
+        result.Put("menoridade", "false");
+    
+        result.Put("clientinmcigroup", "false");
+    
+        result.Put("myresult", "false");
+    
+        result.Put("myresult2", "false");
+    
+        ctx.AddItem("mygroup_0_entries", "00000/00000000");
+    
+        ctx.AddItem("mymcigroup_0_entries", "798962783");
+    
+        Retract("DefaultValues");
+}
+
+rule RemoteLoaded salience 10000000 {
+    when 
+        true
+    then
+    
+        ctx.RegistryRemoteLoaded("age", "datacontroller");
+    
+        ctx.RegistryRemoteLoaded("mci", "datacontroller");
+     
+        Retract("RemoteLoaded");
+}
+
+rule feat_clientingroup salience 1000 {
+    when 
+        true
+    then
+        ctx.Put("clientingroup", processor.Boolean(result.GetBool("mygroup")));
+        
+        result.Put("clientingroup", ctx.GetBool("clientingroup"));
+        
+        Retract("feat_clientingroup");
+}
+
+rule feat_clientinmcigroup salience 1000 {
+    when 
+        true
+    then
+        ctx.Put("clientinmcigroup", processor.Boolean(result.GetBool("mymcigroup")));
+        
+        result.Put("clientinmcigroup", ctx.GetBool("clientinmcigroup"));
+        
+        Retract("feat_clientinmcigroup");
+}
+
+rule feat_myage salience 1003 {
+    when 
+        true
+    then
+        ctx.Put("myage", ctx.GetString("age"));
+        
+        result.Put("myage", ctx.GetInt("myage"));
+        
+        Retract("feat_myage");
+}
+
+rule feat_mymci salience 1003 {
+    when 
+        true
+    then
+        ctx.Put("mymci", ctx.GetString("mci") + "");
+        
+        result.Put("mymci", ctx.GetString("mymci"));
+        
+        Retract("feat_mymci");
+}
+
+rule feat_menoridade salience 1003 {
+    when 
+        true
+    then
+        ctx.Put("menoridade", processor.Boolean(ctx.GetString("age") < 18));
+        
+        result.Put("menoridade", ctx.GetBool("menoridade"));
+        
+        Retract("feat_menoridade");
+}
+
+rule feat_aprovado salience 1002 {
+    when 
+        true
+    then
+        ctx.Put("aprovado", processor.Boolean(!result.GetBool("menoridade")));
+        
+        result.Put("aprovado", ctx.GetBool("aprovado"));
+        
+        Retract("feat_aprovado");
+}
+
+rule feat_myresult salience 1003 {
+    when 
+        true
+    then
+        ctx.Put("myresult", ctx.GetInt("mynumber") + 10);
+        
+        result.Put("myresult", ctx.GetInt("myresult"));
+        
+        Retract("feat_myresult");
+}
+
+rule feat_myresult2 salience 1002 {
+    when 
+        true
+    then
+        ctx.Put("myresult2", result.GetInt("myresult") + 15);
+        
+        result.Put("myresult2", ctx.GetInt("myresult2"));
+        
+        Retract("feat_myresult2");
+}
+
+rule feat_quarentao salience 1002 {
+    when 
+        true
+    then
+        ctx.Put("quarentao", processor.Boolean(result.GetInt("myage") >= 40 && result.GetInt("myage") < 50));
+        
+        result.Put("quarentao", ctx.GetBool("quarentao"));
+        
+        Retract("feat_quarentao");
+}
+
+rule feat_publico_alvo salience 1001 {
+    when 
+        true
+    then
+        ctx.Put("publico_alvo", processor.Boolean(result.GetBool("quarentao")));
+        
+        result.Put("publico_alvo", ctx.GetBool("publico_alvo"));
+        
+        Retract("feat_publico_alvo");
+}
+
+rule feat_mygroup_0_value salience 1003 {
+    when 
+        true
+    then
+        ctx.Put("mygroup_0_value", ctx.GetString("branch")+"/"+ctx.GetString("account") + "");
+        
+        Retract("feat_mygroup_0_value");
+}
+
+rule feat_mygroup_0 salience 1002 {
+    when 
+        true
+    then
+        ctx.Put("mygroup_0", processor.Boolean(processor.Contains(ctx.GetSlice("mygroup_0_entries"), ctx.Get("mygroup_0_value"))));
+        
+        result.Put("mygroup_0", ctx.GetBool("mygroup_0"));
+        
+        Retract("feat_mygroup_0");
+}
+
+rule feat_mygroup salience 1001 {
+    when 
+        true
+    then
+        ctx.Put("mygroup", processor.Boolean(result.GetBool("mygroup_0")));
+        
+        result.Put("mygroup", ctx.GetBool("mygroup"));
+        
+        Retract("feat_mygroup");
+}
+
+rule feat_mymcigroup_0_value salience 1003 {
+    when 
+        true
+    then
+        ctx.Put("mymcigroup_0_value", ctx.GetString("mci") + "");
+        
+        Retract("feat_mymcigroup_0_value");
+}
+
+rule feat_mymcigroup_0 salience 1002 {
+    when 
+        true
+    then
+        ctx.Put("mymcigroup_0", processor.Boolean(processor.Contains(ctx.GetSlice("mymcigroup_0_entries"), ctx.Get("mymcigroup_0_value"))));
+        
+        result.Put("mymcigroup_0", ctx.GetBool("mymcigroup_0"));
+        
+        Retract("feat_mymcigroup_0");
+}
+
+rule feat_mymcigroup salience 1001 {
+    when 
+        true
+    then
+        ctx.Put("mymcigroup", processor.Boolean(result.GetBool("mymcigroup_0")));
+        
+        result.Put("mymcigroup", ctx.GetBool("mymcigroup"));
+        
+        Retract("feat_mymcigroup");
+}

@@ -1,0 +1,56 @@
+[
+    {
+      "default": false,
+      "expires": "1h",
+      "fallback": false,
+      "name": "clientingroup",
+      "type": "boolean"
+    },
+    {
+      "default": false,
+      "expires": "1h",
+      "fallback": false,
+      "name": "menoridade",
+      "type": "boolean"
+    },
+    {
+      "default": false,
+      "expires": "1h",
+      "fallback": false,
+      "name": "clientinmcigroup",
+      "type": "boolean"
+    },
+    {
+      "expires": "1h",
+      "fallback": false,
+      "name": "myage",
+      "type": "integer"
+    },
+    {
+      "expires": "1h",
+      "fallback": false,
+      "name": "mymci",
+      "type": "string"
+    },
+    {
+      "default": false,
+      "expires": "1h",
+      "fallback": false,
+      "name": "myresult",
+      "type": "integer"
+    },
+    {
+      "default": false,
+      "expires": "1h",
+      "fallback": false,
+      "name": "myresult2",
+      "type": "integer"
+    },
+    {
+      "expires": "1h",
+      "fallback": false,
+      "name": "quarentao",
+      "type": "boolean"
+    }
+  ]
+  

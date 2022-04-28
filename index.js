@@ -241,7 +241,7 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
         },
       ]);
       rulesPlain[group] = {
-        value: group_feats.join(" || "),
+        value: group_feats.join(" && "),
         type: "boolean",
         result: true,
       };
