@@ -125,7 +125,7 @@ rule feat_car_group salience 1001 {
     when
         true
     then
-        ctx.Put("car_group", processor.Boolean(result.GetBool("car_group_0") || result.GetBool("car_group_1") || result.GetBool("car_group_2")));
+        ctx.Put("car_group", processor.Boolean(result.GetBool("car_group_0") && result.GetBool("car_group_1") && result.GetBool("car_group_2")));
 
         result.Put("car_group", ctx.GetBool("car_group"));
 
