@@ -11,7 +11,7 @@ rule RemoteLoaded salience 10000000 {
         true
     then
     
-        ctx.RegistryRemoteLoaded("clima", "climatempo");
+        ctx.RegistryRemoteLoadedWithFrom("clima", "climatempo", "weather");
      
         Retract("RemoteLoaded");
 }
