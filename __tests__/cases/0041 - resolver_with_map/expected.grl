@@ -11,7 +11,7 @@ rule RemoteLoaded salience 10000000 {
         true
     then
     
-        ctx.RegistryRemoteLoaded("weather", "climatempo");
+        ctx.RegistryRemoteLoadedWithFrom("clima", "climatempo", "weather");
      
         Retract("RemoteLoaded");
 }
@@ -20,7 +20,7 @@ rule feat_condition salience 1001 {
     when 
         true
     then
-        ctx.Put("condition", ctx.GetMap("weather").GetMap("data").GetString("condition") + "");
+        ctx.Put("condition", ctx.GetMap("clima").GetMap("data").GetString("condition") + "");
         
         result.Put("condition", ctx.GetString("condition"));
         
@@ -31,7 +31,7 @@ rule feat_humidity salience 1001 {
     when 
         true
     then
-        ctx.Put("humidity", ctx.GetMap("weather").GetMap("data").GetFloat("humidity"));
+        ctx.Put("humidity", ctx.GetMap("clima").GetMap("data").GetFloat("humidity"));
         
         result.Put("humidity", ctx.GetFloat("humidity"));
         
@@ -42,7 +42,7 @@ rule feat_pressure salience 1001 {
     when 
         true
     then
-        ctx.Put("pressure", ctx.GetMap("weather").GetMap("data").GetFloat("pressure"));
+        ctx.Put("pressure", ctx.GetMap("clima").GetMap("data").GetFloat("pressure"));
         
         result.Put("pressure", ctx.GetFloat("pressure"));
         

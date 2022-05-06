@@ -1,4 +1,4 @@
-condition = $weather.data.condition::string
-humidity = $weather.data.humidity::decimal
-pressure = $weather.data.pressure::decimal
+condition = $clima.data.condition::string
+humidity = $clima.data.humidity::decimal
+pressure = $clima.data.pressure::decimal
 humidity_warning = #humidity < 60

@@ -20,7 +20,7 @@ rule RemoteLoaded salience 10000000 {
         true
     then
     <% remoteLoadeds.forEach(function(param){ %>
-        ctx.RegistryRemoteLoaded("<%=param.name%>", "<%=param.resolver%>");
+        ctx.RegistryRemoteLoadedWithFrom("<%=param.name%>", "<%=param.resolver%>", "<%=param.from%>");
     <% }); %> 
         Retract("RemoteLoaded");
 }

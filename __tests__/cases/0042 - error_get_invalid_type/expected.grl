@@ -25,9 +25,9 @@ rule RemoteLoaded salience 10000000 {
         true
     then
     
-        ctx.RegistryRemoteLoaded("age", "datacontroller");
+        ctx.RegistryRemoteLoadedWithFrom("age", "datacontroller", "");
     
-        ctx.RegistryRemoteLoaded("mci", "datacontroller");
+        ctx.RegistryRemoteLoadedWithFrom("mci", "datacontroller", "");
      
         Retract("RemoteLoaded");
 }

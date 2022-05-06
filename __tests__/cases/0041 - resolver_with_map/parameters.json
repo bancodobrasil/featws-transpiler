@@ -4,8 +4,9 @@
         "type": "string"
     },
     {
-        "name": "weather",
+        "name": "clima",
         "type": "object",
-        "resolver": "climatempo"
+        "resolver": "climatempo",
+        "from": "weather"
     }
 ]
