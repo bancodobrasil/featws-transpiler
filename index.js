@@ -68,13 +68,14 @@ const compile = (expression, options) => {
 
   let outputType = options.outputType
 
-  if (outputType === "boolean") {
-    expression = expression === 'false' ? expression = `${expression}` : expression = `processor.Boolean(${expression})`;
-  }
-
   if (outputType === "string") {
     expression = `${expression} + ""`;
-  } if (
+  } 
+  if (outputType === "object") {
+    expression = JSON.stringify(expression)
+    expression = `processor.ToMap(${expression})`;
+  } 
+  if (
     (outputType === "integer") |
     (outputType === "decimal")
   )
