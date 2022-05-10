@@ -1,29 +1,21 @@
-rule DefaultValues salience 10000000 {
-    when 
-        true
-    then
-            
-        Retract("DefaultValues");
-}
-
 rule feat_myfeat salience 1001 {
     when 
-        processor.Boolean(ctx.GetInt("myothernumber") > 10) 
+        ctx.GetInt("myothernumber") > 10
     then
         ctx.Put("myfeat", ctx.GetInt("mynumber") + 12);
         
         result.Put("myfeat", ctx.GetInt("myfeat"));
-        
+        Changed("result");
         Retract("feat_myfeat");
 }
 
 rule feat_myfeat2 salience 1000 {
     when
-        processor.Boolean(result.GetInt("myfeat") > 7)
+        result.GetInt("myfeat") > 7
     then
-        ctx.Put("myfeat2", processor.Boolean(ctx.GetInt("myothernumber") >= result.GetInt("myfeat")));
+        ctx.Put("myfeat2", ctx.GetInt("myothernumber") >= result.GetInt("myfeat"));
 
         result.Put("myfeat2", ctx.GetBool("myfeat2"));
-
+        Changed("result");
         Retract("feat_myfeat2");
 }

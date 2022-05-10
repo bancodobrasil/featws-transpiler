@@ -20,7 +20,7 @@ rule feat_clientingroup salience 1001 {
     when 
         true 
     then
-        ctx.Put("clientingroup", processor.Boolean(result.GetBool("mygroup")));
+        ctx.Put("clientingroup", processor.Boolean(result.GetBool("mygroup"));
         
         result.Put("clientingroup", ctx.Get("clientingroup"));
         
@@ -31,7 +31,7 @@ rule feat_child salience 1004 {
     when 
         true 
     then
-        ctx.Put("child", processor.Boolean(ctx.GetInt("age") <= 18));
+        ctx.Put("child", processor.Boolean(ctx.GetInt("age") <= 18);
         
         result.Put("child", ctx.Get("child"));
         
@@ -42,7 +42,7 @@ rule feat_adult salience 1003 {
     when 
         true 
     then
-        ctx.Put("adult", processor.Boolean(!result.GetBool("child")));
+        ctx.Put("adult", processor.Boolean(!result.GetBool("child"));
         
         result.Put("adult", ctx.Get("adult"));
         
@@ -53,7 +53,7 @@ rule feat_elder salience 1002 {
     when 
         true 
     then
-        ctx.Put("elder", processor.Boolean(!result.GetBool("child") && !result.GetBool("adult")));
+        ctx.Put("elder", processor.Boolean(!result.GetBool("child") && !result.GetBool("adult"));
         
         result.Put("elder", ctx.Get("elder"));
         
@@ -64,7 +64,7 @@ rule feat_target_client salience 1000 {
     when 
         true 
     then
-        ctx.Put("target_client", processor.Boolean(result.GetBool("clientingroup") && result.GetBool("elder")));
+        ctx.Put("target_client", processor.Boolean(result.GetBool("clientingroup") && result.GetBool("elder"));
         
         result.Put("target_client", ctx.Get("target_client"));
         
@@ -84,7 +84,7 @@ rule feat_mygroup_0 salience 1003 {
     when 
         true 
     then
-        ctx.Put("mygroup_0", processor.Boolean(processor.Contains(ctx.GetSlice("mygroup_0_entries"), ctx.Get("mygroup_0_value"))));
+        ctx.Put("mygroup_0", processor.Boolean(processor.Contains(ctx.GetSlice("mygroup_0_entries"), ctx.Get("mygroup_0_value")));
         
         result.Put("mygroup_0", ctx.Get("mygroup_0"));
         
@@ -95,7 +95,7 @@ rule feat_mygroup salience 1002 {
     when 
         true 
     then
-        ctx.Put("mygroup", processor.Boolean(result.GetBool("mygroup_0")));
+        ctx.Put("mygroup", processor.Boolean(result.GetBool("mygroup_0"));
         
         result.Put("mygroup", ctx.Get("mygroup"));
         

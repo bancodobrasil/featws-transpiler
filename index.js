@@ -69,7 +69,11 @@ const compile = (expression, options) => {
   let outputType = options.outputType
 
   if (outputType === "string") {
-    expression = `${expression} + ""`;
+    if (expression.startsWith("ctx.") || expression.startsWith("result.")) {
+      expression = `${expression} + ""`;
+    } else if (!expression.startsWith('"')){
+      expression = `"${expression}"`;
+    }  
   } 
   if (outputType === "object") {
     expression = JSON.stringify(expression)

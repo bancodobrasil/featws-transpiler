@@ -12,7 +12,8 @@ rule DefaultValues salience 10000000 {
         result.Put("adolescente", "false");
 
         result.Put("adulto", "false");
-
+        Changed("ctx");
+        Changed("result");
         Retract("DefaultValues");
 }
 
@@ -20,10 +21,10 @@ rule feat_maior_de_idade salience 1001 {
     when
         true
     then
-        ctx.Put("maior_de_idade", processor.Boolean(!result.GetBool("menor_de_idade")));
+        ctx.Put("maior_de_idade", !result.GetBool("menor_de_idade"));
 
         result.Put("maior_de_idade", ctx.GetBool("maior_de_idade"));
-
+        Changed("result");
         Retract("feat_maior_de_idade");
 }
 
@@ -31,10 +32,10 @@ rule feat_menor_de_idade salience 1002 {
     when
         true
     then
-        ctx.Put("menor_de_idade", processor.Boolean(ctx.GetInt("idade") <= 18));
+        ctx.Put("menor_de_idade", ctx.GetInt("idade") <= 18);
 
         result.Put("menor_de_idade", ctx.GetBool("menor_de_idade"));
-
+        Changed("result");
         Retract("feat_menor_de_idade");
 }
 
@@ -42,10 +43,10 @@ rule feat_crianca salience 1002 {
     when 
         true
     then
-        ctx.Put("crianca", processor.Boolean(ctx.GetInt("idade") <= 10));
+        ctx.Put("crianca", ctx.GetInt("idade") <= 10);
 
         result.Put("crianca", ctx.GetBool("crianca"));
-
+        Changed("result");
         Retract("feat_crianca");
 }
 
@@ -53,10 +54,10 @@ rule feat_adolescente salience 1001 {
     when
         true
     then
-        ctx.Put("adolescente", processor.Boolean(!result.GetBool("crianca")));
+        ctx.Put("adolescente", !result.GetBool("crianca"));
 
         result.Put("adolescente", ctx.GetBool("adolescente"));
-
+        Changed("result");
         Retract("feat_adolescente");
 }
 
@@ -64,9 +65,9 @@ rule feat_adulto salience 1000 {
     when 
         true
     then
-        ctx.Put("adulto", processor.Boolean(!result.GetBool("crianca") && !result.GetBool("adolescente")));
+        ctx.Put("adulto", !result.GetBool("crianca") && !result.GetBool("adolescente"));
 
         result.Put("adulto", ctx.GetBool("adulto"));
-
+        Changed("result");
         Retract("feat_adulto");
 }

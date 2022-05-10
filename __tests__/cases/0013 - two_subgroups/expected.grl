@@ -14,7 +14,8 @@
         ctx.AddItem("car_group_1_entries", "4");
 
         ctx.AddItem("car_group_1_entries", "2");
-
+        Changed("ctx");
+        Changed("result");
         Retract("DefaultValues");
 }
 
@@ -22,10 +23,10 @@ rule feat_model salience 1000 {
     when
         true
     then
-        ctx.Put("model", processor.Boolean(result.GetBool("car_group")));
+        ctx.Put("model", result.GetBool("car_group"));
 
         result.Put("model", ctx.GetBool("model"));
-
+        Changed("result");
         Retract("feat_model");
 }
 
@@ -33,10 +34,10 @@ rule feat_ports salience 1000 {
     when
         true
     then
-        ctx.Put("ports", processor.Boolean(result.GetBool("car_group")));
+        ctx.Put("ports", result.GetBool("car_group"));
 
         result.Put("ports", ctx.GetBool("ports"));
-
+        Changed("result");
         Retract("feat_ports");
 }
 
@@ -44,8 +45,8 @@ rule feat_car_group_0_value salience 1003 {
     when
         true
     then
-        ctx.Put("car_group_0_value", "model" + "");
-
+        ctx.Put("car_group_0_value", "model");
+        
         Retract("feat_car_group_0_value");
 }
 
@@ -53,10 +54,10 @@ rule feat_car_group_0 salience 1002 {
     when
         true
     then
-        ctx.Put("car_group_0", processor.Boolean(processor.Contains(ctx.GetSlice("car_group_0_entries"), ctx.Get("car_group_0_value"))));
+        ctx.Put("car_group_0", processor.Contains(ctx.GetSlice("car_group_0_entries"), ctx.Get("car_group_0_value")));
 
         result.Put("car_group_0", ctx.GetBool("car_group_0"));
-
+        Changed("result");
         Retract("feat_car_group_0");
 }
 
@@ -64,7 +65,7 @@ rule feat_car_group_1_value salience 1003 {
     when
         true
     then
-        ctx.Put("car_group_1_value", "ports" + "");
+        ctx.Put("car_group_1_value", "ports");
 
         Retract("feat_car_group_1_value");
 }
@@ -73,10 +74,10 @@ rule feat_car_group_1 salience 1002 {
     when
         true
     then
-        ctx.Put("car_group_1", processor.Boolean(processor.Contains(ctx.GetSlice("car_group_1_entries"), ctx.Get("car_group_1_value"))));
+        ctx.Put("car_group_1", processor.Contains(ctx.GetSlice("car_group_1_entries"), ctx.Get("car_group_1_value")));
 
         result.Put("car_group_1", ctx.GetBool("car_group_1"));
-
+        Changed("result");
         Retract("feat_car_group_1");
 }
 
@@ -84,9 +85,9 @@ rule feat_car_group salience 1001 {
     when
         true
     then
-        ctx.Put("car_group", processor.Boolean(result.GetBool("car_group_0") && result.GetBool("car_group_1")));
+        ctx.Put("car_group", result.GetBool("car_group_0") && result.GetBool("car_group_1"));
 
         result.Put("car_group", ctx.GetBool("car_group"));
-
+        Changed("result");
         Retract("feat_car_group");
 }

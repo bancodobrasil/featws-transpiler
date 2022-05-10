@@ -1,18 +1,10 @@
-rule DefaultValues salience 10000000 {
-    when 
-        true
-    then
-        
-        Retract("DefaultValues");
-}
-
 rule feat_myboolfeat salience 1000 {
     when 
         true 
     then
-        ctx.Put("myboolfeat", processor.Boolean(ctx.GetInt("mynumber") < 12));
+        ctx.Put("myboolfeat", ctx.GetInt("mynumber") < 12);
         
         result.Put("myboolfeat", ctx.GetBool("myboolfeat"));
-        
+        Changed("result");
         Retract("feat_myboolfeat");
 }

@@ -10,7 +10,8 @@ rule DefaultValues salience 10000000 {
         result.Put("high_income", "false");
 
         ctx.AddItem("mygroup_0_entries", "jose-30");
-
+        Changed("ctx");
+        Changed("result");
         Retract("DefaultValues");
 }
 
@@ -18,10 +19,10 @@ rule feat_clientingroup salience 1000 {
     when 
         true 
     then
-        ctx.Put("clientingroup", processor.Boolean(result.GetBool("mygroup")));
+        ctx.Put("clientingroup", result.GetBool("mygroup"));
 
         result.Put("clientingroup", ctx.GetBool("clientingroup"));
-         
+        Changed("result");
         Retract("feat_clientingroup");
 }
 
@@ -29,10 +30,10 @@ rule feat_low_income salience 1003 {
     when 
         true
     then
-        ctx.Put("low_income", processor.Boolean(ctx.GetInt("salary") <= 5000));
+        ctx.Put("low_income", ctx.GetInt("salary") <= 5000);
 
         result.Put("low_income", ctx.GetBool("low_income"));
-
+        Changed("result");
         Retract("feat_low_income");
 }
 
@@ -40,10 +41,10 @@ rule feat_high_income salience 1002 {
     when
         true
     then
-        ctx.Put("high_income", processor.Boolean(!result.GetBool("low_income")));
+        ctx.Put("high_income", !result.GetBool("low_income"));
 
         result.Put("high_income", ctx.GetBool("high_income"));
-
+        Changed("result");
         Retract("feat_high_income");
 }
 
@@ -60,10 +61,10 @@ rule feat_mygroup_0 salience 1002 {
     when
         true
     then
-        ctx.Put("mygroup_0", processor.Boolean(processor.Contains(ctx.GetSlice("mygroup_0_entries"), ctx.Get("mygroup_0_value"))));
+        ctx.Put("mygroup_0", processor.Contains(ctx.GetSlice("mygroup_0_entries"), ctx.Get("mygroup_0_value")));
 
         result.Put("mygroup_0", ctx.GetBool("mygroup_0"));
-
+        Changed("result");
         Retract("feat_mygroup_0");
 }
 
@@ -71,9 +72,9 @@ rule feat_mygroup salience 1001 {
     when
         true
     then
-        ctx.Put("mygroup", processor.Boolean(result.GetBool("mygroup_0")));
+        ctx.Put("mygroup", result.GetBool("mygroup_0"));
 
         result.Put("mygroup", ctx.GetBool("mygroup"));
-
+        Changed("result");
         Retract("feat_mygroup");
 }
