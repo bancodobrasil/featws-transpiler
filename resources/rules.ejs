@@ -1,3 +1,4 @@
+<% if (defaultValues.length > 0) { %>
 rule DefaultValues salience 10000000 {
     when 
         true
@@ -12,8 +13,11 @@ rule DefaultValues salience 10000000 {
     <%      });
         });
      }); %>
+        Changed("ctx");
+        Changed("result");
         Retract("DefaultValues");
 }
+<% } %>
 <% if (remoteLoadeds.length > 0) { %>
 rule RemoteLoaded salience 10000000 {
     when 
@@ -22,6 +26,7 @@ rule RemoteLoaded salience 10000000 {
     <% remoteLoadeds.forEach(function(param){ %>
         ctx.RegistryRemoteLoadedWithFrom("<%=param.name%>", "<%=param.resolver%>", "<%=param.from%>");
     <% }); %> 
+        Changed("ctx");
         Retract("RemoteLoaded");
 }
 <% } %><% featureRules.forEach(function(feat){ %>
@@ -30,9 +35,11 @@ rule feat_<%=feat.name%> salience <%=feat.precedence%> {
         <%-feat.condition%><% } else { %>
         true <% } %>
     then
-        ctx.Put("<%=feat.name%>", <%-feat.expression%>);
+        ctx.<%=feat.writeMethod || "Put" %>("<%=feat.name%>", <%-feat.expression%>);
         <% if(feat.result) { %>
         result.Put("<%=feat.name%>", ctx.<%=feat.accessMethod%>("<%=feat.name%>"));
+        
+        Changed("result");
         <% } %>
         Retract("feat_<%=feat.name%>");
 }

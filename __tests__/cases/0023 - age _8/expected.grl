@@ -1,11 +1,3 @@
-rule DefaultValues salience 10000000 {
-    when 
-        true
-    then
-        
-        Retract("DefaultValues");
-}
-
 rule feat_idade_2 salience 1003 {
     when 
         true 
@@ -13,7 +5,7 @@ rule feat_idade_2 salience 1003 {
         ctx.Put("idade_2", ctx.GetInt("idade") + 2);
         
         result.Put("idade_2", ctx.GetInt("idade_2"));
-        
+        Changed("result");
         Retract("feat_idade_2");
 }
 
@@ -24,7 +16,7 @@ rule feat_idade_4 salience 1002 {
         ctx.Put("idade_4", result.GetInt("idade_2") + 2);
         
         result.Put("idade_4", ctx.GetInt("idade_4"));
-        
+        Changed("result");
         Retract("feat_idade_4");
 }
 
@@ -35,7 +27,7 @@ rule feat_idade_6 salience 1001 {
         ctx.Put("idade_6", result.GetInt("idade_4") + 2);
         
         result.Put("idade_6", ctx.GetInt("idade_6"));
-        
+        Changed("result");
         Retract("feat_idade_6");
 }
 
@@ -46,6 +38,6 @@ rule feat_idade_8 salience 1000 {
         ctx.Put("idade_8", result.GetInt("idade_6") + 2);
         
         result.Put("idade_8", ctx.GetInt("idade_8"));
-        
+        Changed("result");
         Retract("feat_idade_8");
 }

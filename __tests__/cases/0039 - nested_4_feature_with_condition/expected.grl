@@ -1,11 +1,3 @@
-rule DefaultValues salience 10000000 {
-    when 
-        true
-    then
-    
-        Retract("DefaultValues");
-}
-
 rule feat_myfeat_2 salience 1004 {
     when 
         true
@@ -13,7 +5,7 @@ rule feat_myfeat_2 salience 1004 {
         ctx.Put("myfeat_2", ctx.GetInt("mynumber") + 2);
         
         result.Put("myfeat_2", ctx.GetInt("myfeat_2"));
-        
+        Changed("result");
         Retract("feat_myfeat_2");
 }
 
@@ -24,7 +16,7 @@ rule feat_myfeat_4 salience 1003 {
         ctx.Put("myfeat_4", result.GetInt("myfeat_2") + 2);
         
         result.Put("myfeat_4", ctx.GetInt("myfeat_4"));
-        
+        Changed("result");
         Retract("feat_myfeat_4");
 }
 
@@ -35,7 +27,7 @@ rule feat_myfeat_6 salience 1002 {
         ctx.Put("myfeat_6", result.GetInt("myfeat_4") + 2);
         
         result.Put("myfeat_6", ctx.GetInt("myfeat_6"));
-        
+        Changed("result");
         Retract("feat_myfeat_6");
 }
 
@@ -46,17 +38,17 @@ rule feat_myfeat_8 salience 1001 {
         ctx.Put("myfeat_8", result.GetInt("myfeat_6") + 2);
         
         result.Put("myfeat_8", ctx.GetInt("myfeat_8"));
-        
+        Changed("result");
         Retract("feat_myfeat_8");
 }
 
 rule feat_myfeat salience 1000 {
     when 
-        processor.Boolean(result.GetInt("myfeat_8") > 20)
+        result.GetInt("myfeat_8") > 20
     then
         ctx.Put("myfeat", ctx.GetInt("mynumber"));
         
         result.Put("myfeat", ctx.GetInt("myfeat"));
-        
+        Changed("result");
         Retract("feat_myfeat");
 }

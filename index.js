@@ -15,6 +15,9 @@ const compile = (expression, options) => {
       const feat = options.features.find((f) => f.name === entryname);
       if (feat) {
         type = feat.type;
+        if (typeof feat.result !== "undefined" && !feat.result) {
+          source = "ctx";
+        }
       }
     }
     if (scope === "$") {
@@ -68,13 +71,18 @@ const compile = (expression, options) => {
 
   let outputType = options.outputType
 
-  if (outputType === "boolean") {
-    expression = expression === 'false' ? expression = `${expression}` : expression = `processor.Boolean(${expression})`;
-  }
-
   if (outputType === "string") {
-    expression = `${expression} + ""`;
-  } if (
+    if (expression.startsWith("ctx.") || expression.startsWith("result.")) {
+      expression = `${expression} + ""`;
+    } else if (!expression.startsWith('"')){
+      expression = `"${expression}"`;
+    }  
+  } 
+  if (outputType === "object") {
+    expression = JSON.stringify(expression)
+    expression = `processor.ToMap(${expression})`;
+  } 
+  if (
     (outputType === "integer") |
     (outputType === "decimal")
   )
@@ -198,6 +206,8 @@ function resolveAccessMethod(type) {
     accessMethod = "GetInt";
   if (type === "decimal")
     accessMethod = "GetFloat";
+  if (type === "slice")
+    accessMethod = "GetSlice";
   return accessMethod;
 }
 
@@ -246,6 +256,38 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
         result: true,
       };
     });
+
+    Object.keys(rulesPlain).forEach((feat) => {
+      const rule = rulesPlain[feat];
+      if (Array.isArray(rule)){
+        rule.forEach((r, i) => {
+          const entry_name = feat + "_" + i;
+          features = features.concat([
+            {
+              name: entry_name,
+              type: r.type,
+              result: false,
+            },
+          ]);
+          rulesPlain[entry_name] = {
+            ...r,
+            result: false,
+          };
+        })
+        delete rulesPlain[feat];
+        const feature =  {
+          name: feat,
+          type: "slice",
+          writeMethod: "AddItems",
+          result: true,
+        };
+        rulesPlain[feat] = {
+          ...feature,
+          value: rule.map((_,i) => "#" + feat + "_" + i).join(", "),
+        }
+        features = features.concat([feature]);
+      }
+    })
 
     // console.log("\nRulesPlain with groups:\n", rulesPlain, "\n\n");
 
@@ -349,12 +391,13 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
         }))
         .filter((feat) => feat.defaultValue !== undefined),
       featureRules: Object.keys(rulesPlain).map((feat) => {
-        let rule = rulesPlain[feat];
+        const rule = rulesPlain[feat];
         let expression = rule;
-        let condition = `${typeof expression.condition == "undefined" ? "true" : expression.condition}`;        let result = true;
-        let outputType = (features.find((f) => f.name == feat) || {
+        const condition = `${typeof expression.condition == "undefined" ? "true" : expression.condition}`;        let result = true;
+        const feature = (features.find((f) => f.name == feat) || {
           type: "boolean",
-        })["type"];
+        });
+        let outputType = feature["type"];
 
         if (typeof rule === "object") {
           if (rule.type) {
@@ -369,6 +412,7 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
         }
         
         return {
+          ...feature,
           name: feat,
           accessMethod: resolveAccessMethod(outputType),
           condition: condition != 'true' ? compile(condition, {

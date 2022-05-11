@@ -8,7 +8,7 @@
     },
     {
         "name": "target_client",
-        "type": "boolean",
+        "type": "string",
         "expires": "1h",
         "fallback": false
     }

@@ -1,0 +1,6 @@
+funci = $employeeKey == "S"
+
+[FUNDOS_MOVIMENTACOES]
+condition = !#funci
+value = { "nomeAplicativo": "FUNDOS_MOVIMENTACOES", "textoUrlPadrao": "FUNDOS_MOVIMENTACOES", "textoUrlDesvio": "restrito" }
+type = object

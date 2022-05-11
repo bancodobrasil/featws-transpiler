@@ -156,9 +156,9 @@ We use this file to make sure the transpiler generated the rules.grl correctly. 
 3. **feature_name** and **procedence_value**: Name of the feature to be calculated and its resolution priority value. The higher the precedence value, the higher the priority. Ex: in 2 + (3 + 4) the expression (3 + 4) has greater precedence than 2 + (). The name of this feature will be repeated in lines 4 and 5.
 
 4. **feat_expression**: Feature resolution according to its type and related values. See exemples above:
-`processor.Boolean(ctx.GetInt("mynumber") < 12` at test 0001.
-`processor.Boolean(result.GetBool("mygroup"))` at test 0003.
-`processor.Boolean(ctx.GetString("gender") == "F"` at test 0004.
+`ctx.GetInt("mynumber") < 12` at test 0001.
+`result.GetBool("mygroup")` at test 0003.
+`ctx.GetString("gender") == "F"` at test 0004.
 `ctx.GetInt("age") * ctx.GetInt("age") + ""` at test 0025.
 You can check more exemples inside test cases folder.
 
