@@ -7,10 +7,18 @@
         {
             "type": "pwa-node",
             "request": "launch",
-            "name": "Launch Compiler full-example",
+            "name": "Launch full-example",
             "localRoot": "${workspaceFolder}/examples/full/",
             "cwd": "${workspaceFolder}/examples/full/",
             "program": "../../bin/featws-transpiler.js"
+        },
+        {
+            "type": "pwa-node",
+            "request": "launch",
+            "name": "Launch 0044",
+            "localRoot": "${workspaceFolder}/__tests__/cases/0044 - return_json_extended_format_feat_slice/",
+            "cwd": "${workspaceFolder}/__tests__/cases/0044 - return_json_extended_format_feat_slice/",
+            "program": "../../../bin/featws-transpiler.js"
         },
         {
             "type": "node",
