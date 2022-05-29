@@ -1,3 +1,4 @@
+
 rule DefaultValues salience 10000000 {
     when 
         true
@@ -27,16 +28,20 @@ rule DefaultValues salience 10000000 {
     
         ctx.AddItem("mci_piloto2_1_entries", "3477");
     
+        Changed("ctx");
+        Changed("result");
         Retract("DefaultValues");
 }
+
 
 rule RemoteLoaded salience 10000000 {
     when 
         true
     then
     
-        ctx.RegistryRemoteLoaded("idade", "dados-cliente");
+        ctx.RegistryRemoteLoadedWithFrom("idade", "dados-cliente", "");
      
+        Changed("ctx");
         Retract("RemoteLoaded");
 }
 
@@ -44,9 +49,11 @@ rule feat_aprovado salience 1001 {
     when 
         true
     then
-        ctx.Put("aprovado", processor.Boolean(!result.GetBool("menor_idade")));
+        ctx.Put("aprovado", !result.GetBool("menor_idade"));
         
-        result.Put("aprovado", ctx.Get("aprovado"));
+        result.Put("aprovado", ctx.GetBool("aprovado"));
+        
+        Changed("result");
         
         Retract("feat_aprovado");
 }
@@ -55,9 +62,11 @@ rule feat_menor_idade salience 1002 {
     when 
         true
     then
-        ctx.Put("menor_idade", processor.Boolean(!result.GetBool("maior_idade")));
+        ctx.Put("menor_idade", !result.GetBool("maior_idade"));
         
-        result.Put("menor_idade", ctx.Get("menor_idade"));
+        result.Put("menor_idade", ctx.GetBool("menor_idade"));
+        
+        Changed("result");
         
         Retract("feat_menor_idade");
 }
@@ -66,9 +75,11 @@ rule feat_maior_idade salience 1003 {
     when 
         true
     then
-        ctx.Put("maior_idade", processor.Boolean(ctx.GetInt("idade") >= 18));
+        ctx.Put("maior_idade", ctx.GetInt("idade") >= 18);
         
-        result.Put("maior_idade", ctx.Get("maior_idade"));
+        result.Put("maior_idade", ctx.GetBool("maior_idade"));
+        
+        Changed("result");
         
         Retract("feat_maior_idade");
 }
@@ -77,9 +88,11 @@ rule feat_idoso salience 1003 {
     when 
         true
     then
-        ctx.Put("idoso", processor.Boolean(ctx.GetInt("idade") >= 60));
+        ctx.Put("idoso", ctx.GetInt("idade") >= 60);
         
-        result.Put("idoso", ctx.Get("idoso"));
+        result.Put("idoso", ctx.GetBool("idoso"));
+        
+        Changed("result");
         
         Retract("feat_idoso");
 }
@@ -88,9 +101,11 @@ rule feat_idoso_piloto salience 1000 {
     when 
         true
     then
-        ctx.Put("idoso_piloto", processor.Boolean(result.GetBool("idoso") && result.GetBool("mci_piloto")));
+        ctx.Put("idoso_piloto", result.GetBool("idoso") && result.GetBool("mci_piloto"));
         
-        result.Put("idoso_piloto", ctx.Get("idoso_piloto"));
+        result.Put("idoso_piloto", ctx.GetBool("idoso_piloto"));
+        
+        Changed("result");
         
         Retract("feat_idoso_piloto");
 }
@@ -99,9 +114,11 @@ rule feat_publico_alvo salience 1000 {
     when 
         true
     then
-        ctx.Put("publico_alvo", processor.Boolean(result.GetBool("idoso") || result.GetBool("mci_piloto") || result.GetBool("mci_piloto2")));
+        ctx.Put("publico_alvo", result.GetBool("idoso") || result.GetBool("mci_piloto") || result.GetBool("mci_piloto2"));
         
-        result.Put("publico_alvo", ctx.Get("publico_alvo"));
+        result.Put("publico_alvo", ctx.GetBool("publico_alvo"));
+        
+        Changed("result");
         
         Retract("feat_publico_alvo");
 }
@@ -110,9 +127,11 @@ rule feat_quarentao salience 1003 {
     when 
         true
     then
-        ctx.Put("quarentao", processor.Boolean(ctx.GetInt("idade") >= 40 && ctx.GetInt("idade") <= 50));
+        ctx.Put("quarentao", ctx.GetInt("idade") >= 40 && ctx.GetInt("idade") <= 50);
         
-        result.Put("quarentao", ctx.Get("quarentao"));
+        result.Put("quarentao", ctx.GetBool("quarentao"));
+        
+        Changed("result");
         
         Retract("feat_quarentao");
 }
@@ -121,9 +140,11 @@ rule feat_incapaz salience 1003 {
     when 
         true
     then
-        ctx.Put("incapaz", processor.Boolean(ctx.GetInt("idade") < 12));
+        ctx.Put("incapaz", ctx.GetInt("idade") < 12);
         
-        result.Put("incapaz", ctx.Get("incapaz"));
+        result.Put("incapaz", ctx.GetBool("incapaz"));
+        
+        Changed("result");
         
         Retract("feat_incapaz");
 }
@@ -134,7 +155,9 @@ rule feat_idade_2 salience 1003 {
     then
         ctx.Put("idade_2", ctx.GetInt("idade") + 2);
         
-        result.Put("idade_2", ctx.Get("idade_2"));
+        result.Put("idade_2", ctx.GetInt("idade_2"));
+        
+        Changed("result");
         
         Retract("feat_idade_2");
 }
@@ -145,7 +168,9 @@ rule feat_idade_4 salience 1002 {
     then
         ctx.Put("idade_4", result.GetInt("idade_2") + 2);
         
-        result.Put("idade_4", ctx.Get("idade_4"));
+        result.Put("idade_4", ctx.GetInt("idade_4"));
+        
+        Changed("result");
         
         Retract("feat_idade_4");
 }
@@ -163,9 +188,11 @@ rule feat_mci_piloto_0 salience 1002 {
     when 
         true
     then
-        ctx.Put("mci_piloto_0", processor.Boolean(processor.Contains(ctx.GetSlice("mci_piloto_0_entries"), ctx.Get("mci_piloto_0_value"))));
+        ctx.Put("mci_piloto_0", processor.Contains(ctx.GetSlice("mci_piloto_0_entries"), ctx.Get("mci_piloto_0_value")));
         
-        result.Put("mci_piloto_0", ctx.Get("mci_piloto_0"));
+        result.Put("mci_piloto_0", ctx.GetBool("mci_piloto_0"));
+        
+        Changed("result");
         
         Retract("feat_mci_piloto_0");
 }
@@ -183,9 +210,11 @@ rule feat_mci_piloto_1 salience 1002 {
     when 
         true
     then
-        ctx.Put("mci_piloto_1", processor.Boolean(processor.Contains(ctx.GetSlice("mci_piloto_1_entries"), ctx.Get("mci_piloto_1_value"))));
+        ctx.Put("mci_piloto_1", processor.Contains(ctx.GetSlice("mci_piloto_1_entries"), ctx.Get("mci_piloto_1_value")));
         
-        result.Put("mci_piloto_1", ctx.Get("mci_piloto_1"));
+        result.Put("mci_piloto_1", ctx.GetBool("mci_piloto_1"));
+        
+        Changed("result");
         
         Retract("feat_mci_piloto_1");
 }
@@ -194,9 +223,11 @@ rule feat_mci_piloto salience 1001 {
     when 
         true
     then
-        ctx.Put("mci_piloto", processor.Boolean(result.GetBool("mci_piloto_0") || result.GetBool("mci_piloto_1")));
+        ctx.Put("mci_piloto", result.GetBool("mci_piloto_0") && result.GetBool("mci_piloto_1"));
         
-        result.Put("mci_piloto", ctx.Get("mci_piloto"));
+        result.Put("mci_piloto", ctx.GetBool("mci_piloto"));
+        
+        Changed("result");
         
         Retract("feat_mci_piloto");
 }
@@ -214,9 +245,11 @@ rule feat_mci_piloto2_0 salience 1002 {
     when 
         true
     then
-        ctx.Put("mci_piloto2_0", processor.Boolean(processor.Contains(ctx.GetSlice("mci_piloto2_0_entries"), ctx.Get("mci_piloto2_0_value"))));
+        ctx.Put("mci_piloto2_0", processor.Contains(ctx.GetSlice("mci_piloto2_0_entries"), ctx.Get("mci_piloto2_0_value")));
         
-        result.Put("mci_piloto2_0", ctx.Get("mci_piloto2_0"));
+        result.Put("mci_piloto2_0", ctx.GetBool("mci_piloto2_0"));
+        
+        Changed("result");
         
         Retract("feat_mci_piloto2_0");
 }
@@ -234,9 +267,11 @@ rule feat_mci_piloto2_1 salience 1002 {
     when 
         true
     then
-        ctx.Put("mci_piloto2_1", processor.Boolean(processor.Contains(ctx.GetSlice("mci_piloto2_1_entries"), ctx.Get("mci_piloto2_1_value"))));
+        ctx.Put("mci_piloto2_1", processor.Contains(ctx.GetSlice("mci_piloto2_1_entries"), ctx.Get("mci_piloto2_1_value")));
         
-        result.Put("mci_piloto2_1", ctx.Get("mci_piloto2_1"));
+        result.Put("mci_piloto2_1", ctx.GetBool("mci_piloto2_1"));
+        
+        Changed("result");
         
         Retract("feat_mci_piloto2_1");
 }
@@ -245,9 +280,11 @@ rule feat_mci_piloto2 salience 1001 {
     when 
         true
     then
-        ctx.Put("mci_piloto2", processor.Boolean(result.GetBool("mci_piloto2_0") || result.GetBool("mci_piloto2_1")));
+        ctx.Put("mci_piloto2", result.GetBool("mci_piloto2_0") && result.GetBool("mci_piloto2_1"));
         
-        result.Put("mci_piloto2", ctx.Get("mci_piloto2"));
+        result.Put("mci_piloto2", ctx.GetBool("mci_piloto2"));
+        
+        Changed("result");
         
         Retract("feat_mci_piloto2");
 }
