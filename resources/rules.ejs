@@ -29,7 +29,20 @@ rule RemoteLoaded salience 10000000 {
         Changed("ctx");
         Retract("RemoteLoaded");
 }
-<% } %><% featureRules.forEach(function(feat){ %>
+<% } %>
+<% if (requiredParams.length > 0) { %>
+rule RequiredParams salience 10000000 {
+    when 
+        true
+    then
+    <% requiredParams.forEach(function(param){ %>
+        ctx.RegistryRequiredParams("<%=param.name%>");
+    <% }); %> 
+        Changed("ctx");
+        Retract("RequiredParams");
+}
+<% } %>
+<% featureRules.forEach(function(feat){ %>
 rule feat_<%=feat.name%> salience <%=feat.precedence%> {
     when <% if(feat.condition) { %>
         <%-feat.condition%><% } else { %>

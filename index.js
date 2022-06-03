@@ -1,6 +1,12 @@
 const featws = require("js-featws");
 const fs = require("fs");
 const ejs = require("ejs");
+const toBool = s => {
+  if(typeof s === "string"){
+    s = s.toLowerCase();
+  }
+  return s;
+};
 
 const compile = (expression, options) => {
   // console.log("Compile Expression BEGIN:", expression, options);
@@ -52,6 +58,7 @@ const compile = (expression, options) => {
             scope,
             entryname,
             type,
+            required,
           })
       );
 
@@ -90,7 +97,7 @@ const compile = (expression, options) => {
     expression = `${expression}`;
   }
   // console.log("Compile Expression RESULT:", expression);
-  return expression;
+   return expression;
 };
 
 /*const compile_condition = (condition, options) => {
@@ -381,9 +388,10 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
 
     // console.log("saliences", saliences);
 
-    const grl = await ejs.renderFile(__dirname + "/resources/rules.ejs", {
+    const grl = await ejs.renderFile(__dirname + "/resources/rules.ejs", {  
       groups,
       remoteLoadeds : parameters.filter(p => !!p.resolver),
+      requiredParams : parameters.filter(p => toBool(p.required)),
       defaultValues: features
         .map((feat) => ({
           name: feat.name,

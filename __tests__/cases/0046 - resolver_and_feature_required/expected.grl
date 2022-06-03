@@ -13,17 +13,31 @@ rule RemoteLoaded salience 10000000 {
 
 
 rule RequiredParams salience 10000000 {
-    when
+    when 
         true
     then
 
         ctx.RegistryRequiredParams("locale");
         
+        ctx.RegistryRequiredParams("my_number");
+     
         Changed("ctx");
         Retract("RequiredParams");
 }
 
 
+rule feat_more_then_ten salience 1001 {
+    when 
+        true
+    then
+        ctx.Put("more_then_ten", ctx.GetInt("my_number") > 10);
+        
+        result.Put("more_then_ten", ctx.GetBool("more_then_ten"));
+        
+        Changed("result");
+        
+        Retract("feat_more_then_ten");
+}
 rule feat_humidity_warning salience 1000 {
     when 
         result.GetFloat("humidity") > 0

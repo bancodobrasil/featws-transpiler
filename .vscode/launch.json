@@ -15,9 +15,9 @@
         {
             "type": "pwa-node",
             "request": "launch",
-            "name": "Launch 0044",
-            "localRoot": "${workspaceFolder}/__tests__/cases/0044 - return_json_extended_format_feat_slice/",
-            "cwd": "${workspaceFolder}/__tests__/cases/0044 - return_json_extended_format_feat_slice/",
+            "name": "Launch 0001",
+            "localRoot": "${workspaceFolder}/__tests__/cases/0001 - one_parameter/",
+            "cwd": "${workspaceFolder}/__tests__/cases/0001 - one_parameter/",
             "program": "../../../bin/featws-transpiler.js"
         },
         {
