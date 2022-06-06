@@ -28,8 +28,8 @@ rule RemoteLoaded salience 10000000 {
     <% }); %> 
         Changed("ctx");
         Retract("RemoteLoaded");
-}<% } %>
-rule RequiredParams salience 10000000 {
+}
+<% } %>rule RequiredParams salience 10000000 {
     when 
         true
     then
@@ -46,8 +46,8 @@ rule HasRequiredParamsError salience 9999999 {
         ctx.Has("requiredParamErrors") 
     then
         Complete();
-}<% featureRules.forEach(function(feat){ %>
-rule feat_<%=feat.name%> salience <%=feat.precedence%> {
+}
+<% featureRules.forEach(function(feat){ %>rule feat_<%=feat.name%> salience <%=feat.precedence%> {
     when <% if(feat.condition) { %>
         ctx.IsReady() && <%-feat.condition%><% } else { %>
         true <% } %>
