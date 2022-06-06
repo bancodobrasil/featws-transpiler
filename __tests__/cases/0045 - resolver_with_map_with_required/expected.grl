@@ -24,6 +24,9 @@ rule RequiredParams salience 10000000 {
 }
 
 
+
+
+
 rule feat_humidity_warning salience 1000 {
     when 
         result.GetFloat("humidity") > 0

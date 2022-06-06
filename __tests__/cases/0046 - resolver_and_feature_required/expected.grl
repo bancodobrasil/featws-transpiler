@@ -38,6 +38,7 @@ rule feat_more_then_ten salience 1001 {
         
         Retract("feat_more_then_ten");
 }
+
 rule feat_humidity_warning salience 1000 {
     when 
         result.GetFloat("humidity") > 0

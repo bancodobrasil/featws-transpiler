@@ -41,6 +41,13 @@ rule RequiredParams salience 10000000 {
         Changed("ctx");
         Retract("RequiredParams");
 }
+rule HasRequiredParamsError salience 9999999 {
+    when 
+        ctx.Has("requiredParamErrors") 
+    then
+
+        Complete();
+}
 <% } %>
 <% featureRules.forEach(function(feat){ %>
 rule feat_<%=feat.name%> salience <%=feat.precedence%> {
