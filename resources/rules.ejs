@@ -12,7 +12,7 @@ rule DefaultValues salience 10000000 {
         ctx.AddItem("<%=group + '_' + index%>_entries", "<%-item%>");
     <%      });
         });
-     }); %>
+    }); %>
         Changed("ctx");
         Changed("result");
         Retract("DefaultValues");
@@ -29,7 +29,8 @@ rule RemoteLoaded salience 10000000 {
         Changed("ctx");
         Retract("RemoteLoaded");
 }
-<% } %>rule RequiredParams salience 10000000 {
+<% } %>
+rule RequiredParams salience 10000000 {
     when 
         true
     then
