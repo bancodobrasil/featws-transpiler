@@ -1,3 +1,4 @@
+
 rule DefaultValues salience 10000000 {
     when
         true
@@ -11,6 +12,22 @@ rule DefaultValues salience 10000000 {
         Retract("DefaultValues");
 }
 
+rule RequiredParams salience 10000000 {
+    when 
+        true
+    then
+     
+        ctx.SetRequiredConfigured();
+        Changed("ctx");
+        Retract("RequiredParams");
+}
+
+rule HasRequiredParamsError salience 9999999 {
+    when 
+        ctx.Has("requiredParamErrors") 
+    then
+        Complete();
+}
 rule feat_maior_de_idade salience 1000 {
     when
         true
@@ -18,10 +35,11 @@ rule feat_maior_de_idade salience 1000 {
         ctx.Put("maior_de_idade", !result.GetBool("menor_de_idade"));
 
         result.Put("maior_de_idade", ctx.GetBool("maior_de_idade"));
+
         Changed("result");
+
         Retract("feat_maior_de_idade");
 }
-
 rule feat_menor_de_idade salience 1001 {
     when
         true
@@ -29,6 +47,8 @@ rule feat_menor_de_idade salience 1001 {
         ctx.Put("menor_de_idade", ctx.GetInt("idade") <= 18);
 
         result.Put("menor_de_idade", ctx.GetBool("menor_de_idade"));
+
         Changed("result");
+
         Retract("feat_menor_de_idade");
 }
