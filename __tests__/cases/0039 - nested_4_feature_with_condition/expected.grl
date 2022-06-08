@@ -1,3 +1,22 @@
+
+
+rule RequiredParams salience 10000000 {
+    when 
+        true
+    then
+     
+        ctx.SetRequiredConfigured();
+        Changed("ctx");
+        Retract("RequiredParams");
+}
+
+rule HasRequiredParamsError salience 9999999 {
+    when 
+        ctx.Has("requiredParamErrors") 
+    then
+        Complete();
+}
+
 rule feat_myfeat_2 salience 1004 {
     when 
         true
@@ -5,10 +24,11 @@ rule feat_myfeat_2 salience 1004 {
         ctx.Put("myfeat_2", ctx.GetInt("mynumber") + 2);
         
         result.Put("myfeat_2", ctx.GetInt("myfeat_2"));
+
         Changed("result");
+
         Retract("feat_myfeat_2");
 }
-
 rule feat_myfeat_4 salience 1003 {
     when 
         true

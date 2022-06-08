@@ -48,6 +48,7 @@ rule HasRequiredParamsError salience 9999999 {
     then
         Complete();
 }
+
 <% featureRules.forEach(function(feat){ %>rule feat_<%=feat.name%> salience <%=feat.precedence%> {
     when <% if(feat.condition && feat.condition !== "true") { %>
         ctx.IsReady() && <%-feat.condition%><% } else { %>

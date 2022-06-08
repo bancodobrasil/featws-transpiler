@@ -11,9 +11,26 @@ rule RemoteLoaded salience 10000000 {
         Retract("RemoteLoaded");
 }
 
+rule RequiredParams salience 10000000 {
+    when 
+        true
+    then
+     
+        ctx.SetRequiredConfigured();
+        Changed("ctx");
+        Retract("RequiredParams");
+}
+
+rule HasRequiredParamsError salience 9999999 {
+    when 
+        ctx.Has("requiredParamErrors") 
+    then
+        Complete();
+}
+
 rule feat_humidity_warning salience 1000 {
     when 
-        result.GetFloat("humidity") > 0
+        ctx.IsReady() && result.GetFloat("humidity") > 0
     then
         ctx.Put("humidity_warning", result.GetFloat("humidity") < 60);
 
@@ -23,10 +40,9 @@ rule feat_humidity_warning salience 1000 {
 
         Retract("feat_humidity_warning");
 }
-
 rule feat_condition salience 1001 {
     when 
-        !IsNil(ctx.GetMap("clima"))
+        ctx.IsReady() && !IsNil(ctx.GetMap("clima"))
     then
         ctx.Put("condition", ctx.GetMap("clima").GetMap("data").GetString("condition") + "");
         
@@ -36,10 +52,9 @@ rule feat_condition salience 1001 {
 
         Retract("feat_condition");
 }
-
 rule feat_humidity salience 1001 {
     when 
-        !IsNil(ctx.GetMap("clima"))
+        ctx.IsReady() && !IsNil(ctx.GetMap("clima"))
     then
         ctx.Put("humidity", ctx.GetMap("clima").GetMap("data").GetFloat("humidity"));
         
@@ -49,10 +64,9 @@ rule feat_humidity salience 1001 {
 
         Retract("feat_humidity");
 }
-
 rule feat_pressure salience 1001 {
     when 
-        !IsNil(ctx.GetMap("clima"))
+        ctx.IsReady() && !IsNil(ctx.GetMap("clima"))
     then
         ctx.Put("pressure", ctx.GetMap("clima").GetMap("data").GetFloat("pressure"));
         
