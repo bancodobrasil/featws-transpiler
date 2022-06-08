@@ -56,7 +56,7 @@ rule feat_condition salience 1001 {
 }
 rule feat_humidity salience 1001 {
     when 
-       ctx.IsReady() && !IsNil(ctx.GetMap("clima"))
+        ctx.IsReady() && !IsNil(ctx.GetMap("clima"))
     then
         ctx.Put("humidity", ctx.GetMap("clima").GetMap("data").GetFloat("humidity"));
         
