@@ -1,4 +1,5 @@
- rule DefaultValues salience 10000000 {
+
+rule DefaultValues salience 10000000 {
     when 
         true
     then
@@ -16,9 +17,28 @@
         ctx.AddItem("transation_code_0_entries", "4541165/2021");
 
         ctx.AddItem("transation_code_0_entries", "7774512/2021");
+
         Changed("ctx");
         Changed("result");
         Retract("DefaultValues");
+}
+
+
+rule RequiredParams salience 10000000 {
+    when 
+        true
+    then
+     
+        ctx.SetRequiredConfigured();
+        Changed("ctx");
+        Retract("RequiredParams");
+}
+
+rule HasRequiredParamsError salience 9999999 {
+    when 
+        ctx.Has("requiredParamErrors") 
+    then
+        Complete();
 }
 
 rule feat_married salience 1003 {
@@ -28,10 +48,11 @@ rule feat_married salience 1003 {
         ctx.Put("married", ctx.GetString("marital_status") == "married");
 
         result.Put("married", ctx.GetBool("married"));
+
         Changed("result");
+
         Retract("feat_married");
 }
-
 rule feat_single salience 1002 {
     when 
         true 
@@ -39,10 +60,11 @@ rule feat_single salience 1002 {
         ctx.Put("single", !result.GetBool("married"));
 
         result.Put("single", ctx.GetBool("single"));
+
         Changed("result");
+
         Retract("feat_single");
 }
-
 rule feat_married_buyer salience 1000 {
     when
         true
@@ -50,10 +72,11 @@ rule feat_married_buyer salience 1000 {
         ctx.Put("married_buyer", result.GetBool("married") && result.GetBool("transation_code"));
 
         result.Put("married_buyer", ctx.GetBool("married_buyer"));
+
         Changed("result");
+
         Retract("feat_married_buyer");
 }
-
 rule feat_single_buyer salience 1000 {
     when
         true
@@ -61,10 +84,11 @@ rule feat_single_buyer salience 1000 {
         ctx.Put("single_buyer", result.GetBool("single") && result.GetBool("transation_code"));
 
         result.Put("single_buyer", ctx.GetBool("single_buyer"));
+
         Changed("result");
+
         Retract("feat_single_buyer");
 }
-
 rule feat_target_buyer salience 1000 {
     when
         true
@@ -72,10 +96,11 @@ rule feat_target_buyer salience 1000 {
         ctx.Put("target_buyer", result.GetBool("married") && result.GetBool("specific_code"));
 
         result.Put("target_buyer", ctx.GetBool("target_buyer"));
+
         Changed("result");
+
         Retract("feat_target_buyer");
 }
-
 rule feat_specific_code_0_value salience 1003 {
     when
         true
@@ -84,7 +109,6 @@ rule feat_specific_code_0_value salience 1003 {
 
         Retract("feat_specific_code_0_value");
 }
-
 rule feat_specific_code_0 salience 1002 {
     when
         true
@@ -92,10 +116,11 @@ rule feat_specific_code_0 salience 1002 {
         ctx.Put("specific_code_0", processor.Contains(ctx.GetSlice("specific_code_0_entries"), ctx.Get("specific_code_0_value")));
 
         result.Put("specific_code_0", ctx.GetBool("specific_code_0"));
+
         Changed("result");
+
         Retract("feat_specific_code_0");
 }
-
 rule feat_specific_code salience 1001 {
     when
         true
@@ -103,10 +128,11 @@ rule feat_specific_code salience 1001 {
         ctx.Put("specific_code", result.GetBool("specific_code_0"));
 
         result.Put("specific_code", ctx.GetBool("specific_code"));
+
         Changed("result");
+
         Retract("feat_specific_code");
 }
-
 rule feat_transation_code_0_value salience 1003 {
     when
         true
@@ -115,7 +141,6 @@ rule feat_transation_code_0_value salience 1003 {
         
         Retract("feat_transation_code_0_value");
 }
-
 rule feat_transation_code_0 salience 1002 {
     when
         true
@@ -123,10 +148,11 @@ rule feat_transation_code_0 salience 1002 {
         ctx.Put("transation_code_0", processor.Contains(ctx.GetSlice("transation_code_0_entries"), ctx.Get("transation_code_0_value")));
 
         result.Put("transation_code_0", ctx.GetBool("transation_code_0"));
+
         Changed("result");
+
         Retract("feat_transation_code_0");
 }
-
 rule feat_transation_code salience 1001 {
     when
         true
@@ -134,6 +160,8 @@ rule feat_transation_code salience 1001 {
         ctx.Put("transation_code", result.GetBool("transation_code_0"));
 
         result.Put("transation_code", ctx.GetBool("transation_code"));
+
         Changed("result");
+        
         Retract("feat_transation_code");
 }
