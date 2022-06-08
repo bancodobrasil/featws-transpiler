@@ -1,3 +1,4 @@
+
 rule DefaultValues salience 10000000 {
     when 
         true
@@ -15,6 +16,22 @@ rule DefaultValues salience 10000000 {
         Retract("DefaultValues");
 }
 
+rule RequiredParams salience 10000000 {
+    when 
+        true
+    then
+
+        ctx.SetRequiredConfigured();
+        Changed("ctx");
+        Retract("RequiredParams");
+}
+
+rule HasRequiredParamsError salience 9999999 {
+    when 
+        ctx.Has("requiredParamErrors")
+    then
+        Complete();
+}
 rule feat_clientingroup salience 1001 {
     when 
         true 
@@ -26,7 +43,6 @@ rule feat_clientingroup salience 1001 {
         Changed("result"); 
         Retract("feat_clientingroup");
 }
-
 rule feat_low_income salience 1004 {
     when 
         true
@@ -36,9 +52,9 @@ rule feat_low_income salience 1004 {
         result.Put("low_income", ctx.GetBool("low_income"));
 
         Changed("result");
+
         Retract("feat_low_income");
 }
-
 rule feat_high_income salience 1003 {
     when
         true
@@ -48,9 +64,9 @@ rule feat_high_income salience 1003 {
         result.Put("high_income", ctx.GetBool("high_income"));
 
         Changed("result");
+
         Retract("feat_high_income");
 }
-
 rule feat_target_client salience 1000 {
     when 
         true
@@ -60,9 +76,9 @@ rule feat_target_client salience 1000 {
         result.Put("target_client", ctx.GetBool("target_client"));
 
         Changed("result");
+
         Retract("feat_target_client");
 }
-
 rule feat_mygroup_0_value salience 1004 {
     when 
         true
@@ -71,7 +87,6 @@ rule feat_mygroup_0_value salience 1004 {
 
         Retract("feat_mygroup_0_value");
 }
-
 rule feat_mygroup_0 salience 1003 {
     when
         true
@@ -81,9 +96,9 @@ rule feat_mygroup_0 salience 1003 {
         result.Put("mygroup_0", ctx.GetBool("mygroup_0"));
 
         Changed("result");
+
         Retract("feat_mygroup_0");
 }
-
 rule feat_mygroup salience 1002 {
     when
         true
@@ -93,5 +108,6 @@ rule feat_mygroup salience 1002 {
         result.Put("mygroup", ctx.GetBool("mygroup"));
 
         Changed("result");
+        
         Retract("feat_mygroup");
 }
