@@ -1,3 +1,4 @@
+
 rule DefaultValues salience 10000000 {
     when 
         true
@@ -16,9 +17,28 @@ rule DefaultValues salience 10000000 {
         ctx.AddItem("south_brazil_0_entries", "SC");
     
         ctx.AddItem("south_brazil_0_entries", "RS");
+    
         Changed("ctx");
         Changed("result");
         Retract("DefaultValues");
+}
+
+
+rule RequiredParams salience 10000000 {
+    when 
+        true
+    then
+     
+        ctx.SetRequiredConfigured();
+        Changed("ctx");
+        Retract("RequiredParams");
+}
+
+rule HasRequiredParamsError salience 9999999 {
+    when 
+        ctx.Has("requiredParamErrors") 
+    then
+        Complete();
 }
 
 rule feat_male salience 1004 {
@@ -28,10 +48,11 @@ rule feat_male salience 1004 {
         ctx.Put("male", ctx.GetString("sex") == "M");
         
         result.Put("male", ctx.GetBool("male"));
+
         Changed("result");
+
         Retract("feat_male");
 }
-
 rule feat_female salience 1003 {
     when 
         true 
@@ -39,10 +60,11 @@ rule feat_female salience 1003 {
         ctx.Put("female", !result.GetBool("male"));
         
         result.Put("female", ctx.GetBool("female"));
+
         Changed("result");
+
         Retract("feat_female");
 }
-
 rule feat_young salience 1004 {
     when 
         true 
@@ -50,10 +72,11 @@ rule feat_young salience 1004 {
         ctx.Put("young", ctx.GetInt("age") >= 20 && ctx.GetInt("age") <= 45);
         
         result.Put("young", ctx.GetBool("young"));
+
         Changed("result");
+
         Retract("feat_young");
 }
-
 rule feat_old salience 1004 {
     when 
         true 
@@ -61,10 +84,11 @@ rule feat_old salience 1004 {
         ctx.Put("old", ctx.GetInt("age") >= 46);
         
         result.Put("old", ctx.GetBool("old"));
+
         Changed("result");
+
         Retract("feat_old");
 }
-
 rule feat_southern_male_old salience 1001 {
     when 
         true 
@@ -72,10 +96,11 @@ rule feat_southern_male_old salience 1001 {
         ctx.Put("southern_male_old", result.GetBool("male") && result.GetBool("old") && result.GetBool("south_brazil"));
         
         result.Put("southern_male_old", ctx.GetBool("southern_male_old"));
+
         Changed("result");
+
         Retract("feat_southern_male_old");
 }
-
 rule feat_southern_male_young salience 1000 {
     when 
         true 
@@ -83,10 +108,11 @@ rule feat_southern_male_young salience 1000 {
         ctx.Put("southern_male_young", !result.GetBool("southern_male_old"));
         
         result.Put("southern_male_young", ctx.GetBool("southern_male_young"));
+
         Changed("result");
+
         Retract("feat_southern_male_young");
 }
-
 rule feat_southern_female_old salience 1001 {
     when 
         true 
@@ -94,10 +120,11 @@ rule feat_southern_female_old salience 1001 {
         ctx.Put("southern_female_old", result.GetBool("female") && result.GetBool("old") && result.GetBool("south_brazil"));
         
         result.Put("southern_female_old", ctx.GetBool("southern_female_old"));
+
         Changed("result");
+
         Retract("feat_southern_female_old");
 }
-
 rule feat_southern_female_young salience 1000 {
     when 
         true 
@@ -105,10 +132,11 @@ rule feat_southern_female_young salience 1000 {
         ctx.Put("southern_female_young", !result.GetBool("southern_female_old"));
         
         result.Put("southern_female_young", ctx.GetBool("southern_female_young"));
+
         Changed("result");
+
         Retract("feat_southern_female_young");
 }
-
 rule feat_south_brazil_0_value salience 1004 {
     when 
         true 
@@ -117,7 +145,6 @@ rule feat_south_brazil_0_value salience 1004 {
         
         Retract("feat_south_brazil_0_value");
 }
-
 rule feat_south_brazil_0 salience 1003 {
     when 
         true 
@@ -125,10 +152,11 @@ rule feat_south_brazil_0 salience 1003 {
         ctx.Put("south_brazil_0", processor.Contains(ctx.GetSlice("south_brazil_0_entries"), ctx.Get("south_brazil_0_value")));
         
         result.Put("south_brazil_0", ctx.GetBool("south_brazil_0"));
+
         Changed("result");
+
         Retract("feat_south_brazil_0");
 }
-
 rule feat_south_brazil salience 1002 {
     when 
         true 
@@ -136,6 +164,8 @@ rule feat_south_brazil salience 1002 {
         ctx.Put("south_brazil", result.GetBool("south_brazil_0"));
         
         result.Put("south_brazil", ctx.GetBool("south_brazil"));
+
         Changed("result");
+        
         Retract("feat_south_brazil");
 }

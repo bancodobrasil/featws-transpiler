@@ -1,3 +1,4 @@
+
 rule DefaultValues salience 10000000 {
     when 
         true
@@ -6,9 +7,28 @@ rule DefaultValues salience 10000000 {
         result.Put("tall", "true");
 
         result.Put("short", "true");
+
         Changed("ctx");
         Changed("result");
         Retract("DefaultValues");
+}
+
+
+rule RequiredParams salience 10000000 {
+    when 
+        true
+    then
+     
+        ctx.SetRequiredConfigured();
+        Changed("ctx");
+        Retract("RequiredParams");
+}
+
+rule HasRequiredParamsError salience 9999999 {
+    when 
+        ctx.Has("requiredParamErrors") 
+    then
+        Complete();
 }
 
 rule feat_tall salience 1001 {
@@ -18,10 +38,11 @@ rule feat_tall salience 1001 {
         ctx.Put("tall", ctx.GetInt("height") >= 180);
         
         result.Put("tall", ctx.GetBool("tall"));
+
         Changed("result");
+
         Retract("feat_tall");
 }
-
 rule feat_short salience 1000 {
     when 
         true
@@ -29,6 +50,8 @@ rule feat_short salience 1000 {
         ctx.Put("short", !result.GetBool("tall"));
 
         result.Put("short", ctx.GetBool("short"));
+
         Changed("result");
+        
         Retract("feat_short");
 }

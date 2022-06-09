@@ -6,24 +6,26 @@ rule RemoteLoaded salience 10000000 {
     then
     
         ctx.RegistryRemoteLoadedWithFrom("clima", "climatempo", "weather");
-        
+     
         Changed("ctx");
         Retract("RemoteLoaded");
 }
 
 rule RequiredParams salience 10000000 {
-    when 
+    when
         true
     then
-     
+
+        ctx.RegistryRequiredParams("locale");
+
         ctx.SetRequiredConfigured();
         Changed("ctx");
         Retract("RequiredParams");
 }
 
 rule HasRequiredParamsError salience 9999999 {
-    when 
-        ctx.Has("requiredParamErrors") 
+    when
+        ctx.Has("requiredParamErrors")
     then
         Complete();
 }

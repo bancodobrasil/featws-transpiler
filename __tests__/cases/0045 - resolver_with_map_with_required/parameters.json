@@ -1,0 +1,13 @@
+[
+    {
+        "name": "locale",
+        "type": "string",
+        "required": true
+    },
+    {
+        "name": "clima",
+        "type": "object",
+        "resolver": "climatempo",
+        "from": "weather"
+    }
+]
