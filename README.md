@@ -138,6 +138,63 @@ Feel free to use logical and mathematical operators, variables dependent on othe
         npx featws-transpiler
    ~~~
 
+## Required Param
+- Now we can define required params on `parameters.json` file, such as:
+```json
+[
+    {
+        "name": "userName",
+        "type": "string",
+        "required": true
+    }
+]
+```
+- Using this statement- the "userName" parameter is required and if it has not been passed to the featws-ruller to evaluate the rulesheet, an error will occur.
+
+## Remote Loaded
+- A remoted loaded parameter means that the parameter data will be sent from an external resolver way , which must be declared in "parameters.json", such as:
+```json
+[
+    {
+        "name": "locale",
+        "type": "string",
+        "required": true
+    },
+    {
+        "name": "clima",
+        "type": "object",
+        "resolver": "climatempo",
+        "from": "weather"
+    }
+]
+```
+- In this example, we are checking the weather at some location
+- The "locale" is what the resolver expected as a request parameter.
+- The other one is the declaration of the resolver itself:
+    - `"name"` means the alias for the real name of resolver response param.
+    - `"type"` the type of response parameter.
+    - `"resolver"` the name of the resolver that you want to access.
+    - `"from"` original name of the resolver response param.
+### Alias
+- How saw above you can easily change the name of the resolver response param, but is not an obligation, such as:
+```json
+[
+    {
+        "name": "locale",
+        "type": "string",
+        "required": true
+    },
+    {
+        "name": "weather",
+        "type": "object",
+        "resolver": "climatempo"
+    }
+]
+```
+- A small change, but it will work the same way as the alias option. 
+
+
+
 ## Test Cases
 
 At some point, you may need to test new cases to generate rules. To do this, go to the `__tests__/cases` directory and create a new test folder. 
