@@ -1,177 +1,129 @@
 const featws = require("js-featws");
 const fs = require("fs");
 const ejs = require("ejs");
-const toBool = s => {
-  if(typeof s === "string"){
+const toBool = (s) => {
+  if (typeof s === "string") {
     s = s.toLowerCase();
   }
   return s;
 };
 
 const compile = (expression, options) => {
+  if (typeof expression === "object") {
+    expression = JSON.stringify(expression);
+  }
+
   // console.log("Compile Expression BEGIN:", expression, options);
-  expression = expression.replace(/([$#%@])(\w+)((\.?\w+)*)(::(\w+))?/g, (all, scope, entryname, params) => {
-    let source = "";
-    let type = "";
+  expression = expression.replace(
+    /([$#%@])(\w+)((\.?\w+)*)(::(\w+))?/g,
+    (all, scope, entryname, params) => {
+      let source = "";
+      let type = "";
 
-    if (scope === "@") scope = "#";
+      if (scope === "@") scope = "#";
 
-    if (scope === "#") {
-      source = "result";
-      const feat = options.features.find((f) => f.name === entryname);
-      if (feat) {
-        type = feat.type;
-        if (typeof feat.result !== "undefined" && !feat.result) {
-          source = "ctx";
+      if (scope === "#") {
+        source = "result";
+        const feat = options.features.find((f) => f.name === entryname);
+        if (feat) {
+          type = feat.type;
+          if (typeof feat.result !== "undefined" && !feat.result) {
+            source = "ctx";
+          }
         }
       }
-    }
-    if (scope === "$") {
-      source = "ctx";
-      const param = options.parameters.find((p) => p.name === entryname);
-      if (param) {
-        type = param.type;
+      if (scope === "$") {
+        source = "ctx";
+        const param = options.parameters.find((p) => p.name === entryname);
+        if (param) {
+          type = param.type;
+        }
       }
+
+      if (scope === "%") {
+        return `processor.Contains(ctx.GetSlice("${entryname}_entries"), ctx.Get("${entryname}_value"))`;
+      }
+
+      if (source === "") throw Error("Not implemented source: " + scope);
+
+      let typeCast = all.match(/::(\w+)$/);
+      if (typeCast) {
+        // console.log("typeCast", typeCast)
+        typeCast = typeCast[1];
+      }
+
+      if (!params && typeCast) {
+        type = typeCast;
+      }
+
+      let accessMethod = resolveAccessMethod(type);
+      if (accessMethod === "")
+        throw Error(
+          "Not implemented accessMethod: " +
+            JSON.stringify({
+              scope,
+              entryname,
+              type,
+              required,
+            })
+        );
+
+      let nestedAccess = "";
+      if (params) {
+        nestedAccess = params.replace(/\.(\w+)\./g, `.GetMap("$1").`);
+
+        let accessMethod = resolveAccessMethod(typeCast ? typeCast : "");
+
+        nestedAccess = nestedAccess.replace(
+          /\.(\w+)$/,
+          `.${accessMethod}("$1")`
+        );
+        // console.log('params', params)
+      }
+
+      return `${source}.${accessMethod}("${entryname}")${nestedAccess}`;
     }
-
-    if (scope === "%") {
-      return `processor.Contains(ctx.GetSlice("${entryname}_entries"), ctx.Get("${entryname}_value"))`;
-    }
-
-    if (source === "") throw Error("Not implemented source: " + scope);
-    
-    let typeCast = all.match(/::(\w+)$/)
-    if (typeCast) {
-      // console.log("typeCast", typeCast)
-      typeCast = typeCast[1]
-    }    
-
-    if (!params && typeCast) {
-      type = typeCast
-    }
-
-    let accessMethod = resolveAccessMethod(type);
-    if (accessMethod === "")
-      throw Error(
-        "Not implemented accessMethod: " +
-          JSON.stringify({
-            scope,
-            entryname,
-            type,
-            required,
-          })
-      );
-
-    let nestedAccess = ""
-    if (params) {
-      nestedAccess = params.replace(/\.(\w+)\./g,`.GetMap("$1").`)
-
-      let accessMethod = resolveAccessMethod(typeCast ? typeCast : "");
-
-      nestedAccess = nestedAccess.replace(/\.(\w+)$/, `.${accessMethod}("$1")`)
-      // console.log('params', params)
-    }
-
-    return `${source}.${accessMethod}("${entryname}")${nestedAccess}`;
-  });
+  );
   //expression = expression.replace(/\#(\w+)/g, 'ctx.GetBool("$1")');
 
-  let outputType = options.outputType
+  let outputType = options.outputType;
 
   if (outputType === "string") {
     if (expression.startsWith("ctx.") || expression.startsWith("result.")) {
       expression = `${expression} + ""`;
-    } else if (!expression.startsWith('"')){
+    } else if (!expression.startsWith('"')) {
       expression = `"${expression}"`;
-    }  
-  } 
+    }
+  }
   if (outputType === "object") {
-    expression = JSON.stringify(expression)
+    expression = JSON.stringify(expression);
     expression = `processor.ToMap(${expression})`;
-  } 
-  if (
-    (outputType === "integer") |
-    (outputType === "decimal")
-  )
-  {
+  }
+  if ((outputType === "integer") | (outputType === "decimal")) {
     expression = `${expression}`;
   }
   // console.log("Compile Expression RESULT:", expression);
-   return expression;
+  return expression;
 };
-
-/*const compile_condition = (condition, options) => {
-  // console.log("Compile Expression BEGIN:", expression, options);
-  condition = condition.replace(/([$#%@])(\w+)/g, (_, scope, entryname) => {
-    let source = "";
-    let type = "boolean";
-
-    if (scope === "@") scope = "#";
-
-    if (scope === "#") {
-      source = "result";
-      const feat = options.features.find((f) => f.name === entryname);
-      if (feat) {
-        type = feat.type;
-      }
-    }
-    if (scope === "$") {
-      source = "ctx";
-      const param = options.parameters.find((p) => p.name === entryname);
-      if (param) {
-        type = param.type;
-      }
-    }
-
-    if (scope === "%") {
-      return `processor.Contains(ctx.GetSlice("${entryname}_entries"), ctx.Get("${entryname}_value"))`;
-    }
-
-    //if (source === "") throw Error("Not implemented source: " + scope);
-
-    let accessMethod = "";
-    if (type === "string") accessMethod = "GetString";
-    if (type === "boolean") accessMethod = "GetBool";
-    if (type === "integer") accessMethod = "GetInt";
-    if (type === "decimal") accessMethod = "GetFloat";
-    if (accessMethod === "")
-      throw Error(
-        "Not implemented accessMethod: " +
-          JSON.stringify({
-            scope,
-            entryname,
-            type,
-          })
-      );
-
-    return `${source}.${accessMethod}("${entryname}")`;
-  });
-  //expression = expression.replace(/\#(\w+)/g, 'ctx.GetBool("$1")');
-  if (options.outputType === "integer") {
-    condition = `processor.Boolean(${condition})`;
-  }
-
-  if (options.outputType === "boolean") {
-    condition = `processor.Boolean(${condition})`;
-  }
-  
-  if (
-    (options.outputType === "string") |
-    (options.outputType === "integer") |
-    (options.outputType === "decimal")
-  ) {
-    condition = `${condition}`;
-  }
-  
-  //console.log("Compile condition RESULT:", condition);
-  return condition;
-};*/
 
 const compiler = async (dir) => {
   try {
-    const rulesFile = dir + "/rules.featws";
-    const file = fs.readFileSync(rulesFile, "utf8");
-    const rulesPlain = featws.parse(file);
+    let rulesPlain;
+
+    if (fs.existsSync(dir + "/rules.featws")) {
+      const rulesFile = dir + "/rules.featws";
+      const file = fs.readFileSync(rulesFile, "utf8");
+      rulesPlain = featws.parse(file);
+    }
+
+    if (fs.existsSync(dir + "/rules.json")) {
+      const rulesFile = dir + "/rules.json";
+      rulesPlain = require(rulesFile);
+    }
+
+    if (typeof rulesPlain === "undefined") {
+      throw new Error("Rules file not founded");
+    }
 
     const parametersFile = dir + "/parameters.json";
     const parameters = require(parametersFile);
@@ -203,18 +155,12 @@ const compiler = async (dir) => {
 
 function resolveAccessMethod(type) {
   let accessMethod = "Get";
-  if (type === "object")
-    accessMethod = "GetMap";
-  if (type === "string")
-    accessMethod = "GetString";
-  if (type === "boolean")
-    accessMethod = "GetBool";
-  if (type === "integer")
-    accessMethod = "GetInt";
-  if (type === "decimal")
-    accessMethod = "GetFloat";
-  if (type === "slice")
-    accessMethod = "GetSlice";
+  if (type === "object") accessMethod = "GetMap";
+  if (type === "string") accessMethod = "GetString";
+  if (type === "boolean") accessMethod = "GetBool";
+  if (type === "integer") accessMethod = "GetInt";
+  if (type === "decimal") accessMethod = "GetFloat";
+  if (type === "slice") accessMethod = "GetSlice";
   return accessMethod;
 }
 
@@ -266,7 +212,7 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
 
     Object.keys(rulesPlain).forEach((feat) => {
       const rule = rulesPlain[feat];
-      if (Array.isArray(rule)){
+      if (Array.isArray(rule)) {
         rule.forEach((r, i) => {
           const entry_name = feat + "_" + i;
           features = features.concat([
@@ -280,9 +226,9 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
             ...r,
             result: false,
           };
-        })
+        });
         delete rulesPlain[feat];
-        const feature =  {
+        const feature = {
           name: feat,
           type: "slice",
           writeMethod: "AddItems",
@@ -290,11 +236,11 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
         };
         rulesPlain[feat] = {
           ...feature,
-          value: rule.map((_,i) => "#" + feat + "_" + i).join(", "),
-        }
+          value: rule.map((_, i) => "#" + feat + "_" + i).join(", "),
+        };
         features = features.concat([feature]);
       }
-    })
+    });
 
     // console.log("\nRulesPlain with groups:\n", rulesPlain, "\n\n");
 
@@ -328,11 +274,12 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
 
     const entries = features
       .map((feat) => feat.name)
-      .concat(parameters.map((param) => param.name)).
-      concat(Object.keys(rulesPlain))
+      .concat(parameters.map((param) => param.name))
+      .concat(Object.keys(rulesPlain))
       .filter((value, index, self) => {
         return self.indexOf(value) === index;
-      }).sort();
+      })
+      .sort();
 
     // console.log("entries", entries);
 
@@ -352,18 +299,20 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
             //   if (JSON.stringify(cyclic)==JSON.stringify(unresolvedPrecedences)) {
             //       throw Error("Referência cíclica");
             //   }
-            precedence[feat] = await Promise.all(precedence[feat].map(async (p) => {
-              if (Number.isInteger(p)) return p;
-              const name = p.substring(1);
+            precedence[feat] = await Promise.all(
+              precedence[feat].map(async (p) => {
+                if (Number.isInteger(p)) return p;
+                const name = p.substring(1);
 
-              if (!entries.includes(name)) {
-                throw Error(`Unresolvable entry: ${name}`);
-              }
+                if (!entries.includes(name)) {
+                  throw Error(`Unresolvable entry: ${name}`);
+                }
 
-              if (name in calcOrder) return calcOrder[name];
-             
-              return p;
-            }));
+                if (name in calcOrder) return calcOrder[name];
+
+                return p;
+              })
+            );
           } else {
             calcOrder[feat] = Math.max(...precedence[feat]) + 1;
             delete precedence[feat];
@@ -388,13 +337,13 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
 
     // console.log("saliences", saliences);
 
-    const requiredParams =  parameters.filter(p => toBool(p.required));
+    const requiredParams = parameters.filter((p) => toBool(p.required));
 
-    const grl = await ejs.renderFile(__dirname + "/resources/rules.ejs", {  
+    const grl = await ejs.renderFile(__dirname + "/resources/rules.ejs", {
       groups,
-      remoteLoadeds : parameters.filter(p => !!p.resolver),
+      remoteLoadeds: parameters.filter((p) => !!p.resolver),
       requiredParams,
-      setupReady : requiredParams.length == 0,
+      setupReady: requiredParams.length == 0,
       defaultValues: features
         .map((feat) => ({
           name: feat.name,
@@ -404,10 +353,15 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
       featureRules: Object.keys(rulesPlain).map((feat) => {
         const rule = rulesPlain[feat];
         let expression = rule;
-        const condition = `${typeof expression.condition == "undefined" ? "true" : expression.condition}`;        let result = true;
-        const feature = (features.find((f) => f.name == feat) || {
+        const condition = `${
+          typeof expression.condition == "undefined"
+            ? "true"
+            : expression.condition
+        }`;
+        let result = true;
+        const feature = features.find((f) => f.name == feat) || {
           type: "boolean",
-        });
+        };
         let outputType = feature["type"];
 
         if (typeof rule === "object") {
@@ -421,16 +375,19 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
             result = rule.result;
           }
         }
-        
+
         return {
           ...feature,
           name: feat,
           accessMethod: resolveAccessMethod(outputType),
-          condition: condition != 'true' ? compile(condition, {
-            outputType: "boolean",
-            parameters,
-            features
-          }): "true",
+          condition:
+            condition != "true"
+              ? compile(condition, {
+                  outputType: "boolean",
+                  parameters,
+                  features,
+                })
+              : "true",
           precedence: `${saliences[feat] || base_salience}`,
           expression: compile(expression, {
             outputType,
@@ -439,7 +396,6 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
           }),
           result,
         };
-
       }),
     });
 
