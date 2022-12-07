@@ -9,7 +9,7 @@ const toBool = (s) => {
 };
 
 const compile = (expression, options) => {
-  if (typeof expression === "object") {
+  if (typeof expression === "object" || typeof expression === "boolean") {
     expression = JSON.stringify(expression);
   }
 
@@ -344,10 +344,14 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
       remoteLoadeds: parameters.filter((p) => !!p.resolver),
       requiredParams,
       setupReady: requiredParams.length == 0,
-      defaultValues: features
+      defaultValues: features.filter((feat) => typeof feat.default !== "undefined")
         .map((feat) => ({
           name: feat.name,
-          defaultValue: feat.default,
+          defaultValue: compile(feat.default, {
+            outputType: typeof feat.default === "boolean" || feat["type"] === "boolean" ? "string" : feat["type"],
+            parameters,
+            features,
+          }),
         }))
         .filter((feat) => feat.defaultValue !== undefined),
       featureRules: Object.keys(rulesPlain).map((feat) => {

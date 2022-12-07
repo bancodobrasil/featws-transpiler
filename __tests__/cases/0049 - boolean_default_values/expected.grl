@@ -1,0 +1,33 @@
+
+rule DefaultValues salience 10000000 {
+    when 
+        true
+    then
+    
+        result.Put("mybol1", "false");
+    
+        result.Put("mybol2", "false");
+    
+        Changed("ctx");
+        Changed("result");
+        Retract("DefaultValues");
+}
+
+
+rule RequiredParams salience 10000000 {
+    when 
+        true
+    then
+     
+        ctx.SetRequiredConfigured();
+        Changed("ctx");
+        Retract("RequiredParams");
+}
+
+rule HasRequiredParamsError salience 9999999 {
+    when 
+        ctx.Has("requiredParamErrors") 
+    then
+        Complete();
+}
+
