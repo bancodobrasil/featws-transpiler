@@ -4,7 +4,7 @@ rule DefaultValues salience 10000000 {
         true
     then
     <% defaultValues.forEach(function(feat){ %>
-        result.Put("<%=feat.name%>", "<%=feat.defaultValue%>");
+        result.Put("<%=feat.name%>", <%-feat.defaultValue%>);
     <% }); %><% 
     Object.entries(groups).forEach(function([group, entry]){ 
         Object.values(entry).forEach(function(items, index){ 

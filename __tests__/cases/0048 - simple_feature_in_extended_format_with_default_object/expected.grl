@@ -1,0 +1,45 @@
+
+rule DefaultValues salience 10000000 {
+    when 
+        true
+    then
+    
+        result.Put("myobjfeat1", processor.ToMap("{\"test\":\"default_value\"}"));
+    
+        result.Put("myobjfeat2", processor.ToMap("{\"test\":\"default_value\"}"));
+    
+        Changed("ctx");
+        Changed("result");
+        Retract("DefaultValues");
+}
+
+
+rule RequiredParams salience 10000000 {
+    when 
+        true
+    then
+     
+        ctx.SetRequiredConfigured();
+        Changed("ctx");
+        Retract("RequiredParams");
+}
+
+rule HasRequiredParamsError salience 9999999 {
+    when 
+        ctx.Has("requiredParamErrors") 
+    then
+        Complete();
+}
+
+rule feat_myobjfeat2 salience 1000 {
+    when 
+        true 
+    then
+        ctx.Put("myobjfeat2", processor.ToMap("{\"test\":\"newvalue\"}"));
+        
+        result.Put("myobjfeat2", ctx.GetMap("myobjfeat2"));
+        
+        Changed("result");
+        
+        Retract("feat_myobjfeat2");
+}

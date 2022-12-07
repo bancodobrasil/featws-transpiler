@@ -1,0 +1,16 @@
+[
+    {
+        "name": "mybol1",
+        "type": "boolean",
+        "default": "false",
+        "expires": "1h",
+        "fallback": false
+    },
+    {
+        "name": "mybol2",
+        "type": "boolean",
+        "default": false,
+        "expires": "1h",
+        "fallback": false
+    }
+]
