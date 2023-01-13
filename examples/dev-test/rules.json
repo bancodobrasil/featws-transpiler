@@ -1,0 +1,7 @@
+{
+    "myboolfeat": "$mynumber < 12",
+    "maior_de_idade": "!#menor_de_idade",  
+    "menor_de_idade": "$idade <= 18",
+    "female": "$gender == 'F'",
+    "male": "$gender == 'M'"
+  }

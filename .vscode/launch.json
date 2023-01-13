@@ -5,15 +5,23 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "pwa-node",
+            "type": "node",
             "request": "launch",
-            "name": "Launch full-example",
+            "name": "Launch app",
+            "localRoot": "${workspaceFolder}/examples/dev-test/",
+            "cwd": "${workspaceFolder}/examples/dev-test/",
+            "program": "../../bin/featws-transpiler.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch full",
             "localRoot": "${workspaceFolder}/examples/full/",
             "cwd": "${workspaceFolder}/examples/full/",
             "program": "../../bin/featws-transpiler.js"
         },
         {
-            "type": "pwa-node",
+            "type": "node",
             "request": "launch",
             "name": "Launch 0001",
             "localRoot": "${workspaceFolder}/__tests__/cases/0001 - one_parameter/",
