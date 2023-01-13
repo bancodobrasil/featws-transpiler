@@ -1,3 +1,16 @@
 [
-  
+    {
+        "name": "maior_de_idade",
+        "type": "boolean",
+        "expires": "never",
+        "default": false,
+        "fallback": true
+    },
+    {
+        "name": "menor_de_idade",
+        "type": "boolean",
+        "expires": "never",
+        "default": false,
+        "fallback": true
+    }
 ]

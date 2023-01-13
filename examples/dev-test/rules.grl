@@ -83,11 +83,11 @@ rule feat_female salience 1002 {
         
         Retract("feat_female");
 }
-rule feat_male salience 1002 {
+rule feat_male salience 1001 {
     when 
         true 
     then
-        ctx.Put("male", ctx.GetString("gender") == 'M');
+        ctx.Put("male", !result.Get("female"));
         
         result.Put("male", ctx.GetBool("male"));
         
