@@ -282,7 +282,7 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
       })
       .sort();
 
-    console.log("entries", entries);
+    // console.log("entries", entries);
 
     while (Object.keys(precedence).length > 0) {
       const feats = Object.keys(precedence);
