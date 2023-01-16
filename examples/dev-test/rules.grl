@@ -1,22 +1,4 @@
 
-rule DefaultValues salience 10000000 {
-    when 
-        true
-    then
-    
-        result.Put("maior_de_idade", "false");
-    
-        result.Put("menor_de_idade", "false");
-    
-        ctx.AddItem("mygroup_0_entries", "03411/00000170408");
-    
-        ctx.AddItem("mygroup_0_entries", "03411/00000170409");
-    
-        Changed("ctx");
-        Changed("result");
-        Retract("DefaultValues");
-}
-
 
 rule RequiredParams salience 10000000 {
     when 
@@ -51,7 +33,7 @@ rule feat_maior_de_idade salience 1001 {
     when 
         true 
     then
-        ctx.Put("maior_de_idade", !result.GetBool("menor_de_idade"));
+        ctx.Put("maior_de_idade", !result.Get("menor_de_idade"));
         
         result.Put("maior_de_idade", ctx.GetBool("maior_de_idade"));
         
