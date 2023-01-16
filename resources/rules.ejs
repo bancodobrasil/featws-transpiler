@@ -1,4 +1,4 @@
-<% if (defaultValues.length > 0) { %>
+<% if (defaultValues.length > 0 || Object.keys(groups).length > 0) { %>
 rule DefaultValues salience 10000000 {
     when 
         true
