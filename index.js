@@ -170,6 +170,7 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
     // console.log("Features:\n", features, "\n\n");
     // console.log("RulesPlain:\n", rulesPlain, "\n\n");
     // console.log("Groups: \n", groups, "\n\n");
+    // console.log("group length: \n", Object.keys(groups).length, "\n\n");
 
     Object.entries(groups).forEach(([group, rules]) => {
       const group_feats = Object.entries(rules).map(([rule, items], index) => {

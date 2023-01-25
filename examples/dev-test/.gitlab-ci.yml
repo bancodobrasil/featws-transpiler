@@ -1,0 +1,22 @@
+image: atf.intranet.bb.com.br:5001/bb-build/aic/aic-npm:10.5-2
+
+
+stages:
+  - build
+  # - tag
+  # - publish
+
+build:
+    stage: build
+    script: 
+      - export NPM_CONFIG_REGISTRY="https://binarios.intranet.bb.com.br/artifactory/api/npm/npm/"
+      - npm config delete _auth
+      - npx featws-transpiler@0.7.1-rc1
+      - export VERSION=$(cat VERSION)
+      - 'status_pacote=$(curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --write-out %{http_code} --silent --output /dev/null "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/${CI_PROJECT_NAME}/${VERSION}/rules.grl")'
+      - if [ "${status_pacote}" -eq "200" ]; then echo "Já existe um pacote com essa versão!"; exit 1; fi
+      - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ./rules.grl "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/${CI_PROJECT_NAME}/${VERSION}/rules.grl"'
+      - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ./rules.grl "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/${CI_PROJECT_NAME}/latest/rules.grl"'
+      - 'echo "Download GRL URL: ${CI_API_V4_URL}/projects/${CI_PROJECT_NAMESPACE}%2F${CI_PROJECT_NAME}/packages/generic/${CI_PROJECT_NAME}/${VERSION}/rules.grl"'
+    tags:
+      - runner-canais

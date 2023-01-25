@@ -1,0 +1,125 @@
+
+rule DefaultValues salience 10000000 {
+    when 
+        true
+    then
+    
+        ctx.AddItem("mygroup_0_entries", "03411/00000170408");
+    
+        ctx.AddItem("mygroup_0_entries", "03411/00000170409");
+    
+        Changed("ctx");
+        Changed("result");
+        Retract("DefaultValues");
+}
+
+
+rule RequiredParams salience 10000000 {
+    when 
+        true
+    then
+     
+        ctx.SetRequiredConfigured();
+        Changed("ctx");
+        Retract("RequiredParams");
+}
+
+rule HasRequiredParamsError salience 9999999 {
+    when 
+        ctx.Has("requiredParamErrors") 
+    then
+        Complete();
+}
+
+rule feat_myboolfeat salience 1002 {
+    when 
+        true 
+    then
+        ctx.Put("myboolfeat", ctx.GetInt("mynumber") < 12);
+        
+        result.Put("myboolfeat", ctx.GetBool("myboolfeat"));
+        
+        Changed("result");
+        
+        Retract("feat_myboolfeat");
+}
+rule feat_maior_de_idade salience 1001 {
+    when 
+        true 
+    then
+        ctx.Put("maior_de_idade", !result.Get("menor_de_idade"));
+        
+        result.Put("maior_de_idade", ctx.GetBool("maior_de_idade"));
+        
+        Changed("result");
+        
+        Retract("feat_maior_de_idade");
+}
+rule feat_menor_de_idade salience 1002 {
+    when 
+        true 
+    then
+        ctx.Put("menor_de_idade", ctx.GetInt("idade") <= 18);
+        
+        result.Put("menor_de_idade", ctx.GetBool("menor_de_idade"));
+        
+        Changed("result");
+        
+        Retract("feat_menor_de_idade");
+}
+rule feat_female salience 1002 {
+    when 
+        true 
+    then
+        ctx.Put("female", ctx.GetString("gender") == 'F');
+        
+        result.Put("female", ctx.GetBool("female"));
+        
+        Changed("result");
+        
+        Retract("feat_female");
+}
+rule feat_male salience 1001 {
+    when 
+        true 
+    then
+        ctx.Put("male", !result.Get("female"));
+        
+        result.Put("male", ctx.GetBool("male"));
+        
+        Changed("result");
+        
+        Retract("feat_male");
+}
+rule feat_mygroup_0_value salience 1002 {
+    when 
+        true 
+    then
+        ctx.Put("mygroup_0_value", ctx.GetString("branch")+"/"+ctx.GetString("account") + "");
+        
+        Retract("feat_mygroup_0_value");
+}
+rule feat_mygroup_0 salience 1001 {
+    when 
+        true 
+    then
+        ctx.Put("mygroup_0", processor.Contains(ctx.GetSlice("mygroup_0_entries"), ctx.Get("mygroup_0_value")));
+        
+        result.Put("mygroup_0", ctx.GetBool("mygroup_0"));
+        
+        Changed("result");
+        
+        Retract("feat_mygroup_0");
+}
+rule feat_mygroup salience 1000 {
+    when 
+        true 
+    then
+        ctx.Put("mygroup", result.GetBool("mygroup_0"));
+        
+        result.Put("mygroup", ctx.GetBool("mygroup"));
+        
+        Changed("result");
+        
+        Retract("feat_mygroup");
+}
