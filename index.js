@@ -252,7 +252,7 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
       // console.log("rule", rule);
       if (typeof rule === "object") {
         const condition = rule.condition;
-        rule = rule.value;
+        rule = JSON.stringify(rule.value);
 
         if (typeof condition != "undefined") {
           rule += ` ${condition}`;
