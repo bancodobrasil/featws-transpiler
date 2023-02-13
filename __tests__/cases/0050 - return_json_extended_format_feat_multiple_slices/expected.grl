@@ -2,7 +2,8 @@ rule DefaultValues salience 10000000 {
     when
         true
     then
-        result.CreateSlice("tags");
+        result.CreateSlice("tags2");
+        result.CreateSlice("tags3");
         Changed("ctx");
         Changed("result");
         Retract("DefaultValues");
@@ -48,31 +49,45 @@ rule feat_funci salience 1002 {
 
         Retract("feat_funci");
 }
-rule feat_tags_0 salience 1001 {
+rule feat_tags2_0 salience 1001 {
     when 
         ctx.IsReady() && !result.GetBool("funci")
     then
-        ctx.Put("tags_0", processor.ToMap("{ \"nomeAplicativo\": \"FUNDOS_MOVIMENTACOES\", \"textoUrlPadrao\": \"FUNDOS_MOVIMENTACOES\", \"textoUrlDesvio\": \"restrito\" }"));
+        ctx.Put("tags2_0", processor.ToMap("{ \"nomeAplicativo\": \"FUNDOS_MOVIMENTACOES\", \"textoUrlPadrao\": \"FUNDOS_MOVIMENTACOES\", \"textoUrlDesvio\": \"restrito\" }"));
         
-        Retract("feat_tags_0");
+        Retract("feat_tags2_0");
 }
-rule feat_tags_1 salience 1001 {
-    when 
-        ctx.IsReady() && result.GetBool("funci")
-    then
-        ctx.Put("tags_1", processor.ToMap("{ \"nomeAplicativo\": \"FUNDOS_MOVIMENTACOES2\", \"textoUrlPadrao\": \"FUNDOS_MOVIMENTACOES2\", \"textoUrlDesvio\": \"restrito2\" }"));
-        
-        Retract("feat_tags_1");
-}
-rule feat_tags salience 1000 {
+rule feat_tags2 salience 1000 {
     when 
         true
     then
-        ctx.AddItems("tags", ctx.GetMap("tags_0"), ctx.GetMap("tags_1"));
+        ctx.AddItems("tags2", ctx.GetMap("tags2_0"));
         
-        result.Put("tags", ctx.GetSlice("tags"));
+        result.Put("tags2", ctx.GetSlice("tags2"));
         
         Changed("result");
         
-        Retract("feat_tags");
+        Retract("feat_tags2");
 }
+rule feat_tags3_0 salience 1001 {
+    when 
+        ctx.IsReady() && result.GetBool("funci")
+    then
+        ctx.Put("tags3_0", processor.ToMap("{ \"nomeAplicativo\": \"FUNDOS_MOVIMENTACOES2\", \"textoUrlPadrao\": \"FUNDOS_MOVIMENTACOES2\", \"textoUrlDesvio\": \"restrito2\" }"));
+        
+        Retract("feat_tags3_0");
+}
+rule feat_tags3 salience 1000 {
+    when 
+        true
+    then
+        ctx.AddItems("tags3", ctx.GetMap("tags3_0"));
+        
+        result.Put("tags3", ctx.GetSlice("tags3"));
+        
+        Changed("result");
+        
+        Retract("feat_tags3");
+}
+
+

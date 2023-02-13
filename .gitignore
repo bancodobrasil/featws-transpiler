@@ -5,3 +5,4 @@ node_modules/
 # features.json
 .DS_Store
 coverage/
+.vscode/

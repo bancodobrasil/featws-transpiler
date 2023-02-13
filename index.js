@@ -211,9 +211,14 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
       };
     });
 
+    const slices = [];
+
     Object.keys(rulesPlain).forEach((feat) => {
       const rule = rulesPlain[feat];
       if (Array.isArray(rule)) {
+        if (!slices.includes(feat)) {
+          slices.push(feat);
+        }
         rule.forEach((r, i) => {
           const entry_name = feat + "_" + i;
           features = features.concat([
@@ -342,14 +347,19 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
 
     const grl = await ejs.renderFile(__dirname + "/resources/rules.ejs", {
       groups,
+      slices,
       remoteLoadeds: parameters.filter((p) => !!p.resolver),
       requiredParams,
       setupReady: requiredParams.length == 0,
-      defaultValues: features.filter((feat) => typeof feat.default !== "undefined")
+      defaultValues: features
+        .filter((feat) => typeof feat.default !== "undefined")
         .map((feat) => ({
           name: feat.name,
           defaultValue: compile(feat.default, {
-            outputType: typeof feat.default === "boolean" || feat["type"] === "boolean" ? "string" : feat["type"],
+            outputType:
+              typeof feat.default === "boolean" || feat["type"] === "boolean"
+                ? "string"
+                : feat["type"],
             parameters,
             features,
           }),
