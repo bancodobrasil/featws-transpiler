@@ -1,6 +1,7 @@
 const featws = require("js-featws");
 const fs = require("fs");
 const ejs = require("ejs");
+
 const toBool = (s) => {
   if (typeof s === "string") {
     s = s.toLowerCase();
@@ -13,7 +14,6 @@ const compile = (expression, options) => {
     expression = JSON.stringify(expression);
   }
 
-  // console.log("Compile Expression BEGIN:", expression, options);
   expression = expression.replace(
     /([$#%@])(\w+)((\.?\w+)*)(::(\w+))?/g,
     (all, scope, entryname, params) => {
@@ -48,7 +48,6 @@ const compile = (expression, options) => {
 
       let typeCast = all.match(/::(\w+)$/);
       if (typeCast) {
-        // console.log("typeCast", typeCast)
         typeCast = typeCast[1];
       }
 
@@ -78,13 +77,11 @@ const compile = (expression, options) => {
           /\.(\w+)$/,
           `.${accessMethod}("$1")`
         );
-        // console.log('params', params)
       }
 
       return `${source}.${accessMethod}("${entryname}")${nestedAccess}`;
     }
   );
-  //expression = expression.replace(/\#(\w+)/g, 'ctx.GetBool("$1")');
 
   let outputType = options.outputType;
 
@@ -99,10 +96,9 @@ const compile = (expression, options) => {
     expression = JSON.stringify(expression);
     expression = `processor.ToMap(${expression})`;
   }
-  if ((outputType === "integer") | (outputType === "decimal")) {
+  if ((outputType === "integer") || (outputType === "decimal")) {
     expression = `${expression}`;
   }
-  // console.log("Compile Expression RESULT:", expression);
   return expression;
 };
 
@@ -145,8 +141,6 @@ const compiler = async (dir) => {
 
     const grl = await compileGRL(rulesPlain, parameters, features, groups);
 
-    // console.log("GRL: \n\n", grl);
-
     fs.writeFileSync(outputFile, grl);
   } catch (e) {
     throw e;
@@ -166,20 +160,11 @@ function resolveAccessMethod(type) {
 
 async function compileGRL(rulesPlain, parameters, features, groups) {
   try {
-    // console.log("Parameters:\n", parameters, "\n\n");
-    // console.log("Features:\n", features, "\n\n");
-    // console.log("RulesPlain:\n", rulesPlain, "\n\n");
-    // console.log("Groups: \n", groups, "\n\n");
-    // console.log("group length: \n", Object.keys(groups).length, "\n\n");
-
     Object.entries(groups).forEach(([group, rules]) => {
       const group_feats = Object.entries(rules).map(([rule, items], index) => {
         const group_feat = `${group}_${index}`;
         const group_feat_value = `${group_feat}_value`;
-        // console.log(group_feat_value, rule, items);
-        // console.log("Original Rule", rule);
         rule = compileGroupRule(rule);
-        // console.log("Compiled Rule", rule);
         rulesPlain[group_feat_value] = {
           value: rule,
           type: "string",
@@ -248,13 +233,11 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
       }
     });
 
-    // console.log("\nRulesPlain with groups:\n", rulesPlain, "\n\n");
 
     const precedence = {};
 
     Object.keys(rulesPlain).forEach((feat) => {
       let rule = rulesPlain[feat];
-      // console.log("rule", rule);
       if (typeof rule === "object") {
         const condition = rule.condition;
         rule = JSON.stringify(rule.value);
@@ -274,11 +257,8 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
       precedence[feat] = precedence[feat].concat(
         (rule.match(/%(\w+)/g) || []).map((g) => `$${g.substring(1)}_value`)
       );
-      // console.log("Resolving precedences for", feat, rule, precedence[feat]);
     });
 
-    // console.log("precedence", precedence);
-    //exit()
     const calcOrder = {};
 
     const entries = features
@@ -289,8 +269,6 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
         return self.indexOf(value) === index;
       })
       .sort();
-
-    // console.log("entries", entries);
 
     while (Object.keys(precedence).length > 0) {
       const feats = Object.keys(precedence);
@@ -329,11 +307,7 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
         }
       }
 
-      //// console.log("precedence", precedence);
-      //// console.log("calcOrder", calcOrder);
     }
-    //// console.log("precedence", precedence);
-    //// console.log("calcOrder", calcOrder);
 
     const maxLevel = Math.max(...Object.values(calcOrder));
 
@@ -343,8 +317,6 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
     Object.keys(calcOrder).forEach((feat) => {
       saliences[feat] = base_salience + maxLevel - calcOrder[feat];
     });
-
-    // console.log("saliences", saliences);
 
     const requiredParams = parameters.filter((p) => toBool(p.required));
 
