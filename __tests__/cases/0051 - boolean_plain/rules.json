@@ -1,0 +1,6 @@
+{
+    "myfact": true,
+    "mylie": false,
+    "ourconsequence": "#myfact",
+    "ourlie": "!#myfact"
+}

@@ -263,7 +263,10 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
           rule += ` ${condition}`;
         }
       }
-      // console.log("rule plain", rule);
+
+      if (typeof rule !== "string") rule = JSON.stringify(rule);
+
+      console.log("rule plain", rule);
       precedence[feat] = [];
       precedence[feat] = precedence[feat].concat(
         rule.match(/[#@](\w+)/g) || []
