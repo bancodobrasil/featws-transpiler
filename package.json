@@ -1,6 +1,6 @@
 {
   "name": "featws-transpiler",
-  "version": "0.7.3-rc1",
+  "version": "0.7.4-rc1",
   "description": "A FeatWS Transpiler to GRL",
   "main": "index.js",
   "scripts": {
