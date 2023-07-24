@@ -59,12 +59,12 @@ const compile = (expression, options) => {
       if (accessMethod === "")
         throw Error(
           "Not implemented accessMethod: " +
-            JSON.stringify({
-              scope,
-              entryname,
-              type,
-              required,
-            })
+          JSON.stringify({
+            scope,
+            entryname,
+            type,
+            required,
+          })
         );
 
       let nestedAccess = "";
@@ -249,7 +249,6 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
 
       if (typeof rule !== "string") rule = JSON.stringify(rule);
 
-      console.log("rule plain", rule);
       precedence[feat] = [];
       precedence[feat] = precedence[feat].concat(
         rule.match(/[#@](\w+)/g) || []
@@ -343,11 +342,10 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
       featureRules: Object.keys(rulesPlain).map((feat) => {
         const rule = rulesPlain[feat];
         let expression = rule;
-        const condition = `${
-          typeof expression.condition == "undefined"
-            ? "true"
-            : expression.condition
-        }`;
+        const condition = `${typeof expression.condition == "undefined"
+          ? "true"
+          : expression.condition
+          }`;
         let result = true;
         const feature = features.find((f) => f.name == feat) || {
           type: "boolean",
@@ -373,10 +371,10 @@ async function compileGRL(rulesPlain, parameters, features, groups) {
           condition:
             condition != "true"
               ? compile(condition, {
-                  outputType: "boolean",
-                  parameters,
-                  features,
-                })
+                outputType: "boolean",
+                parameters,
+                features,
+              })
               : "true",
           precedence: `${saliences[feat] || base_salience}`,
           expression: compile(expression, {
