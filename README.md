@@ -1,4 +1,4 @@
-# **Featws Parser**
+# **Featws Transpiler**
 
 A tool to transpile the FeatWS's files to [GRL format](https://github.com/hyperjumptech/grule-rule-engine/blob/master/docs/en/GRL_en.md). 
 
