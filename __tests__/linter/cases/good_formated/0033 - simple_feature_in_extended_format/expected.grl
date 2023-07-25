@@ -1,0 +1,43 @@
+
+rule DefaultValues salience 10000000 {
+    when 
+        true
+    then
+    
+        result.Put("myboolfeat", "false");
+
+        Changed("ctx");
+        Changed("result");
+        Retract("DefaultValues");
+}
+
+
+rule RequiredParams salience 10000000 {
+    when 
+        true
+    then
+     
+        ctx.SetRequiredConfigured();
+        Changed("ctx");
+        Retract("RequiredParams");
+}
+
+rule HasRequiredParamsError salience 9999999 {
+    when 
+        ctx.Has("requiredParamErrors") 
+    then
+        Complete();
+}
+
+rule feat_myboolfeat salience 1000 {
+    when 
+        true 
+    then
+        ctx.Put("myboolfeat", ctx.GetInt("mynumber") < 12);
+        
+        result.Put("myboolfeat", ctx.GetBool("myboolfeat"));
+
+        Changed("result");
+        
+        Retract("feat_myboolfeat");
+}

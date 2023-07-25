@@ -1,0 +1,55 @@
+
+rule DefaultValues salience 10000000 {
+    when 
+        true
+    then
+    
+        result.Put("low_speed", "false");
+
+        result.Put("high_speed", "false");
+
+        Changed("ctx");
+        Changed("result");
+        Retract("DefaultValues");
+}
+
+rule RequiredParams salience 10000000 {
+    when 
+        true
+    then
+     
+        ctx.SetRequiredConfigured();
+        Changed("ctx");
+        Retract("RequiredParams");
+}
+
+rule HasRequiredParamsError salience 9999999 {
+    when 
+        ctx.Has("requiredParamErrors") 
+    then
+        Complete();
+}
+rule feat_low_speed salience 1001 {
+    when 
+        true 
+    then
+        ctx.Put("low_speed", ctx.GetInt("speed") > 0 && ctx.GetInt("speed") < 40);
+        
+        result.Put("low_speed", ctx.GetBool("low_speed"));
+
+        Changed("result");
+
+        Retract("feat_low_speed");
+}
+rule feat_high_speed salience 1000 {
+    when 
+        true
+    then
+        ctx.Put("high_speed", !result.GetBool("low_speed"));
+
+        result.Put("high_speed", ctx.GetBool("high_speed"));
+
+        Changed("result");
+        
+        Retract("feat_high_speed");
+}

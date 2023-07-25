@@ -1,0 +1,8 @@
+myfeat_2 = $mynumber + 2
+myfeat_4 = #myfeat_2 + 2
+myfeat_6 = #myfeat_4 + 2
+myfeat_8 = #myfeat_6 + 2
+
+[myfeat]
+condition = #myfeat_8 > 20
+value = $mynumber

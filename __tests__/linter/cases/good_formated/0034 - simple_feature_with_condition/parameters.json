@@ -1,0 +1,10 @@
+[
+    {
+        "name": "mynumber",
+        "type": "integer"
+    },
+    {
+        "name": "myothernumber",
+        "type": "integer"
+    }
+]

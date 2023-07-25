@@ -1,0 +1,55 @@
+
+
+rule RequiredParams salience 10000000 {
+    when 
+        true
+    then
+     
+        ctx.SetRequiredConfigured();
+        Changed("ctx");
+        Retract("RequiredParams");
+}
+
+rule HasRequiredParamsError salience 9999999 {
+    when 
+        ctx.Has("requiredParamErrors") 
+    then
+        Complete();
+}
+
+rule feat_idade_2 salience 1002 {
+    when 
+        true 
+    then
+        ctx.Put("idade_2", ctx.GetInt("idade") + 2);
+        
+        result.Put("idade_2", ctx.GetInt("idade_2"));
+
+        Changed("result");
+
+        Retract("feat_idade_2");
+}
+rule feat_idade_4 salience 1001 {
+    when 
+        true 
+    then
+        ctx.Put("idade_4", result.GetInt("idade_2") + 2);
+        
+        result.Put("idade_4", ctx.GetInt("idade_4"));
+
+        Changed("result");
+
+        Retract("feat_idade_4");
+}
+rule feat_idade_6 salience 1000 {
+    when 
+        true 
+    then
+        ctx.Put("idade_6", result.GetInt("idade_4") + 2);
+        
+        result.Put("idade_6", ctx.GetInt("idade_6"));
+
+        Changed("result");
+        
+        Retract("feat_idade_6");
+}

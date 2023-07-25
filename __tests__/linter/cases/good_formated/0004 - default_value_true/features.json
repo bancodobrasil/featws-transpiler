@@ -1,0 +1,14 @@
+[
+    {
+        "name": "male",
+        "type": "boolean",
+        "expires": "1h",
+        "default": true
+    },
+    {
+        "name": "female",
+        "type": "boolean",
+        "expires": "1h",
+        "default": true
+    }
+]

@@ -1,0 +1,8 @@
+male = $sex == "M"
+female = !#male
+young = $age >= 20 && $age <= 45
+old = $age >= 46
+southern_male_old = #male && #old && @south_brazil
+southern_male_young = !#southern_male_old::boolean 
+southern_female_old = #female && #old && @south_brazil
+southern_female_young = !#southern_female_old::boolean

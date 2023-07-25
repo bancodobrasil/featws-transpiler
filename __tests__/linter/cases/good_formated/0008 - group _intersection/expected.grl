@@ -1,0 +1,113 @@
+
+rule DefaultValues salience 10000000 {
+    when 
+        true
+    then
+        
+        result.Put("clientingroup", "false");
+        
+        result.Put("low_income", "false");
+        
+        result.Put("high_income", "false");
+
+        ctx.AddItem("mygroup_0_entries", "jose-30");
+        Changed("ctx");
+        Changed("result");
+        Retract("DefaultValues");
+}
+
+rule RequiredParams salience 10000000 {
+    when 
+        true
+    then
+
+        ctx.SetRequiredConfigured();
+        Changed("ctx");
+        Retract("RequiredParams");
+}
+
+rule HasRequiredParamsError salience 9999999 {
+    when 
+        ctx.Has("requiredParamErrors")
+    then
+        Complete();
+}
+rule feat_clientingroup salience 1001 {
+    when 
+        true 
+    then
+        ctx.Put("clientingroup", result.GetBool("mygroup"));
+
+        result.Put("clientingroup", ctx.GetBool("clientingroup"));
+
+        Changed("result"); 
+        Retract("feat_clientingroup");
+}
+rule feat_low_income salience 1004 {
+    when 
+        true
+    then
+        ctx.Put("low_income", ctx.GetInt("salary") <= 5000);
+
+        result.Put("low_income", ctx.GetBool("low_income"));
+
+        Changed("result");
+
+        Retract("feat_low_income");
+}
+rule feat_high_income salience 1003 {
+    when
+        true
+    then
+        ctx.Put("high_income", !result.GetBool("low_income"));
+
+        result.Put("high_income", ctx.GetBool("high_income"));
+
+        Changed("result");
+
+        Retract("feat_high_income");
+}
+rule feat_target_client salience 1000 {
+    when 
+        true
+    then
+        ctx.Put("target_client", result.GetBool("clientingroup") && result.GetBool("high_income"));
+
+        result.Put("target_client", ctx.GetBool("target_client"));
+
+        Changed("result");
+
+        Retract("feat_target_client");
+}
+rule feat_mygroup_0_value salience 1004 {
+    when 
+        true
+    then
+        ctx.Put("mygroup_0_value", ctx.GetString("name")+"-"+ctx.GetInt("age") + "");
+
+        Retract("feat_mygroup_0_value");
+}
+rule feat_mygroup_0 salience 1003 {
+    when
+        true
+    then
+        ctx.Put("mygroup_0", processor.Contains(ctx.GetSlice("mygroup_0_entries"), ctx.Get("mygroup_0_value")));
+
+        result.Put("mygroup_0", ctx.GetBool("mygroup_0"));
+
+        Changed("result");
+
+        Retract("feat_mygroup_0");
+}
+rule feat_mygroup salience 1002 {
+    when
+        true
+    then
+        ctx.Put("mygroup", result.GetBool("mygroup_0"));
+
+        result.Put("mygroup", ctx.GetBool("mygroup"));
+
+        Changed("result");
+        
+        Retract("feat_mygroup");
+}

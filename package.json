@@ -9,7 +9,8 @@
     "test": "jest"
   },
   "bin": {
-    "featws-transpiler": "bin/featws-transpiler.js"
+    "featws-transpiler": "bin/featws-transpiler.js",
+    "featws-linter": "bin/featws-linter.js"
   },
   "repository": {
     "type": "git",

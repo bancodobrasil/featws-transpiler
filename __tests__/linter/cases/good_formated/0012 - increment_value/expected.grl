@@ -1,0 +1,54 @@
+
+rule DefaultValues salience 10000000 {
+    when 
+        true
+    then
+    
+        result.Put("travel_1", "false");
+    
+        result.Put("travel_2", "false");
+
+        Changed("ctx");
+        Changed("result");
+        Retract("DefaultValues");
+}
+rule RequiredParams salience 10000000 {
+    when 
+        true
+    then
+     
+        ctx.SetRequiredConfigured();
+        Changed("ctx");
+        Retract("RequiredParams");
+}
+
+rule HasRequiredParamsError salience 9999999 {
+    when 
+        ctx.Has("requiredParamErrors") 
+    then
+        Complete();
+}
+rule feat_travel_1 salience 1001 {
+    when 
+        true 
+    then
+        ctx.Put("travel_1", ctx.GetInt("travel_distance") + 10);
+        
+        result.Put("travel_1", ctx.GetInt("travel_1"));
+
+        Changed("result");
+
+        Retract("feat_travel_1");
+}
+rule feat_travel_2 salience 1000 {
+    when 
+        true 
+    then
+        ctx.Put("travel_2", result.GetInt("travel_1") + 100);
+        
+        result.Put("travel_2", ctx.GetInt("travel_2"));
+
+        Changed("result");
+        
+        Retract("feat_travel_2");
+}

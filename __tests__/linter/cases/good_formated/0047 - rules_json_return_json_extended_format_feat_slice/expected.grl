@@ -1,0 +1,78 @@
+rule DefaultValues salience 10000000 {
+    when
+        true
+    then
+        result.CreateSlice("tags");
+        Changed("ctx");
+        Changed("result");
+        Retract("DefaultValues");
+}
+
+rule RemoteLoaded salience 10000000 {
+    when 
+        true
+    then
+    
+        ctx.RegistryRemoteLoadedWithFrom("employeeKey", "datacontroller", "");
+     
+        Changed("ctx");
+        Retract("RemoteLoaded");
+}
+
+rule RequiredParams salience 10000000 {
+    when 
+        true
+    then
+     
+        ctx.SetRequiredConfigured();
+        Changed("ctx");
+        Retract("RequiredParams");
+}
+
+rule HasRequiredParamsError salience 9999999 {
+    when 
+        ctx.Has("requiredParamErrors") 
+    then
+        Complete();
+}
+
+rule feat_funci salience 1002 {
+    when 
+        true
+    then
+        ctx.Put("funci", ctx.GetString("employeeKey") == "S");
+        
+        result.Put("funci", ctx.GetBool("funci"));
+        
+        Changed("result");
+
+        Retract("feat_funci");
+}
+rule feat_tags_0 salience 1001 {
+    when 
+        ctx.IsReady() && !result.GetBool("funci")
+    then
+        ctx.Put("tags_0", processor.ToMap("{\"nomeAplicativo\":\"FUNDOS_MOVIMENTACOES\",\"textoUrlPadrao\":\"FUNDOS_MOVIMENTACOES\",\"textoUrlDesvio\":\"restrito\"}"));
+        
+        Retract("feat_tags_0");
+}
+rule feat_tags_1 salience 1001 {
+    when 
+        ctx.IsReady() && result.GetBool("funci")
+    then
+        ctx.Put("tags_1", processor.ToMap("{\"nomeAplicativo\":\"FUNDOS_MOVIMENTACOES2\",\"textoUrlPadrao\":\"FUNDOS_MOVIMENTACOES2\",\"textoUrlDesvio\":\"restrito2\"}"));
+        
+        Retract("feat_tags_1");
+}
+rule feat_tags salience 1000 {
+    when 
+        true
+    then
+        ctx.AddItems("tags", ctx.GetMap("tags_0"), ctx.GetMap("tags_1"));
+        
+        result.Put("tags", ctx.GetSlice("tags"));
+        
+        Changed("result");
+        
+        Retract("feat_tags");
+}

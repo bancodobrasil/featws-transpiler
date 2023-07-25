@@ -1,0 +1,5 @@
+married = $marital_status == "married"
+single = !#married
+married_buyer = #married && @transation_code
+single_buyer = #single && @transation_code
+target_buyer = #married && @specific_code

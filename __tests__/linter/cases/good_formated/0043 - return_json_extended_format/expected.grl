@@ -1,0 +1,54 @@
+
+
+rule RemoteLoaded salience 10000000 {
+    when 
+        true
+    then
+    
+        ctx.RegistryRemoteLoadedWithFrom("employeeKey", "datacontroller", "");
+     
+        Changed("ctx");
+        Retract("RemoteLoaded");
+}
+
+rule RequiredParams salience 10000000 {
+    when 
+        true
+    then
+     
+        ctx.SetRequiredConfigured();
+        Changed("ctx");
+        Retract("RequiredParams");
+}
+
+rule HasRequiredParamsError salience 9999999 {
+    when 
+        ctx.Has("requiredParamErrors") 
+    then
+        Complete();
+}
+
+rule feat_funci salience 1001 {
+    when 
+        true
+    then
+        ctx.Put("funci", ctx.GetString("employeeKey") == "S");
+        
+        result.Put("funci", ctx.GetBool("funci"));
+        
+        Changed("result");
+
+        Retract("feat_funci");
+}
+rule feat_FUNDOS_MOVIMENTACOES salience 1000 {
+    when 
+        ctx.IsReady() && !result.GetBool("funci")
+    then
+        ctx.Put("FUNDOS_MOVIMENTACOES", processor.ToMap("{ \"nomeAplicativo\": \"FUNDOS_MOVIMENTACOES\", \"textoUrlPadrao\": \"FUNDOS_MOVIMENTACOES\", \"textoUrlDesvio\": \"restrito\" }"));
+        
+        result.Put("FUNDOS_MOVIMENTACOES", ctx.GetMap("FUNDOS_MOVIMENTACOES"));
+        
+        Changed("result");
+        
+        Retract("feat_FUNDOS_MOVIMENTACOES");
+}

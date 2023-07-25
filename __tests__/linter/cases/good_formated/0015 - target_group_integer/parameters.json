@@ -1,0 +1,14 @@
+[
+    {
+        "name": "age",
+        "type": "integer"
+    },
+    {
+        "name": "state",
+        "type": "string"
+    },
+    {
+        "name": "country",
+        "type": "string"
+    }
+]

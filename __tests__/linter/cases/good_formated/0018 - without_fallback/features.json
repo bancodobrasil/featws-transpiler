@@ -1,0 +1,14 @@
+[
+    {
+        "name": "tall",
+        "type": "boolean",
+        "expires": "1h",
+        "default": true
+    },
+    {
+        "name": "short",
+        "type": "boolean",
+        "expires": "1h",
+        "default": true
+    }
+]

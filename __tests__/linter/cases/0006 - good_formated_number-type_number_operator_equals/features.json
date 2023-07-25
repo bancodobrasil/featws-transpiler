@@ -1,0 +1,9 @@
+[
+    {
+        "name": "myboolfeat",
+        "type": "boolean",
+        "expires": "1h",
+        "default": false,
+        "fallback": false
+    }
+]

@@ -1,0 +1,135 @@
+
+ rule DefaultValues salience 10000000 {
+    when 
+        true
+    then
+        
+        result.Put("integer", "false");
+
+        result.Put("string", "false");
+
+        ctx.AddItem("integer_group_0_entries", "1");
+
+        ctx.AddItem("integer_group_0_entries", "45");
+
+        ctx.AddItem("integer_group_0_entries", "50");
+
+        ctx.AddItem("integer_group_0_entries", "78");
+
+        ctx.AddItem("string_group_0_entries", "single");
+
+        ctx.AddItem("string_group_0_entries", "double");
+        
+        ctx.AddItem("string_group_0_entries", "triple");
+
+        Changed("ctx");
+        Changed("result");
+        Retract("DefaultValues");
+}
+
+rule RequiredParams salience 10000000 {
+    when 
+        true
+    then
+     
+        ctx.SetRequiredConfigured();
+        Changed("ctx");
+        Retract("RequiredParams");
+}
+
+rule HasRequiredParamsError salience 9999999 {
+    when 
+        ctx.Has("requiredParamErrors") 
+    then
+        Complete();
+}
+rule feat_integer salience 1000 {
+    when 
+        true 
+    then
+        ctx.Put("integer", result.GetBool("integer_group"));
+
+        result.Put("integer", ctx.GetBool("integer"));
+
+        Changed("result");
+
+        Retract("feat_integer");
+}
+rule feat_string salience 1000 {
+    when 
+        true 
+    then
+        ctx.Put("string", result.GetBool("string_group"));
+
+        result.Put("string", ctx.GetBool("string"));
+
+        Changed("result");
+
+        Retract("feat_string");
+}
+rule feat_integer_group_0_value salience 1003 {
+    when
+        true
+    then
+        ctx.Put("integer_group_0_value", ctx.GetInt("mynumber") + "");
+
+        Retract("feat_integer_group_0_value");
+}
+
+rule feat_integer_group_0 salience 1002 {
+    when
+        true
+    then
+        ctx.Put("integer_group_0", processor.Contains(ctx.GetSlice("integer_group_0_entries"), ctx.Get("integer_group_0_value")));
+
+        result.Put("integer_group_0", ctx.GetBool("integer_group_0"));
+
+        Changed("result");
+
+        Retract("feat_integer_group_0");
+}
+rule feat_integer_group salience 1001 {
+    when
+        true
+    then
+        ctx.Put("integer_group", result.GetBool("integer_group_0"));
+
+        result.Put("integer_group", ctx.GetBool("integer_group"));
+
+        Changed("result");
+
+        Retract("feat_integer_group");
+}
+
+rule feat_string_group_0_value salience 1003 {
+    when
+        true
+    then
+        ctx.Put("string_group_0_value", ctx.GetString("mystring") + "");
+
+        Retract("feat_string_group_0_value");
+}
+rule feat_string_group_0 salience 1002 {
+    when
+        true
+    then
+        ctx.Put("string_group_0", processor.Contains(ctx.GetSlice("string_group_0_entries"), ctx.Get("string_group_0_value")));
+
+        result.Put("string_group_0", ctx.GetBool("string_group_0"));
+
+        Changed("result");
+
+        Retract("feat_string_group_0");
+}
+rule feat_string_group salience 1001 {
+    when
+        true
+    then
+        ctx.Put("string_group", result.GetBool("string_group_0"));
+
+        result.Put("string_group", ctx.GetBool("string_group"));
+
+        Changed("result");
+        
+        Retract("feat_string_group");
+}

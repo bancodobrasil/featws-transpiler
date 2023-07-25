@@ -1,0 +1,31 @@
+
+
+rule RequiredParams salience 10000000 {
+    when 
+        true
+    then
+     
+        ctx.SetRequiredConfigured();
+        Changed("ctx");
+        Retract("RequiredParams");
+}
+
+rule HasRequiredParamsError salience 9999999 {
+    when 
+        ctx.Has("requiredParamErrors") 
+    then
+        Complete();
+}
+
+rule feat_positivo salience 1000 {
+    when 
+        true 
+    then
+        ctx.Put("positivo", ctx.GetFloat("saldo") > 0);
+        
+        result.Put("positivo", ctx.GetBool("positivo"));
+
+        Changed("result");
+        
+        Retract("feat_positivo");
+}

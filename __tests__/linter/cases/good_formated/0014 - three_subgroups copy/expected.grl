@@ -1,0 +1,160 @@
+
+rule DefaultValues salience 10000000 {
+    when 
+        true
+    then
+        
+        result.Put("model", "false");
+
+        result.Put("ports", "false");
+
+        result.Put("color", "false");
+        
+        ctx.AddItem("car_group_0_entries", "sedan");
+
+        ctx.AddItem("car_group_0_entries", "hatch");
+
+        ctx.AddItem("car_group_1_entries", "4");
+
+        ctx.AddItem("car_group_1_entries", "2");
+
+        ctx.AddItem("car_group_2_entries", "red");
+
+        ctx.AddItem("car_group_2_entries", "black");
+
+        ctx.AddItem("car_group_2_entries", "white");
+
+        ctx.AddItem("car_group_2_entries", "gray");
+
+        Changed("ctx");
+        Changed("result");
+        Retract("DefaultValues");
+}
+
+
+rule RequiredParams salience 10000000 {
+    when 
+        true
+    then
+     
+        ctx.SetRequiredConfigured();
+        Changed("ctx");
+        Retract("RequiredParams");
+}
+
+rule HasRequiredParamsError salience 9999999 {
+    when 
+        ctx.Has("requiredParamErrors") 
+    then
+        Complete();
+}
+
+rule feat_model salience 1000 {
+    when
+        true
+    then
+        ctx.Put("model", result.GetBool("car_group"));
+
+        result.Put("model", ctx.GetBool("model"));
+
+        Changed("result");
+
+        Retract("feat_model");
+}
+rule feat_ports salience 1000 {
+    when
+        true
+    then
+        ctx.Put("ports", result.GetBool("car_group"));
+
+        result.Put("ports", ctx.GetBool("ports"));
+
+        Changed("result");
+
+        Retract("feat_ports");
+}
+rule feat_color salience 1000 {
+    when
+        true
+    then
+        ctx.Put("color", result.GetBool("car_group"));
+
+        result.Put("color", ctx.GetBool("color"));
+
+        Changed("result");
+
+        Retract("feat_color");
+}
+
+rule feat_car_group_0_value salience 1003 {
+    when
+        true
+    then
+        ctx.Put("car_group_0_value", "model");
+
+        Retract("feat_car_group_0_value");
+}
+rule feat_car_group_0 salience 1002 {
+    when
+        true
+    then
+        ctx.Put("car_group_0", processor.Contains(ctx.GetSlice("car_group_0_entries"), ctx.Get("car_group_0_value")));
+
+        result.Put("car_group_0", ctx.GetBool("car_group_0"));
+
+        Changed("result");
+
+        Retract("feat_car_group_0");
+}
+rule feat_car_group_1_value salience 1003 {
+    when
+        true
+    then
+        ctx.Put("car_group_1_value", "ports");
+
+        Retract("feat_car_group_1_value");
+}
+rule feat_car_group_1 salience 1002 {
+    when
+        true
+    then
+        ctx.Put("car_group_1", processor.Contains(ctx.GetSlice("car_group_1_entries"), ctx.Get("car_group_1_value")));
+
+        result.Put("car_group_1", ctx.GetBool("car_group_1"));
+
+        Changed("result");
+
+        Retract("feat_car_group_1");
+}
+rule feat_car_group_2_value salience 1003 {
+    when
+        true
+    then
+        ctx.Put("car_group_2_value", "color");
+
+        Retract("feat_car_group_2_value");
+}
+rule feat_car_group_2 salience 1002 {
+    when
+        true
+    then
+        ctx.Put("car_group_2", processor.Contains(ctx.GetSlice("car_group_2_entries"), ctx.Get("car_group_2_value")));
+
+        result.Put("car_group_2", ctx.GetBool("car_group_2"));
+
+        Changed("result");
+
+        Retract("feat_car_group_2");
+}
+rule feat_car_group salience 1001 {
+    when
+        true
+    then
+        ctx.Put("car_group", result.GetBool("car_group_0") && result.GetBool("car_group_1") && result.GetBool("car_group_2"));
+
+        result.Put("car_group", ctx.GetBool("car_group"));
+
+        Changed("result");
+        
+        Retract("feat_car_group");
+}

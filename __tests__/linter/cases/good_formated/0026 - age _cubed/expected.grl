@@ -1,0 +1,31 @@
+
+
+rule RequiredParams salience 10000000 {
+    when 
+        true
+    then
+     
+        ctx.SetRequiredConfigured();
+        Changed("ctx");
+        Retract("RequiredParams");
+}
+
+rule HasRequiredParamsError salience 9999999 {
+    when 
+        ctx.Has("requiredParamErrors") 
+    then
+        Complete();
+}
+
+rule feat_idade_cubed salience 1000 {
+    when 
+        true 
+    then
+        ctx.Put("idade_cubed", ctx.GetInt("idade") * ctx.GetInt("idade") * ctx.GetInt("idade"));
+        
+        result.Put("idade_cubed", ctx.GetInt("idade_cubed"));
+
+        Changed("result");
+        
+        Retract("feat_idade_cubed");
+}

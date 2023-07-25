@@ -1,0 +1,43 @@
+
+
+rule RequiredParams salience 10000000 {
+    when 
+        true
+    then
+     
+        ctx.SetRequiredConfigured();
+        Changed("ctx");
+        Retract("RequiredParams");
+}
+
+rule HasRequiredParamsError salience 9999999 {
+    when 
+        ctx.Has("requiredParamErrors") 
+    then
+        Complete();
+}
+
+rule feat_myfeat salience 1001 {
+    when 
+        ctx.IsReady() && ctx.GetInt("myothernumber") > 10
+    then
+        ctx.Put("myfeat", ctx.GetInt("mynumber") + 12);
+        
+        result.Put("myfeat", ctx.GetInt("myfeat"));
+
+        Changed("result");
+
+        Retract("feat_myfeat");
+}
+rule feat_myfeat2 salience 1000 {
+    when
+        ctx.IsReady() && result.GetInt("myfeat") > 7
+    then
+        ctx.Put("myfeat2", ctx.GetInt("myothernumber") >= result.GetInt("myfeat"));
+
+        result.Put("myfeat2", ctx.GetBool("myfeat2"));
+
+        Changed("result");
+        
+        Retract("feat_myfeat2");
+}

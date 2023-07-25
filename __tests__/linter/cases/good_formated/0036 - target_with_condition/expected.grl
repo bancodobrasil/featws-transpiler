@@ -1,0 +1,95 @@
+
+rule DefaultValues salience 10000000 {
+    when 
+        true
+    then
+
+        result.Put("occupation_group", "false");
+
+        ctx.AddItem("simple_group_0_entries", "doctor");
+
+        ctx.AddItem("simple_group_0_entries", "engineer");
+
+        ctx.AddItem("simple_group_0_entries", "programmer");
+
+        ctx.AddItem("simple_group_0_entries", "professor");
+
+        Changed("ctx");
+        Changed("result");    
+        Retract("DefaultValues");
+}
+
+
+rule RequiredParams salience 10000000 {
+    when 
+        true
+    then
+     
+        ctx.SetRequiredConfigured();
+        Changed("ctx");
+        Retract("RequiredParams");
+}
+
+rule HasRequiredParamsError salience 9999999 {
+    when 
+        ctx.Has("requiredParamErrors") 
+    then
+        Complete();
+}
+
+rule feat_occupation_group salience 1000 {
+    when 
+        true
+    then
+        ctx.Put("occupation_group", result.GetBool("simple_group"));
+        
+        result.Put("occupation_group", ctx.GetBool("occupation_group"));
+
+        Changed("result");
+
+        Retract("feat_occupation_group");
+}
+rule feat_target_client salience 1003 {
+    when
+        ctx.IsReady() && ctx.GetString("your_occupation") == simple_group_0
+    then
+        ctx.Put("target_client", "approved");
+
+        result.Put("target_client", ctx.GetString("target_client"));
+
+        Changed("result");
+
+        Retract("feat_target_client");
+}
+rule feat_simple_group_0_value salience 1003 {
+    when
+        true
+    then
+        ctx.Put("simple_group_0_value", ctx.GetString("occupations") + "");
+        
+        Retract("feat_simple_group_0_value");
+}
+rule feat_simple_group_0 salience 1002 {
+    when
+        true
+    then
+        ctx.Put("simple_group_0", processor.Contains(ctx.GetSlice("simple_group_0_entries"), ctx.Get("simple_group_0_value")));
+
+        result.Put("simple_group_0", ctx.GetBool("simple_group_0"));
+
+        Changed("result");
+
+        Retract("feat_simple_group_0");
+}
+rule feat_simple_group salience 1001 {
+    when
+        true
+    then
+        ctx.Put("simple_group", result.GetBool("simple_group_0"));
+
+        result.Put("simple_group", ctx.GetBool("simple_group"));
+
+        Changed("result");
+        
+        Retract("feat_simple_group");
+}

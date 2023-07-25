@@ -1,0 +1,17 @@
+[
+    {
+        "name": "male",
+        "type": "boolean",
+        "expires": "never",
+        "default": false,
+        "fallback": true
+    },
+    {
+        "name": "female",
+        "type": "boolean",
+        "expires": "never",
+        "default": false,
+        "fallback": true
+    }
+
+]

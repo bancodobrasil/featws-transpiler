@@ -1,0 +1,68 @@
+
+
+rule RemoteLoaded salience 10000000 {
+    when 
+        true
+    then
+    
+        ctx.RegistryRemoteLoadedWithFrom("mci", "datacontroller", "");
+    
+        ctx.RegistryRemoteLoadedWithFrom("age", "datacontroller", "");
+
+        Changed("ctx");
+        Retract("RemoteLoaded");
+}
+
+rule RequiredParams salience 10000000 {
+    when 
+        true
+    then
+     
+        ctx.SetRequiredConfigured();
+        Changed("ctx");
+        Retract("RequiredParams");
+}
+
+rule HasRequiredParamsError salience 9999999 {
+    when 
+        ctx.Has("requiredParamErrors") 
+    then
+        Complete();
+}
+
+rule feat_mymci salience 1000 {
+    when 
+        true
+    then
+        ctx.Put("mymci", ctx.GetString("mci") + "");
+        
+        result.Put("mymci", ctx.GetString("mymci"));
+
+        Changed("result");
+
+        Retract("feat_mymci");
+}
+rule feat_quarentao salience 1000 {
+    when 
+        true
+    then
+        ctx.Put("quarentao", ctx.GetInt("age") >= 40 && ctx.GetInt("age") < 50);
+        
+        result.Put("quarentao", ctx.GetBool("quarentao"));
+
+        Changed("result");
+
+        Retract("feat_quarentao");
+}
+rule feat_myage salience 1000 {
+    when 
+        true
+    then
+        ctx.Put("myage", ctx.GetInt("age"));
+        
+        result.Put("myage", ctx.GetInt("myage"));
+
+        Changed("result");
+        
+        Retract("feat_myage");
+}

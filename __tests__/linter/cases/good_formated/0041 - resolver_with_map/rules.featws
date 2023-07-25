@@ -1,0 +1,12 @@
+[humidity_warning]
+condition = #humidity > 0
+value = #humidity < 60
+[condition]
+condition = !IsNil($clima)
+value = $clima.data.condition::string
+[humidity]
+condition = !IsNil($clima)
+value = $clima.data.humidity::decimal
+[pressure]
+condition = !IsNil($clima) 
+value = $clima.data.pressure::decimal

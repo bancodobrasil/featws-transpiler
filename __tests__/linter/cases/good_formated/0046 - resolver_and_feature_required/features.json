@@ -1,0 +1,32 @@
+[
+    {
+        "name": "condition",
+        "type": "string",
+        "expires": "1h",
+        "fallback": false
+    },
+    {
+        "name": "humidity",
+        "type": "decimal",
+        "expires": "1h",
+        "fallback": false
+    },
+    {
+        "name": "humidity_warning",
+        "type": "boolean",
+        "expires": "1h",
+        "fallback": false
+    },
+    {
+        "name": "pressure",
+        "type": "decimal",
+        "expires": "1h",
+        "fallback": false
+    },
+    {
+        "name": "more_than_ten",
+        "type": "boolean",
+        "expires": "1h",
+        "fallback": false
+    }
+]

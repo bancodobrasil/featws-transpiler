@@ -1,0 +1,81 @@
+
+rule DefaultValues salience 10000000 {
+    when 
+        true
+    then
+        
+        result.Put("occupations", "false");
+
+        ctx.AddItem("client_occupation_0_entries", "doctor");
+
+        ctx.AddItem("client_occupation_0_entries", "engineer");
+
+        ctx.AddItem("client_occupation_0_entries", "professor");
+
+        ctx.AddItem("client_occupation_0_entries", "bussiness manager");
+        
+        Changed("ctx");
+        Changed("result");
+        Retract("DefaultValues");
+}
+
+rule RequiredParams salience 10000000 {
+    when 
+        true
+    then
+     
+        ctx.SetRequiredConfigured();
+        Changed("ctx");
+        Retract("RequiredParams");
+}
+
+rule HasRequiredParamsError salience 9999999 {
+    when 
+        ctx.Has("requiredParamErrors") 
+    then
+        Complete();
+}
+rule feat_occupations salience 1000 {
+    when 
+        true 
+    then
+        ctx.Put("occupations", result.GetBool("client_occupation"));
+
+        result.Put("occupations", ctx.GetBool("occupations"));
+
+        Changed("result");
+
+        Retract("feat_occupations");
+}
+rule feat_client_occupation_0_value salience 1003 {
+    when 
+        true
+    then
+        ctx.Put("client_occupation_0_value", "client_occupation");
+
+        Retract("feat_client_occupation_0_value");
+}
+rule feat_client_occupation_0 salience 1002 {
+    when 
+        true
+    then
+        ctx.Put("client_occupation_0", processor.Contains(ctx.GetSlice("client_occupation_0_entries"), ctx.Get("client_occupation_0_value")));
+
+        result.Put("client_occupation_0", ctx.GetBool("client_occupation_0"));
+
+        Changed("result");
+
+        Retract("feat_client_occupation_0");
+}
+rule feat_client_occupation salience 1001 {
+    when
+        true
+    then
+        ctx.Put("client_occupation", result.GetBool("client_occupation_0"));
+
+        result.Put("client_occupation", ctx.GetBool("client_occupation"));
+
+        Changed("result");
+
+        Retract("feat_client_occupation");
+}

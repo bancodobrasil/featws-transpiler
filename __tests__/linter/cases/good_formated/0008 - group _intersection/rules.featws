@@ -1,0 +1,4 @@
+clientingroup = @mygroup
+low_income = $salary <= 5000
+high_income = !#low_income
+target_client = #clientingroup && #high_income

@@ -1,0 +1,16 @@
+[
+    {
+        "name": "occupation_group",
+        "type": "boolean",
+        "default": "false",
+        "expires": "1h",
+        "fallback": false
+    },
+    {
+        "name": "target_client",
+        "type": "string",
+        "expires": "1h",
+        "fallback": false
+    }
+    
+]

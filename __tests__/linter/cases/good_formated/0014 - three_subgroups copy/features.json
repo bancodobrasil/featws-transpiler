@@ -1,0 +1,24 @@
+[
+    {
+        "name": "model",
+        "type": "boolean",
+        "expires": "never",
+        "default": false,
+        "fallback": true
+    },
+    {
+        "name": "ports",
+        "type": "boolean",
+        "expires": "never",
+        "default": false,
+        "fallback": true
+    },
+    {
+        "name": "color",
+        "type": "boolean",
+        "expires": "never",
+        "default": false,
+        "fallback": true
+    }
+
+]

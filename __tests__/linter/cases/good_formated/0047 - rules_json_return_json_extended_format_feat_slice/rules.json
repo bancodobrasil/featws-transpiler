@@ -1,0 +1,23 @@
+{
+  "funci": "$employeeKey == \"S\"",
+  "tags": [
+    {
+      "condition": "!#funci",
+      "value": {
+        "nomeAplicativo": "FUNDOS_MOVIMENTACOES",
+        "textoUrlPadrao": "FUNDOS_MOVIMENTACOES",
+        "textoUrlDesvio": "restrito"
+      },
+      "type": "object"
+    },
+    {
+      "condition": "#funci",
+      "value": {
+        "nomeAplicativo": "FUNDOS_MOVIMENTACOES2",
+        "textoUrlPadrao": "FUNDOS_MOVIMENTACOES2",
+        "textoUrlDesvio": "restrito2"
+      },
+      "type": "object"
+    }
+  ]
+}

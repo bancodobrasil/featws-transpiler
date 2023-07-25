@@ -1,0 +1,24 @@
+[
+  {
+    "name": "account",
+    "type": "string"
+  },
+  {
+    "name": "age",
+    "resolver": "datacontroller",
+    "type": "integer"
+  },
+  {
+    "name": "branch",
+    "type": "string"
+  },
+  {
+    "name": "mci",
+    "resolver": "datacontroller",
+    "type": "string"
+  },
+  {
+    "name": "mynumber",
+    "type": "integer"
+  }
+]

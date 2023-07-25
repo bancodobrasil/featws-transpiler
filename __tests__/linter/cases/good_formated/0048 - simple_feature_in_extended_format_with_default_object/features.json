@@ -1,0 +1,20 @@
+[
+    {
+        "name": "myobjfeat1",
+        "type": "object",
+        "expires": "1h",
+        "default": {
+            "test": "default_value"
+        },
+        "fallback": false
+    },
+    {
+        "name": "myobjfeat2",
+        "type": "object",
+        "expires": "1h",
+        "default": {
+            "test": "default_value"
+        },
+        "fallback": false
+    }
+]

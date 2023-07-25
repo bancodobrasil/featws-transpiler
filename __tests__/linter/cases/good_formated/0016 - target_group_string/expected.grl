@@ -1,0 +1,120 @@
+
+rule DefaultValues salience 10000000 {
+    when 
+        true
+    then
+    
+        result.Put("male", "false");
+    
+        result.Put("female", "false");
+    
+        ctx.AddItem("south_brazil_0_entries", "PR");
+    
+        ctx.AddItem("south_brazil_0_entries", "SC");
+    
+        ctx.AddItem("south_brazil_0_entries", "RS");
+    
+        Changed("ctx");
+        Changed("result");
+        Retract("DefaultValues");
+}
+
+
+rule RequiredParams salience 10000000 {
+    when 
+        true
+    then
+     
+        ctx.SetRequiredConfigured();
+        Changed("ctx");
+        Retract("RequiredParams");
+}
+
+rule HasRequiredParamsError salience 9999999 {
+    when 
+        ctx.Has("requiredParamErrors") 
+    then
+        Complete();
+}
+
+rule feat_male salience 1004 {
+    when 
+        true 
+    then
+        ctx.Put("male", ctx.GetString("sex") == "M");
+        
+        result.Put("male", ctx.GetBool("male"));
+
+        Changed("result");
+
+        Retract("feat_male");
+}
+
+rule feat_female salience 1003 {
+    when 
+        true 
+    then
+        ctx.Put("female", !result.GetBool("male"));
+        
+        result.Put("female", ctx.GetBool("female"));
+
+        Changed("result");
+
+        Retract("feat_female");
+}
+rule feat_southern_male salience 1001 {
+    when 
+        true 
+    then
+        ctx.Put("southern_male", result.GetBool("male") && result.GetBool("south_brazil"));
+        
+        result.Put("southern_male", ctx.GetBool("southern_male"));
+
+        Changed("result");
+
+        Retract("feat_southern_male");
+}
+rule feat_southern_female salience 1000 {
+    when 
+        true 
+    then
+        ctx.Put("southern_female", !result.GetBool("southern_male"));
+        
+        result.Put("southern_female", ctx.GetBool("southern_female"));
+
+        Changed("result");
+
+        Retract("feat_southern_female");
+}
+rule feat_south_brazil_0_value salience 1004 {
+    when 
+        true 
+    then
+        ctx.Put("south_brazil_0_value", "south_brazil");
+        
+        Retract("feat_south_brazil_0_value");
+}
+rule feat_south_brazil_0 salience 1003 {
+    when 
+        true 
+    then
+        ctx.Put("south_brazil_0", processor.Contains(ctx.GetSlice("south_brazil_0_entries"), ctx.Get("south_brazil_0_value")));
+        
+        result.Put("south_brazil_0", ctx.GetBool("south_brazil_0"));
+
+        Changed("result");
+
+        Retract("feat_south_brazil_0");
+}
+rule feat_south_brazil salience 1002 {
+    when 
+        true 
+    then
+        ctx.Put("south_brazil", result.GetBool("south_brazil_0"));
+        
+        result.Put("south_brazil", ctx.GetBool("south_brazil"));
+
+        Changed("result");
+        
+        Retract("feat_south_brazil");
+}

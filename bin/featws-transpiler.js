@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const {compiler} = require('../index');
+const { compiler } = require('../src/compiler');
 
 (async () => {
     try {

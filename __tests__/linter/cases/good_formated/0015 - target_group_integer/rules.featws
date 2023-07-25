@@ -1,0 +1,5 @@
+young = $age >= 20 && $age <= 45
+old = $age >= 46
+southern_old = #old && @south_brazil
+southern_young = #young && @south_brazil
+non_southern_old = !#southern_old

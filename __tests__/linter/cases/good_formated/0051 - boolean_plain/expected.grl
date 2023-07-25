@@ -1,0 +1,70 @@
+
+rule RequiredParams salience 10000000 {
+    when 
+        true
+    then
+     
+        ctx.SetRequiredConfigured();
+        Changed("ctx");
+        Retract("RequiredParams");
+}
+
+rule HasRequiredParamsError salience 9999999 {
+    when 
+        ctx.Has("requiredParamErrors") 
+    then
+        Complete();
+}
+
+rule feat_myfact salience 1001 {
+    when 
+        true 
+    then
+        ctx.Put("myfact", true);
+        
+        result.Put("myfact", ctx.GetBool("myfact"));
+
+        Changed("result");
+
+        Retract("feat_myfact");
+}
+
+rule feat_mylie salience 1001 {
+    when 
+        true 
+    then
+        ctx.Put("mylie", false);
+        
+        result.Put("mylie", ctx.GetBool("mylie"));
+
+        Changed("result");
+
+        Retract("feat_mylie");
+}
+
+rule feat_ourconsequence salience 1000 {
+    when 
+        true 
+    then
+        ctx.Put("ourconsequence", result.GetBool("myfact"));
+        
+        result.Put("ourconsequence", ctx.GetBool("ourconsequence"));
+
+        Changed("result");
+
+        Retract("feat_ourconsequence");
+}
+
+rule feat_ourlie salience 1000 {
+    when 
+        true 
+    then
+        ctx.Put("ourlie", !result.GetBool("myfact"));
+        
+        result.Put("ourlie", ctx.GetBool("ourlie"));
+
+        Changed("result");
+
+        Retract("feat_ourlie");
+}
+

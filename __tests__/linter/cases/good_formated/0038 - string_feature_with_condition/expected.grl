@@ -1,0 +1,81 @@
+
+rule DefaultValues salience 10000000 {
+    when 
+        true
+    then
+
+        result.Put("hatch", "false");
+
+        result.Put("sedan", "false");
+
+        Changed("ctx");
+        Changed("result");        
+        Retract("DefaultValues");
+}
+
+
+rule RequiredParams salience 10000000 {
+    when 
+        true
+    then
+     
+        ctx.SetRequiredConfigured();
+        Changed("ctx");
+        Retract("RequiredParams");
+}
+
+rule HasRequiredParamsError salience 9999999 {
+    when 
+        ctx.Has("requiredParamErrors") 
+    then
+        Complete();
+}
+
+rule feat_hatch salience 1002 {
+    when 
+        true
+    then
+        ctx.Put("hatch", ctx.GetString("car_model") == "hatch");
+        
+        result.Put("hatch", ctx.GetBool("hatch"));
+
+        Changed("result");   
+
+        Retract("feat_hatch");
+}
+rule feat_sedan salience 1001 {
+    when
+        true
+    then
+        ctx.Put("sedan", !result.GetBool("hatch"));
+
+        result.Put("sedan", ctx.GetBool("sedan"));
+
+        Changed("result");
+
+        Retract("feat_sedan");
+}
+rule feat_hatch_max_speed salience 1001 {
+    when
+        ctx.IsReady() && result.GetBool("hatch") && ctx.GetFloat("horse_power") > 700
+    then
+        ctx.Put("hatch_max_speed", ctx.GetFloat("horse_power") - 350);
+
+        result.Put("hatch_max_speed", ctx.GetFloat("hatch_max_speed"));
+
+        Changed("result");
+
+        Retract("feat_hatch_max_speed");
+}
+rule feat_sedan_max_speed salience 1000 {
+    when
+        ctx.IsReady() && result.GetBool("sedan") && ctx.GetFloat("horse_power") > 800
+    then
+        ctx.Put("sedan_max_speed", ctx.GetFloat("horse_power") - 400);
+
+        result.Put("sedan_max_speed", ctx.GetFloat("sedan_max_speed"));
+
+        Changed("result");
+        
+        Retract("feat_sedan_max_speed");
+}
